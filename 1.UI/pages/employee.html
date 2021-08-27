@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- <meta property="og:image" content="http://cukcuk-hungnguyen81.herokuapp.com/1.UI/content/img/thumb.png" /> -->
+    <title>Phần mềm quản lý nhà hàng - CUKCUK.VN</title>
+    <!-- <link rel="shortcut icon" href="../content/icon/favicon.ico" type="image/x-icon"> -->
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- <link rel="stylesheet" href="../css/layout/header.css"> -->
+    <!-- <link rel="stylesheet" href="../css/layout/menu.css"> -->
+    <!-- <link rel="stylesheet" href="../css/layout/content.css"> -->
+    <link rel="stylesheet" href="../css/components/popup-form.css">
+    <link rel="stylesheet" href="../content/font/fontawesome-5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/base/combobox.css">
+    <!-- <link rel="stylesheet" href="../css/components/popup.css"> -->
+    <!-- <link rel="stylesheet" href="../css/base/loader.css"> -->
+    <link rel="stylesheet" href="../css/base/table.css">
+    <link rel="stylesheet" href="../css/base/radio.css">
+    <link rel="stylesheet" href="../css/base/checkbox.css">
+    <script src="../../2.JS/lib/jquery-3.6.0.min.js"></script>
+</head>
+
+<body onload="Init()">
+    <div class="header">
+        <!-- <div class="header-left">
+            <div class="toggle"></div>
+            <div class="logo"></div>
+        </div>
+        <div class="header-right">
+            <div class="dropdown-container drop-down-restaurant">
+                <div class="dropdown">
+                    <div id="">Nhà hàng Biển Đông</div>
+                    <div class="dropdown-icon"></div>
+                </div>
+                <div class="dropdown-data" id="restaurants" hidden>
+                    <div class="dropdown-item  item-selected">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Nhà hàng Biển Đông</div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Nhà hàng Biển Tây</div>
+                    </div>
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Nhà hàng Bách Khoa</div>
+                    </div>
+                </div>
+            </div>
+            <div class="user-options">
+                <div class="notification"></div>
+                <div class="user-avatar"></div>
+                <div class="username">Nguyễn Ngọc Hưng</div>
+                <div class="icon-options"></div>
+            </div>
+        </div> -->
+    </div>
+    <div class="menu">
+        <!-- <div class="menu-item item-dashboard">
+            <div class="menu-icon"></div>
+            <div class="menu-item-text">Tổng quan</div>
+        </div>
+        <div class="menu-item item-report menu-item-active">
+            <div class="menu-icon"></div>
+            <div class="menu-item-text">Báo cáo</div>
+        </div>
+        <div class="menu-item item-shoping">
+            <div class="menu-icon"></div>
+            <div class="menu-item-text">Mua hàng</div>
+        </div>
+        <div class="menu-item item-employee">
+            <div class="menu-icon"></div>
+            <div class="menu-item-text">Danh mục nhân viên</div>
+        </div>
+        <div class="menu-item item-setting">
+            <div class="menu-icon"></div>
+            <div class="menu-item-text">Thiết lập hệ thống</div>
+        </div> -->
+    </div>
+    <div class="content">
+        <div class="content-heading">
+            <!-- <b class="title">Danh sách nhân viên</b>
+            <div class="button" id="button-delete" onclick="DeleteSelectedEmployees()">Xóa nhân viên</div>
+            <div class="button button-icon" onclick="OpenPopup()">
+                <div class="icon-button"></div>
+                <div>Thêm nhân viên</div>
+            </div> -->
+        </div>
+        <div class="content-search">
+            <!-- <div class="search-icon"></div>
+            <input type="text" class="textbox-default search-field" id="search-box"
+                placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại" onkeyup="TableLiveSearch(this)">
+            <div class="combobox-container dropdown-departments">
+                <div class="combobox">
+                    <input type="text" class="combobox-input textbox-default" value="Tất cả phòng ban"
+                        filter="department" onkeyup="ComboboxInputChange(this)">
+                    <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="combobox-icon-container" onclick="ShowDropData(this)">
+                        <div class="combobox-icon"></div>
+                    </div>
+                </div>
+                <div class="dropdown-data departments" id="departments" hidden="true">
+                    
+                </div>
+            </div> -->
+
+            <!-- <div class="combobox-container dropdown-positions">
+                <div class="combobox">
+                    <input type="text" class="combobox-input textbox-default" value="Tất cả vị trí" filter="position"
+                        onkeyup="ComboboxInputChange(this)">
+                    <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="combobox-icon-container" onclick="ShowDropData(this)">
+                        <div class="combobox-icon"></div>
+                    </div>
+                </div>
+                <div class="dropdown-data positions" id="positions" hidden="true">
+                    
+                </div>
+            </div> -->
+            <!-- <div class="button-refresh" onclick="GetNumberOfEmployees(UpdateEmployeeTable);"></div> -->
+        </div>
+        <div class="content-table">
+            <!-- <table class="table-employee" id="table-employee">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Mã nhân viên</th>
+                        <th>Họ và tên</th>
+                        <th>Giới tính</th>
+                        <th>Ngày sinh</th>
+                        <th>Điện thoại</th>
+                        <th>Email</th>
+                        <th>Chức vụ</th>
+                        <th>Phòng ban</th>
+                        <th>Mức lương cơ bản</th>
+                        <th>Tình trạng công việc</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table> -->
+        </div>
+        <!-- <div class="content-page-navigator">
+            <div class="navigator-left" id="current-pagesize">Hiển thị <b>1-20/1000</b> nhân viên</div>
+            <div class="navigator-center" currentpage="1">
+                <div class="button-firstpage button-navigator"></div>
+                <div class="button-prev-page button-navigator"></div>
+
+                <div class="page-buttons">
+                    <div class="button-page-number button-current-page first-page">1</div>
+                </div>
+
+                <div class="button-next-page button-navigator"></div>
+                <div class="button-lastpage button-navigator"></div>
+            </div>
+            <div class="navigator-right">
+                <div class="input-field">
+                    <div class="dropdown-container drop-number-of-row">
+                        <div class="dropdown">
+                            <div id="number-of-rows"><b>20</b> nhân viên/trang</div>
+                            <div class="dropdown-icon number-of-rows-icon"><i class="fas fa-chevron-up"></i></div>
+                        </div>
+                        <div class="dropdown-data" hidden="true">
+                            <div class="dropdown-item paging-item">
+                                <i class="fas fa-check item-icon"></i>
+                                <div class="item-text"><b>10</b> nhân viên/trang</div>
+                            </div>
+                            <div class="dropdown-item paging-item item-selected">
+                                <i class="fas fa-check item-icon"></i>
+                                <div class="item-text"><b>20</b> nhân viên/trang</div>
+                            </div>
+                            <div class="dropdown-item paging-item">
+                                <i class="fas fa-check item-icon"></i>
+                                <div class="item-text"><b>50</b> nhân viên/trang</div>
+                            </div>
+                            <div class="dropdown-item paging-item">
+                                <i class="fas fa-check item-icon"></i>
+                                <div class="item-text"><b>100</b> nhân viên/trang</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    <div class="container" id="container">
+        <!-- Employee Detail Form -->
+        <div class="form-container" id="form-container">
+            <div class="form-header" id="form-container-header">
+                <div class="title-header">
+                    <div class="form-title">Thông tin nhân viên</div>
+                    <div class="options">
+                        <div class="option">
+                            <span class="checkbox-container">
+                                <input type="checkbox" name="delete" v-model="isSelectAll" />
+                                <div class="checkmark"></div>
+                            </span>
+                            <span class="label">Là khách hàng</span>
+                        </div>
+                        <div class="option">
+                            <span class="checkbox-container">
+                                <input type="checkbox" name="delete" v-model="isSelectAll" />
+                                <div class="checkmark"></div>
+                            </span>
+                            <span class="label">Là nhà cung cấp</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-btn">
+                    <div class="help-btn form-header-btn" title="Giúp"></div>
+                    <div class="close-btn form-header-btn" title="Đóng"></div>
+                </div>
+            </div>
+            <div class="form-body">
+                <div class="form-section form-section-1">
+                    <!-- Column 1 -->
+                    <div class="section-column section-column-1">
+                        <div class="input-row">
+                            <div class="input-field" id="employee-code">
+                                <div class="input-label">
+                                    Mã <span v-if="required"></span><span class="required">*</span></span>
+                                </div>
+                                <input class="textbox-default input-form" />
+                            </div>
+                            <div class="input-field" id="fullname">
+                                <div class="input-label">
+                                    Tên <span v-if="required"><span class="required">*</span></span>
+                                </div>
+                                <input class="textbox-default input-form" />
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-field" id="unit">
+                                <div class="input-label">
+                                    Đơn vị <span v-if="required"></span><span class="required">*</span></span>
+                                </div>
+                                <!--  -->
+                                <div class="combobox-container">
+                                    <div class="combobox" ref="combobox">
+                                        <input spellcheck="false" type="text" class="combobox-input textbox-default"
+                                            ref="comboboxInput" v-model="value" />
+                                        <div class="x-icon hide">
+                                            <i class="fas fa-times"></i>
+                                        </div>
+                                        <div class="combobox-icon-container">
+                                            <div class="combobox-icon"></div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-data hide" ref="dropList">
+                                        <div class="dropdown-item">
+                                            <i class="fas fa-check item-icon"></i>
+                                            <div class="item-text">ok</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  -->
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-field" id="position">
+                                <div class="input-label">
+                                    Chức danh
+                                </div>
+                                <input class="textbox-default input-form" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column 2 -->
+                    <div class="section-column section-column-2">
+                        <div class="input-row">
+                            <div class="input-field" id="birthday">
+                                <div class="input-label">
+                                    Ngày sinh
+                                </div>
+                                <div class="date-input textbox-default input-form">
+                                    <input type="text" tabindex="1" placeholder="DD/MM/YYYY" class="date-edit" ref="dateView" />
+                                    <input type="date" />
+                                </div>
+                            </div>
+                            <div class="input-field" id="gender">
+                                <div class="input-label">
+                                    Giới tính
+                                </div>
+    
+                                <div class="input">
+                                    <label class="icontainer">Nam
+                                        <input type="radio" value="1" name="gender" checked>
+                                        <span  tabindex="2" class="radio-checkmark"></span>
+                                    </label>
+                                    <label class="icontainer">Nữ
+                                        <input type="radio" value="0" name="gender">
+                                        <span class="radio-checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-field" id="identity-number">
+                                <div class="input-label">
+                                    Số CMND
+                                </div>
+                                <input class="textbox-default input-form" />
+                            </div>
+                            <div class="input-field" id="identity-date">
+                                <div class="input-label">
+                                    Ngày cấp
+                                </div>
+                                <div class="date-input textbox-default input-form">
+                                    <input type="text" tabindex="1" placeholder="DD/MM/YYYY" class="date-edit" ref="dateView" />
+                                    <input type="date" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-field" id="identity-place">
+                                <div class="input-label">
+                                    Nơi cấp
+                                </div>
+                                <input class="textbox-default input-form" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-section form-section-2">
+                    <div class="">
+                        <div class="input-row">
+                            <div class="input-field" id="address">
+                                <div class="input-label">
+                                    Địa chỉ
+                                </div>
+                                <input class="textbox-default input-form" />
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-field" id="mobile-number">
+                                <div class="input-label">
+                                    ĐT di động
+                                </div>
+                                <input class="textbox-default input-form" />
+                            </div>
+                            <div class="input-field" id="phone-number">
+                                <div class="input-label">
+                                    ĐT cố định
+                                </div>
+                                <input class="textbox-default input-form" />
+                            </div>
+                            <div class="input-field" id="email">
+                                <div class="input-label">
+                                    Email
+                                </div>
+                                <input class="textbox-default input-form" />
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-field" id="bank-account">
+                                <div class="input-label">
+                                    Tài khoản ngân hàng
+                                </div>
+                                <input class="textbox-default input-form" />
+                            </div>
+                            <div class="input-field" id="bank-name">
+                                <div class="input-label">
+                                    Tên ngân hàng
+                                </div>
+                                <input class="textbox-default input-form" />
+                            </div>
+                            <div class="input-field" id="bank-branch">
+                                <div class="input-label">
+                                    Chi nhánh
+                                </div>
+                                <input class="textbox-default input-form" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-footer">
+                <div class="button form-btn cancel-btn">Hủy</div>
+                <div class="action-btns">
+                    <div class="button form-btn save-btn">Cất</div>
+                    <div class="button form-btn save-add-btn">Cất và Thêm</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup"></div>
+    <div id="loader" hidden>
+        <div class="spinner-wrapper">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <script src="../content/font/fontawesome-5.15.1/js/all.min.js"></script>
+    <!-- <script src="../js/init.js"></script>
+    <script src="../../2.JS/utils.js"></script>
+    <script src="../js/form-popup.js"></script>
+    <script src="../js/dropdown.js"></script>
+    <script src="../js/table.js"></script>
+    <script src="../js/page-navigator-button.js"></script>
+    <script src="../js/live-search.js"></script>
+    <script src="../../2.JS/request/department.js"></script>
+    <script src="../../2.JS/request/position.js"></script>
+    <script src="../../2.JS/request/employee.js"></script>
+    <script src="../../2.JS/draggable.js"></script>
+    <script src="../js/popup.js"></script> -->
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+.button {
+    height: 36px;
+    width: fit-content;
+    border-radius: 4px;
+    color: #ffffff;
+    background-color: #019160;
+    padding-bottom: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+    text-align: center;
+    /* line-height: 36px; */
+    cursor: pointer;
+}
+
+.button-icon {    
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    padding-right: 16px;    
+}
+
+.button:hover {
+    filter: brightness(0.8);
+}
+
+.button:active {
+    filter: brightness(0.6);
+}
+
+/* Button page number */
+
+.button-page-number{
+    height: 40px;
+    width: 40px;
+    color: #000;
+    border-radius: 50%;
+    background-color:#ccc;
+    display: inline-block;
+    text-align: center;
+    line-height: 40px;
+    margin-left: 4px;
+    margin-right: 4px;
+    cursor: pointer;
+    border: 1px solid #bbb;
+}
+.button-page-number:hover{
+    background-color: #fff;
+    border-color: #fff;
+}
+.button-page-number:active{
+    background-color: #019160;
+    color: #fff;
+    border-color: #019160;
+}
+
+
+/* Navigator button */
+
+.button-navigator{
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 4px;
+    background-color: transparent; 
+    margin-left: 4px;
+    margin-right: 4px;  
+    cursor: pointer;
+}
+.button-navigator:hover{
+    background-color: #fff;
+}
+
+.button-save{
+    margin-left: 16px;
+    margin-right: 24px;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.button-save .icon-save{
+    width: 16px;
+    height: 16px;
+    background-image: url('../../content/icon/document-online.png');
+    background-size: 16px;
+    filter: brightness(10);
+    margin-right: 8px;
+}
+
+.button-cancel{
+    background-color: transparent;
+    color: #000;
+    box-sizing: border-box;
+}
+.button-cancel:hover{
+    background-color: #fff;
+}
+.button-cancel:active{
+    background-color: #ccc;
+}
+

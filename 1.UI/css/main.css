@@ -1,0 +1,122 @@
+@import url('../css/base/button.css');
+@import url('../css/base/text-box.css');
+@import url('../css/base/dropdown.css');
+
+body {
+    font-family: MISAGoogleSans;
+    font-size: 13px;
+    margin: 0;
+    overflow: auto;
+    position: fixed;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+@font-face {
+    font-family: MISAGoogleSans;
+    src: url('../assets/fonts/notosans-regular.2cb88a13.woff2');
+}
+
+@font-face {
+    font-family: MISAGoogleSans-Bold;
+    src: url('../assets/fonts/notosans-bold.3ede5aff.woff2');
+}
+
+@font-face {
+    font-family: MISAGoogleSans-Italic;
+    src: url('../assets/fonts/notosans-italic.1c1aaac9.woff2');
+}
+
+@keyframes open {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    70% {
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    95% {
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes close {
+    100% {
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    30% {
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    5% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+
+.hide {
+    display: none;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+div:focus {
+    outline: none;
+    border: 1px solid #016e4a;
+    border-radius: 4px;
+    /* animation: outline-animate 3s infinite;     */
+}
+
+@keyframes outline-animate {
+    50% {
+        border-color: #fff;
+    }
+}
+
+/* Custom scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    z-index: 20;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #e5e5e5;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #bbbbbb;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #454545;
+}

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phần mềm quản lý nhà hàng - CUKCUK.VN</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/layout/header.css">
+    <link rel="stylesheet" href="./css/layout/menu.css">
+    <link rel="stylesheet" href="./css/layout/content.css">
+    <link rel="stylesheet" href="./css/components/popup-form.css">
+    <link rel="stylesheet" href="./content/font/fontawesome-5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="./css/base/combobox.css">
+    <link rel="stylesheet" href="./css/base/text-box.css">
+    <script src="../2.JS/lib/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../1.UI/css/components/toast.css">
+</head>
+
+<body onload="initDropdownListener()">
+    <div class="header">
+        <div class="header-left">
+            <div class="toggle"></div>
+            <div class="logo"></div>
+        </div>
+        <div class="header-right">
+            <div class="drop-down-restaurant">
+                <div class="drop-text">Nhà hàng Biển Đông</div>
+                <div class="drop-icon"></div>
+            </div>
+            <div class="user-options">
+                <div class="notification"></div>
+                <div class="user-avatar"></div>
+                <div class="username">Nguyễn Ngọc Hưng</div>
+                <div class="icon-options"></div>
+            </div>
+        </div>
+    </div>
+    <div class="menu">
+        <div class="menu-item item-dashboard">
+            <div class="menu-icon"></div>
+            <div class="menu-item-text">Tổng quan</div>
+        </div>
+        <div class="menu-item item-report menu-item-active">
+            <div class="menu-icon"></div>
+            <div class="menu-item-text">Báo cáo</div>
+        </div>
+        <div class="menu-item item-shoping">
+            <div class="menu-icon"></div>
+            <div class="menu-item-text">Mua hàng</div>
+        </div>
+        <div class="menu-item item-employee">
+            <div class="menu-icon"></div>
+            <div class="menu-item-text">Danh mục nhân viên</div>
+        </div>
+        <div class="menu-item item-setting">
+            <div class="menu-icon"></div>
+            <div class="menu-item-text">Thiết lập hệ thống</div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="input-field" style="width: 200px;">
+            <!-- Dropdown -->
+            <div class="dropdown-container" onclick="showDropData(this)">
+                <div class="dropdown">
+                    <div id="">Nam</div>
+                    <div class="dropdown-icon"></div>
+                </div>
+                <div class="dropdown-data" hidden="true">
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Nữ</div>
+                    </div>
+                    <div class="dropdown-item item-selected">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Nam</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+
+        <div class="input-field" style="width: 200px;">
+            <!-- Combo box -->
+            <div class="combobox-container">
+                <div class="combobox">
+                    <input type="text" class="combobox-input textbox-default" value="Nam"
+                        onkeyup="ComboboxInputChange(this)">
+
+                    <div class="x-icon" hidden="true" onclick="ClearInputText(this)">
+                        <i class="fas fa-times"></i>
+                    </div>
+
+                    <div class="combobox-icon-container" onclick="showDropData(this)">
+                        <div class="combobox-icon"></div>
+                    </div>
+                </div>
+                <div class="dropdown-data" hidden="true">
+                    <div class="dropdown-item">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Nữ</div>
+                    </div>
+                    <div class="dropdown-item item-selected">
+                        <i class="fas fa-check item-icon"></i>
+                        <div class="item-text">Nam</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="toast-stack">
+            <div class="toast-wrapper">
+                <div class="toast error">
+                    <div class="toast-icon"></div>
+                    <div class="toast-content">
+                        <div class="toast-header"><b>This is a header</b></div>
+                        <div class="toast-message">This is a base toast message This is a base toast message This is a
+                            base
+                            toast message This is a base toast message </div>
+                    </div>
+                    <div class="toast-close">
+                        <div class="toast-close-button error"><i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                <div class="line">
+                    <div class="line-loader"></div>
+                </div>
+            </div>
+            <div class="toast base-toast warning">
+                <div class="toast-icon"></div>
+                <div class="toast-content">
+                    <div class="toast-header"><b>This is a header</b></div>
+                    <div class="toast-message">This is a base toast message </div>
+                </div>
+                <div class="toast-close">
+                    <div class="toast-close-button warning"><i class="fas fa-times"></i></div>
+                </div>
+            </div>
+            <div class="toast base-toast success">
+                <div class="toast-icon"></div>
+                <div class="toast-content">
+                    <div class="toast-header"><b>This is a header</b></div>
+                    <div class="toast-message">This is a base toast message </div>
+                </div>
+                <div class="toast-close">
+                    <div class="toast-close-button success"><i class="fas fa-times"></i></div>
+                </div>
+            </div>
+            <div class="toast base-toast info">
+                <div class="toast-icon"></div>
+                <div class="toast-content">
+                    <div class="toast-header"><b>This is a header</b></div>
+                    <div class="toast-message">This is a base toast message </div>
+                </div>
+                <div class="toast-close">
+                    <div class="toast-close-button info"><i class="fas fa-times"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="button" onclick="showBaseToast()">Show Base Toast</div>
+
+        <br>
+        <br>
+        <style>
+            .input-field {
+                position: relative;
+            }
+
+            .input-field .tooltiptext {
+                /* visibility: hidden; */
+                width: 120px;
+                background-color: black;
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 5px 0;
+                position: absolute;
+                z-index: 1;
+                /* bottom: 150%;
+                left: 50%; */
+                margin-left: 60px;
+                transform: translate(0, -10px);
+            }
+
+            .input-field .tooltiptext::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                margin-left: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: black transparent transparent transparent;
+            }
+
+            .input-field:hover .tooltiptext {
+                visibility: visible;
+            }
+        </style>
+        <div class="input-field">
+            <span class="tooltiptext">Tooltip</span>
+            <div class="input-label">
+                label
+            </div>
+            <input type="text" class="textbox-default input-form" />
+        </div>
+    </div>
+
+
+    <script>
+        function showBaseToast() {
+
+        }
+    </script>
+    <script src="./js/init.js"></script>
+    <script src="./js/dropdown.js"></script>
+    <script src="./content/font/fontawesome-5.15.1/js/all.min.js"></script>
+</body>
+
+</html>
