@@ -3,7 +3,7 @@
     width: fit-content;
     border-radius: 4px;
     color: #ffffff;
-    background-color: #019160;
+    background-color: rgb(44,160,28);
     padding-bottom: 8px;
     padding-left: 20px;
     padding-right: 20px;
@@ -21,11 +21,11 @@
 }
 
 .button:hover {
-    filter: brightness(0.8);
+    filter: brightness(1.2);
 }
 
 .button:active {
-    filter: brightness(0.6);
+    filter: brightness(0.8);
 }
 
 /* Button page number */

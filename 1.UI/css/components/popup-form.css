@@ -120,6 +120,7 @@
     transform: translate(0, 3px);
     margin-left: 16px;
 }
+
 .options .option .label{
     line-height: 40px;
     margin-left: 5px;
@@ -139,9 +140,11 @@
     height: 100%;
     margin-left: 3px;
 }
+
 .help-btn{
     background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -88px -145px;
 }
+
 .close-btn{
     background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -147px -147px;
 }
@@ -156,12 +159,14 @@
     display: flex;
     align-items: center;
 }
+
 .form-footer .action-btns{
     display: flex;
     align-items: center;
     position: absolute;
     right: 32px;
 }
+
 .form-btn{
     border: 1px solid #8f8f8f;
     background-color: #fff;
@@ -169,18 +174,20 @@
     font-weight: bold;
     box-sizing: border-box;
 }
+
+.form-btn:hover {
+    filter: brightness(0.8);
+}
+
+.form-btn:active {
+    filter: brightness(0.6);
+}
+
 .save-add-btn{
     margin-left: 10px;
     border-color: transparent;
     color: #fff;
     background-color: #2c9f1c;
-}
-.save-add-btn:hover {
-    filter: brightness(1.2);
-}
-
-.save-add-btn:active {
-    filter: brightness(1);
 }
 
 /* ---------------------------------------------------- BODY */
