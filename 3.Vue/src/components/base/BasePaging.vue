@@ -11,7 +11,7 @@
         :type="'PageSize'"
         class="drop-number-of-row"
         :typeDataKey="'PageSizeName'"
-        :init="1"
+        :initValue="pageSizeDropData[0].PageSizeName"
         @itemChange="pageSizeChange"
       ></Dropdown>
       <!-- <div class="button-firstpage button-navigator" @click="first"></div> -->

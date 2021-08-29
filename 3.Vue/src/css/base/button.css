@@ -37,15 +37,6 @@
     padding-right: 16px;
 }
 
-.button-save .icon-save{
-    width: 16px;
-    height: 16px;
-    background-image: url('../../assets1/icon/document-online.png');
-    background-size: 16px;
-    filter: brightness(10);
-    margin-right: 8px;
-}
-
 .button-cancel{
     background-color: transparent;
     color: #000;

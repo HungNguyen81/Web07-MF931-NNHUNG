@@ -186,15 +186,15 @@ table tbody tr {
 /* Department */
 .table-employee tbody td:nth-child(10),
 .table-employee th:nth-child(10) {
-    width: 250px;
+    width: 150px;
 }
 
 /* salary */
 .table-employee th:nth-child(11),
 .table-employee tr td:nth-child(11) {
-    text-align: right;
-    padding-left: 10px;
-    padding-right: 10px;
+    /* text-align: right; */
+    /* padding-left: 10px;
+    padding-right: 10px; */
     width: 150px;
 }
 

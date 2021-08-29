@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="combobox-container"
-    v-if="isDataLoaded"
-  >
+  <div class="combobox-container" v-if="isDataLoaded">
     <div class="combobox" ref="combobox">
       <input
         spellcheck="false"
@@ -75,8 +72,8 @@ export default {
       type: Array,
       required: false,
     },
-    init:{
-      type: Number,
+    initValue: {
+      type: String,
       require: false,
     },
     tabindex: {
@@ -98,12 +95,14 @@ export default {
         Position: "vị trí",
         Department: "phòng ban",
         CustomerGroup: "nhóm khách hàng",
-        PageSize: "Kích thước trang"
+        PageSize: "Kích thước trang",
+        Unit: "Đơn vị"
       },
       isEmptyVal: true,
     };
   },
   created() {
+    // nếu truyền vào API url
     if (this.api) {
       axios
         .get(this.api)
@@ -127,8 +126,13 @@ export default {
           }));
 
           this.isDataLoaded = true;
-          if(this.init){
-            this.value = this.items[this.init][this.typeDataKey];
+          if (this.initValue) {
+            this.value = this.initValue;
+            this.data.forEach((e, i) => {
+              if (e[this.typeDataKey] == this.initValue) {
+                this.current = i;
+              }
+            });
           }
         })
         .catch((err) => {
@@ -142,15 +146,20 @@ export default {
           this.isDataLoaded = true;
         });
     } else {
+      // nếu truyền vào data cố định
       this.items = this.data.map((e) => ({
         ...e,
         Hidden: false,
       }));
 
       this.isDataLoaded = true;
-      this.value = this.items[this.init]? this.items[this.init][this.typeDataKey] : "";
-      if(this.value){
-        this.current = this.init;
+      if (this.initValue) {
+        this.value = this.initValue;
+        this.data.forEach((e, i) => {
+          if (e[this.typeDataKey] == this.initValue) {
+            this.current = i;
+          }
+        });
       }
     }
   },
@@ -179,9 +188,9 @@ export default {
       if (this.isEmptyVal) {
         this.current = -1;
         this.items = this.items.map((e) => ({
-            ...e,
-            Hidden: false,
-          }));
+          ...e,
+          Hidden: false,
+        }));
       }
     },
     // chỉ số của item hiện tại

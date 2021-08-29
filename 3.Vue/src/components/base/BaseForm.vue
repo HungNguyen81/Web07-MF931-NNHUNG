@@ -88,10 +88,10 @@
 
                 <Combobox
                   :mode="0"
-                  :api="`${$config.BASE_API}/Departments`"
-                  :type="'Department'"
-                  :value="detail.UnitName"
-                  :typeDataKey="'DepartmentName'"
+                  :api="`${$config.BASE_API}/Units`"
+                  :type="'Unit'"
+                  :initValue="detail.UnitName"
+                  :typeDataKey="'UnitName'"
                   :tabindex="5"
                   v-if="isDataLoaded"
                   @itemChange="dropDataChange"
@@ -402,7 +402,6 @@ export default {
     },
   },
   watch: {
-
     /**
      * Watch sự thay đổi của isOpen để
      * - Auto focus vào trường mã nhân viên khi mở form
@@ -444,7 +443,7 @@ export default {
         // Nếu mode là FORM_ADD: thêm mới nv
         else if (this.mode == this.$config.FORM_ADD) {
           this.generateAddForm();
-        } else if (this.mode == this.$config.FORM_CLONE){
+        } else if (this.mode == this.$config.FORM_CLONE) {
           await this.generateUpdateForm();
           await this.generateAddForm();
         }
@@ -460,7 +459,7 @@ export default {
       EventBus.$emit("appClick", event.target);
     },
 
-    generateUpdateForm: async function() {
+    generateUpdateForm: async function () {
       axios
         .get(`${this.$config.BASE_API}/Employees/${this.detailId}`)
         .then((res) => {
@@ -470,18 +469,14 @@ export default {
           }
 
           this.detail = Object.assign({}, res.data);
+          console.table(res.data);
 
           console.groupCollapsed("Data form");
           console.table(res.data);
           console.groupEnd();
 
           this.formatData();
-          this.$set(this.detail, "PositionName", this.moreDetail.PositionName);
-          this.$set(
-            this.detail,
-            "DepartmentName",
-            this.moreDetail.DepartmentName
-          );
+
           this.initDetail = Object.assign({}, this.detail);
           this.isDataLoaded = true;
         })
@@ -490,7 +485,7 @@ export default {
         });
     },
 
-    generateAddForm: async function() {
+    generateAddForm: async function () {
       this.isDataLoaded = true;
 
       axios
@@ -517,7 +512,7 @@ export default {
             "GET error",
             `Không thể lấy mã nhân viên mới !`
           );
-          let newCode = `NV${Math.round(Math.random() * 100000)}`;
+          let newCode = `NV-${Math.round(Math.random() * 10000)}`;
           this.$refs.employeeCode.$el.value = newCode;
           this.$set(this.detail, "EmployeeCode", newCode);
 
@@ -559,21 +554,9 @@ export default {
         "IdentityDate",
         this.dateFormatVer2(this.detail.IdentityDate, this.dateInputFormat)
       );
-      this.$set(
-        this.detail,
-        "JoinDate",
-        this.dateFormatVer2(this.detail.JoinDate, this.dateInputFormat)
-      );
-      this.$set(
-        this.detail,
-        "WorkStatus",
-        this.workStatusCode2Text(this.detail.WorkStatus)
-      );
-      this.$set(
-        this.detail,
-        "Salary",
-        this.formatMoneyString(this.detail.Salary)
-      );
+      if (this.detail.Gender === null) {
+        this.$set(this.detail, "Gender", 2);
+      }
     },
 
     /**
@@ -673,11 +656,17 @@ export default {
           this.isDisableSaveButton = false;
         });
       } else {
-        if(!isAddNext) this.closeForm(this.isChange);
-        this.initDetail = this.detail = {
-          IsCustomer : false,
-          IsProvider : false,
+        if (!isAddNext) {
+          this.closeForm(this.isChange);
+        } else {
+          this.initDetail = this.detail = {
+            IsCustomer: false,
+            IsProvider: false,
+          };
+          this.generateAddForm();
         }
+
+        this.isDisableSaveButton = false;
       }
     },
 
