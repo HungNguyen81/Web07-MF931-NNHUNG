@@ -1,0 +1,117 @@
+.header {
+    height: 48px;
+    width: 100%;
+    display: flex;
+}
+
+/* Left header */
+
+.header .header-left {
+    width: 178px;
+    /* border-right: 1px solid #393A3D; */
+    background-color: #393A3D;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.header .header-left .toggle {
+    width: 24px;
+    height: 24px;
+    margin: 0 10px 0 0;
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -425px -89px;
+    cursor: pointer;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+.header .header-left .logo img {
+    width: 96px;
+    height: 32px;
+    cursor: pointer;
+}
+
+/* Right header */
+
+.header-right {
+    width: calc(100vw - 178px);
+    height: 49px;
+    left: 225px;
+    display: flex;
+    align-items: center;
+    
+}
+
+.collapse-btn{
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 10px;
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -843px -31px;
+}
+
+.company-label{
+    height: 49px;
+    line-height: 49px;
+    display: inline-block;
+    padding-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #111111;
+}
+
+.mode-btn{
+    width: 14px;
+    height: 8px;
+    margin-left: 10px;
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -1129px -365px;
+}
+
+/* Username and options */
+
+.header-right .user-options {
+    position: absolute;
+    right: 0;
+    display: flex;
+    align-items: center;
+}
+
+.user-options>.notification {
+    width: 24px;
+    height: 24px;
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -787px -30px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.user-options>.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-left: 16px;
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -352px -894px;
+    cursor: pointer;
+}
+
+.user-options>.username {
+    margin: 0 6px;
+    font-weight: bold;
+}
+
+.user-options>.icon-options {
+    width: 9px;
+    height: 6px;
+    margin-right: 16px;
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -1078px -38px;
+    cursor: pointer;
+}
+
+#restaurants{
+    position: fixed;
+    z-index: 6;
+    width: 180px;
+}

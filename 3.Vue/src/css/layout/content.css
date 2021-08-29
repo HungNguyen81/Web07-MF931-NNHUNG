@@ -1,0 +1,127 @@
+body{
+    overflow: hidden;
+}
+
+.content {
+    position: absolute;
+    height: calc(100vh - 49px);
+    top: 49px;
+    left: 178px;  
+    width: 100%;
+    background-color:#F4F5F8;  
+}
+
+/* Heading */
+
+.content-heading {
+    position: absolute;
+    left: 0px;
+    width: calc(100vw - 178px);
+    margin: 24px 0;
+}
+
+.content-heading .buttons-containner {
+    position: absolute;
+    right: 20px;
+}
+.buttons-containner{
+    display: flex;
+    align-items: center;
+}
+.buttons-containner .button {
+    margin-left: 6px;
+}
+
+.title {
+    font-family: MISAGoogleSans-Bold;
+    font-size: 15px;
+    font-weight: bold;
+    position: absolute;
+    left: 20px;
+    line-height: 40px;
+    font-size: 24px;
+}
+
+.content-body{
+    position: absolute;
+    width: calc(100% - 178px - 40px);
+    margin-left: 20px;
+    background-color: #fff;
+    top: 72px;
+    height: calc(100% - 72px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    box-sizing: border-box;
+}
+/* Search box */
+
+.content-search {
+    width: 100%;
+    position: sticky;
+    left: 0;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding-top: 16px;
+    flex-shrink: 0;
+    /* border: 1px solid red; */
+}
+
+.search-field {
+    height: 32px;
+    padding: 6px 22px 6px 11px;
+    width: 240px;
+    margin-left: 16px;
+    margin-right: 10px;
+}
+.search-field::placeholder{
+    font-size: 13px;    
+    opacity: 0.7;
+}
+
+.search-icon {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    z-index: 5;
+    left: calc(16px + 240px - 24px);
+    box-sizing: border-box;
+    flex-shrink: 0;
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -992px -360px;
+}
+
+.more-feature-btn-wrap{
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+}
+/* .more-feature-btn-wrap .feature-btn{
+    margin: 0 6px;
+} */
+.feature-btn{
+    margin: 0 6px;
+    background-color: #fff;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+.feature-btn:hover{
+    filter: brightness(0.9);
+}
+.feature-btn:active{
+    filter: brightness(0.8);
+}
+
+.feature-btn.btn-refresh{
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -425px -201px;
+}
+
+.feature-btn.btn-export{
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -705px -256px;
+}
