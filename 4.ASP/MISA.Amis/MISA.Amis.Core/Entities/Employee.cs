@@ -28,7 +28,7 @@ namespace MISA.Amis.Core.Entities
         /// </summary>
         public int? Gender { get; set; }
 
-
+        
         /// <summary>
         /// Giới tính (string)
         /// </summary>
@@ -43,6 +43,7 @@ namespace MISA.Amis.Core.Entities
         /// <summary>
         /// Số điện thoại di động
         /// </summary>
+        
         public string MobileNumber { get; set; }
 
         /// <summary>
@@ -77,24 +78,44 @@ namespace MISA.Amis.Core.Entities
         public string IdentityPlace { get; set; }
 
         /// <summary>
-        /// vị trí / chức vụ
+        /// Id đơn vị
         /// </summary>
-
         public Guid? UnitId { get; set; }
 
+        /// <summary>
+        /// Tên đên vị
+        /// </summary>
         [MISADbColumnNotMatch]
         public string UnitName { get; set; }
 
+        /// <summary>
+        /// vị trí / chức vụ
+        /// </summary>
         public string PositionName { get; set; }
 
+        /// <summary>
+        /// Tài khoản ngân hàng
+        /// </summary>
         public string BankAccount { get; set; }
 
+        /// <summary>
+        /// Tên ngân hàng
+        /// </summary>
         public string BankName { get; set; }
 
+        /// <summary>
+        /// Chi nhánh ngân hàng
+        /// </summary>
         public string BankBranch { get; set; }
 
+        /// <summary>
+        /// Là khách hàng
+        /// </summary>
         public bool IsCustomer { get; set; }
 
+        /// <summary>
+        /// Là nhà cung cấp
+        /// </summary>
         public bool IsProvider { get; set; }
 
         #endregion

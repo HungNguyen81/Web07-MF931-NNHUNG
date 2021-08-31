@@ -20,7 +20,7 @@
         class="date-edit"
         :tabindex="tabindex"
         v-model="formatedValue"
-        @focus="isDateFocus = true"
+        @focus="isDateFocus = true;"
         @blur="isDateFocus = false;inputValidate();"
         @keydown="onInput"
         ref="dateView"
@@ -74,7 +74,7 @@ export default {
     maxDate:{
       type: String,
       required: false
-    }
+    },
   },
   data() {
     return {
@@ -187,8 +187,15 @@ export default {
         this.isValidate = res;
 
         this.$emit("valid", this.inputKey, res);
+        return {
+          IsValid: res,
+          Msg: this.invalidTooltip
+        }
       } else {
         console.log("NO validations");
+        return {
+          IsValid: true
+        }
       }
     },
 
@@ -197,7 +204,6 @@ export default {
      * CreatedBy: HungNguyen81 (23-08-2021)
      */
     onInput(e){
-      console.log(e.key);
       if(!/([0-9/])|^(Tab)|^(Backspace)|^(Shift)|^(Home)|^(End)|^(Arrow)/.test(e.key)){
         e.preventDefault();
       }

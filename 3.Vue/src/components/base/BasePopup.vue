@@ -37,10 +37,6 @@ export default {
       type: String,
       require: true,
     },
-    icon:{
-      type: String,
-      required: false
-    },
     isHide: {
       type: Boolean,
       require: true,
@@ -55,25 +51,10 @@ export default {
   },
   mounted() {},
   methods: {
-    // /**
-    //  * Handle khi bấm nút OK, gọi hàm callback nếu có
-    //  * @ CreatedBy: HungNguyen81 (08-2021)
-    //  */
-    // handleOkClick() {
-    //   if (this.callback) {
-    //     this.callback(); this.$emit("popupCallbackFinish");
-    //   } else {
-    //     console.log("Callback function not found!");
-    //   }
-    // },
+    
   },
   watch: {
-    // isHide: function (val) {
-    //   if (!val)
-    //   this.$nextTick(() => {
-    //     this.$refs.CancelBtn.$el.focus();
-    //   });
-    // },
+    
   },
 };
 </script>

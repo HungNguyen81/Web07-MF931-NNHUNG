@@ -14,6 +14,7 @@ namespace MISA.Amis.Core.Interfaces.Repositiories
         /// <returns></returns>
         List<MISAEntity> Get();
 
+
         /// <summary>
         /// Lấy theo id
         /// </summary>

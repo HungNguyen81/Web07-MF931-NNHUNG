@@ -2,7 +2,7 @@
   <div
     :class="['container', { open: isOpen, close: !isOpen }]"
     id="container"
-    @click="closeForm"
+    @click="closeForm(isChange)"
   >
     <div
       :class="['form-container', { open: isOpen, close: !isOpen }]"
@@ -42,7 +42,7 @@
           <div
             class="close-btn form-header-btn"
             title="Đóng"
-            @click="closeForm"
+            @click="closeForm(isChange)"
           ></div>
         </div>
       </div>
@@ -90,13 +90,14 @@
                   :mode="0"
                   :api="`${$config.BASE_API}/Units`"
                   :type="'Unit'"
-                  :initValue="detail.UnitName"
                   :typeDataKey="'UnitName'"
                   :tabindex="5"
-                  v-if="isDataLoaded"
+                  :label="'Đơn vị'"
+                  :validates="[required]"
                   @itemChange="dropDataChange"
                   ref="unitName"
                   @valid="validateForm"
+                  v-model="detail.UnitName"
                 >
                 </Combobox>
               </div>
@@ -122,7 +123,7 @@
                 :tabindex="3"
                 v-model="detail.DateOfBirth"
                 :label="'Ngày sinh'"
-                :validates="[date]"
+                :validates="[date, dateNotExceedToday]"
                 :rerenderFlag="isRerender"
                 @valid="validateForm"
                 @dateChange="dateChange"
@@ -176,6 +177,7 @@
                 :tabindex="6"
                 label="Số CMND"
                 :rerenderFlag="isRerender"
+                :pattern="/[0-9]/"
               />
               <BaseDateInput
                 v-model="detail.IdentityDate"
@@ -183,7 +185,7 @@
                 inputKey="identity-date"
                 :tabindex="7"
                 :label="'Ngày cấp'"
-                :validates="[date]"
+                :validates="[date, dateNotExceedToday]"
                 :rerenderFlag="isRerender"
                 @dateChange="dateChange"
                 @valid="validateForm"
@@ -223,6 +225,7 @@
                 :tabindex="11"
                 label="ĐT di động"
                 ref="mobileNumber"
+                :pattern="/[0-9]/"
               />
               <BaseTextInput
                 v-model="detail.PhoneNumber"
@@ -232,6 +235,7 @@
                 :tabindex="12"
                 label="ĐT cố định"
                 ref="phoneNumber"
+                :pattern="/[0-9()-]/"
               />
               <BaseTextInput
                 v-model="detail.Email"
@@ -254,6 +258,7 @@
                 inputKey="bank-account"
                 :tabindex="14"
                 label="Tài khoản ngân hàng"
+                :pattern="/[0-9]/"
               />
               <BaseTextInput
                 v-model="detail.BankName"
@@ -282,7 +287,7 @@
           :value="'Hủy'"
           class="form-btn"
           :type="'cancel-btn'"
-          :onclick="closeForm"
+          :onclick="() => {closeForm(isChange)}"
           :disable="isDisableSaveButton"
           tabindex="17"
         ></BaseButtonIcon>
@@ -291,7 +296,11 @@
             class="form-btn"
             :value="'Cất'"
             :type="'save-btn'"
-            :onclick="btnSaveClick"
+            :onclick="
+              () => {
+                btnSaveClick(false);
+              }
+            "
             :disable="isDisableSaveButton"
             tabindex="17"
           ></BaseButtonIcon>
@@ -299,7 +308,11 @@
             class="form-btn"
             :value="'Cất và thêm'"
             :type="'save-add-btn'"
-            :onclick="btnSaveClick"
+            :onclick="
+              () => {
+                btnSaveClick(true);
+              }
+            "
             :disable="isDisableSaveButton"
             tabindex="17"
           ></BaseButtonIcon>
@@ -319,6 +332,12 @@ import BaseButtonIcon from "../base/BaseButtonIcon.vue";
 import BaseTextInput from "../base/BaseTextInput.vue";
 import BaseDateInput from "../base/BaseDateInput.vue";
 import Combobox from "../base/BaseCombobox.vue";
+
+const initObject = {
+  IsCustomer: false,
+  IsProvider: false,
+  Gender: 2,
+};
 
 export default {
   name: "Form",
@@ -366,7 +385,7 @@ export default {
       validate: {
         "employee-code": false,
         fullname: false,
-        // "unit": false,
+        UnitName: false,
         email: false,
         "date-of-birth": false,
         "identity-date": false,
@@ -374,8 +393,8 @@ export default {
       validateRefs: [
         "employeeCode",
         "fullName",
-        // "unitName",
         "dateOfBirth",
+        "unitName",
         "identityDate",
         "phoneNumber",
         "mobileNumber",
@@ -408,17 +427,15 @@ export default {
      * - Gọi API lấy thông tin đối tượng nếu form mode = 0 <sửa>
      * CreatedBy: HungNguyen81 (07-2021)
      */
-    isOpen: async function (val) {
+    isOpen: function (val) {
       this.$nextTick(() => {
         // tự động focus vào ô mã nv
         if (val) this.$refs.employeeCode.$el.children[1].focus();
 
         // khởi tạo các giá trị ban đầu => so sánh khi đóng form
-        if (this.mode == this.$config.FORM_ADD) {
-          this.initDetail = this.detail = {
-            IsCustomer: false,
-            IsProvider: false,
-          };
+        if (this.mode == this.$config.FORM_ADD || this.mode == this.$config.FORM_CLONE) {
+          this.initDetail = Object.assign({}, initObject);
+          this.detail = Object.assign({}, initObject);
         }
         this.isDisableSaveButton = false;
       });
@@ -444,22 +461,21 @@ export default {
         else if (this.mode == this.$config.FORM_ADD) {
           this.generateAddForm();
         } else if (this.mode == this.$config.FORM_CLONE) {
-          await this.generateUpdateForm();
-          await this.generateAddForm();
+          this.generateUpdateForm(this.getNewCode);
         }
       }
     },
   },
   methods: {
-    closeForm() {
-      this.close(this.isChange, this.mode, this.detailId, this.getRawData());
+    closeForm(isChange) {
+      this.close(isChange, this.mode, this.detailId, this.getRawData());
     },
 
     formClick(event) {
       EventBus.$emit("appClick", event.target);
     },
 
-    generateUpdateForm: async function () {
+    generateUpdateForm: function (callback) {
       axios
         .get(`${this.$config.BASE_API}/Employees/${this.detailId}`)
         .then((res) => {
@@ -479,15 +495,21 @@ export default {
 
           this.initDetail = Object.assign({}, this.detail);
           this.isDataLoaded = true;
+
+          if(callback) callback();
         })
         .catch((err) => {
           console.log(err);
         });
     },
 
-    generateAddForm: async function () {
+    generateAddForm: function () {
       this.isDataLoaded = true;
 
+      this.getNewCode();
+    },
+
+    getNewCode() {
       axios
         .get(`${this.$config.BASE_API}/Employees/NewEmployeeCode`)
         .then((res) => {
@@ -519,7 +541,6 @@ export default {
           this.initDetail = Object.assign({}, this.detail);
         });
     },
-
     /**
      * Handle mỗi khi date input value thay đổi
      * CreatedBy: HungNguyen81 (07-2021)
@@ -532,6 +553,7 @@ export default {
         !this.date(this.dateName[key], formatedVal);
 
         let start = input.selectionStart;
+        // console.log("start", start, ", date", val, formatedVal);
         this.$set(this.detail, keyName, val);
         this.$nextTick(() => {
           input.setSelectionRange(start + 1, start + 1);
@@ -575,49 +597,19 @@ export default {
     },
 
     /**
-     *
-     * Định dạng tiền tệ trong khi nhập
-     * CreatedBy: HungNguyen81 (07-2021)
-     */
-    formatSalaryOnInput() {
-      let salaryInput = this.$refs.salary.$el.children[1];
-      let selecStart = salaryInput.selectionStart - 1;
-      let selecEnd = salaryInput.selectionEnd - 1;
-      let oldLen = salaryInput.value.length - 1;
-      this.$set(
-        this.detail,
-        "Salary",
-        this.formatMoneyString(this.detail.Salary)
-      );
-
-      // Giữ vị trí dấu nháy khi nhập (ko bị nhảy về cuối)
-      this.$nextTick(() => {
-        let offset = salaryInput.value.length - oldLen;
-        salaryInput.setSelectionRange(selecStart + offset, selecEnd + offset);
-      });
-    },
-
-    /**
      * Lấy dữ liệu thô để post/put
      * CreatedBy: HungNguyen81 (07-2021)
      */
     getRawData() {
       let dob = this.detail.DateOfBirth;
       let identityDate = this.detail.IdentityDate;
-      let joinDate = this.detail.JoinDate;
-      let salary = this.detail.Salary;
       let res = JSON.parse(JSON.stringify(this.detail));
-      // this.$set(this.detail, 'Gender', this.detail.Gender);
 
       res.DateOfBirth = dob ? new Date(dob).toISOString() : null;
       res.IdentityDate = identityDate
         ? new Date(identityDate).toISOString()
         : null;
-      res.JoinDate = joinDate ? new Date(joinDate).toISOString() : null;
-      res.WorkStatus = this.workStatusText2Code(this.detail.WorkStatus);
-      // res.Gender = this.genderText2Code(this.detail.GenderName);
       res.Gender = Number(this.detail.Gender);
-      res.Salary = salary == null ? null : Number(salary.replaceAll(".", ""));
       return res;
     },
 
@@ -627,46 +619,60 @@ export default {
      */
     btnSaveClick(isAddNext) {
       this.isDisableSaveButton = true;
+      var invalidMsg = "";
+      var isInvalid = false;
       for (let ref of this.validateRefs) {
-        this.$refs[ref].inputValidate();
+        let valid = this.$refs[ref].inputValidate();
+
+        // lấy thông báo ko hợp lệ đầu tiên để hiện thị lên
+        if (!valid.IsValid && !isInvalid) {
+          invalidMsg = valid.Msg;
+          isInvalid = true;
+        }
       }
       if (!this.isValidate()) {
-        this.$emit(
-          "showToast",
-          "warning",
-          "NOT VALIDATE",
-          `Dữ liệu không hợp lệ !`
-        );
+        this.$emit("showToast", "warning", "Dữ liệu không hợp lệ", invalidMsg);
         this.$emit("showPopup", {
-          content: `Dữ liệu không hợp lệ, vui lòng nhập lại`,
-          popupType: "warning",
+          content: invalidMsg,
+          popupType: "error",
           isHide: false,
           buttons: [{ type: "button-ok", callback: null, value: "Đóng" }],
         });
         this.isDisableSaveButton = false;
         return;
       }
+
+      var func = () => {
+        this.initDetail = Object.assign({}, initObject);
+        this.detail = Object.assign({}, initObject);
+        this.getNewCode();
+        this.isDisableSaveButton = false;
+        this.$nextTick(() => {
+          // tự động focus vào ô mã nv
+          this.$refs.employeeCode.$el.children[1].focus();
+        });
+      };
+
+      // nếu thông tin đã thay đổi
       if (this.isChange) {
         this.isDisableSaveButton = true;
-        // console.table(this.getRawData())
-        this.$emit("saveClicked", this.mode, this.detailId, this.getRawData());
+        this.$emit(
+          "saveClicked",
+          this.mode,
+          this.detailId,
+          this.getRawData(),
+          isAddNext ? func : ()=>{this.closeForm(false);}
+        );
+        EventBus.$on('requestFail', () =>{
+          this.isDisableSaveButton= false;
+        })
 
-        // disable nút lưu khi bấm lưu
-        EventBus.$on("PopupClose", () => {
-          this.isDisableSaveButton = false;
-        });
       } else {
         if (!isAddNext) {
-          this.closeForm(this.isChange);
+          this.closeForm(false);
         } else {
-          this.initDetail = this.detail = {
-            IsCustomer: false,
-            IsProvider: false,
-          };
-          this.generateAddForm();
+          func();
         }
-
-        this.isDisableSaveButton = false;
       }
     },
 
@@ -683,9 +689,6 @@ export default {
       if (obj[key]) {
         this.$set(this.detail, key, obj[key]);
       }
-      // if (obj.PositionId) {
-      //   this.$set(this.detail, "PositionId", obj.PositionId);
-      // }
     },
 
     /**

@@ -8,19 +8,19 @@ namespace MISA.Amis.Core.Entities
         #region Properties
 
         /// <summary>
-        /// Id nhóm khách hàng
+        /// Id đơn vị
         /// </summary>
         public Guid UnitId { get; set; }
 
 
         /// <summary>
-        /// Tên nhóm khách hàng
+        /// Tên đơn vị
         /// </summary>
         public string UnitName { get; set; }
 
 
         /// <summary>
-        /// Mô tả nhóm khách hàng
+        /// Mô tả
         /// </summary>
         public string Description { get; set; }
 

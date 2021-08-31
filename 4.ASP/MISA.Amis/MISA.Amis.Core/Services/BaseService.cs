@@ -108,7 +108,7 @@ namespace MISA.Amis.Core.Services
 
             return new ServiceResult
             {
-                IsValid = true,
+                IsValid = invalids.Count == 0,
                 InvalidMsg = invalids
             };
         }
@@ -144,6 +144,7 @@ namespace MISA.Amis.Core.Services
             _serviceResult = Validate(entity, (int)Mode.Add);
             if (!_serviceResult.IsValid)
             {
+                _serviceResult.Msg = _serviceResult.InvalidMsg[0];
                 return _serviceResult;
             }
 

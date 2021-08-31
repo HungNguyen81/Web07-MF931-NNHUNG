@@ -3,8 +3,11 @@ using MISA.Amis.Core.Helpers;
 using MISA.Amis.Core.Interfaces.Repositiories;
 using MISA.Amis.Core.Interfaces.Services;
 using MISA.Amis.Core.Resource;
+using OfficeOpenXml;
+using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace MISA.Amis.Core.Services
 {
@@ -59,7 +62,37 @@ namespace MISA.Amis.Core.Services
             _serviceResult.IsValid = _serviceResult.Data != null;
             return _serviceResult;
         }
-        
+
+        public Stream GetEmployeesExcelFileStream(Stream stream)
+        {
+            var list = _employeeRepository.Get();
+            using (var excelPackage = new ExcelPackage(stream ?? new MemoryStream()))
+            {
+                // Tạo author cho file Excel
+                excelPackage.Workbook.Properties.Author = "Hungnn";
+                // Tạo title cho file Excel
+                excelPackage.Workbook.Properties.Title = $"Danh sách nhân viên";
+                // Add Sheet vào file Excel
+                excelPackage.Workbook.Worksheets.Add("Sheet 1");
+                // Lấy Sheet bạn vừa mới tạo ra để thao tác 
+                var workSheet = excelPackage.Workbook.Worksheets[0];
+
+                workSheet.Cells["A1:K1"].Merge = true;
+                workSheet.Cells["A2:K2"].Merge = true;
+                
+                // tạo header
+                workSheet.Cells["A1"].LoadFromText("DANH SÁCH NHÂN VIÊN");
+                workSheet.Row(1).Style.Font.Size = 16;
+
+                // Đổ data vào Excel file
+                workSheet.Cells[3, 1].LoadFromCollection(list, true, TableStyles.Light1);
+
+                // BindingFormatForExcel(workSheet, list);
+                excelPackage.Save();
+                return excelPackage.Stream;
+            }
+        }
+
         #endregion
     }
 }

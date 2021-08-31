@@ -57,20 +57,19 @@
           @rowClick="rowSelect"
           :tableKey="tableFlag"
           :key="tableKey"
+          :loading="isTableLoading"
           @getPagingInfo="transPagingInfo"
           @showToast="showToast"
           @cloneEntity="cloneEntity"
           @deleteEntity="deleteEntity"
         ></Table>
-        <div
+        <!-- <div
           id="loader"
           class="spinner-wrapper"
           :class="{ hidden: !isTableLoading }"
         >
-          <!-- <div class=""> -->
           <div class="spinner"></div>
-          <!-- </div> -->
-        </div>
+        </div> -->
         <Paging
           :pageNumber="pageNumber"
           :pageSize="pageSize"
@@ -93,6 +92,7 @@
       @saveClicked="formSaveButtonClick"
       @showToast="showToast"
       @showPopup="showPopup"
+      ref="form"
     ></Form>
 
     <Popup
@@ -197,8 +197,7 @@ export default {
         popupType: "error",
         okAction: "OK",
         isHide: true,
-        callback: null,
-        icon: null,
+        callback: null
       },
       formStatus: false,
       isTableLoading: true,
@@ -256,10 +255,8 @@ export default {
     // ModifiedBy: HungNguyen81 (18-08-2021)
 
     OpenForm(mode) {
-      if (this.entityName == "Employee") {
-        this.formMode = mode;
-        this.formStatus = true;
-      }
+      this.formMode = mode;
+      this.formStatus = true;
     },
 
     /**
@@ -391,7 +388,7 @@ export default {
      * Hiện popup thông báo xác nhận thêm/sửa
      * CreatedBy: HungNguyen81 (07-2021)
      */
-    formSaveButtonClick(mode, id, detail) {
+    formSaveButtonClick(mode, id, detail, callback) {
       // this.popup = {
       //   content: `Bạn có chắc chắn muốn <b>${
       //     mode ? "SỬA" : "THÊM"
@@ -410,18 +407,18 @@ export default {
       // };
       this.entityId = id;
       this.entityDetail = detail;
-      this.excuteFormModeAction(mode);
+      this.excuteFormModeAction(mode, callback);
     },
 
     /**
      * Thực thi tác vụ tương ứng với form mode
      * CreatedBy: HungNguyen81 (29-08-2021)
      */
-    excuteFormModeAction(mode){
+    excuteFormModeAction(mode, callback){
       if(mode == this.$config.FORM_ADD){
-        this.sendPostRequest();
+        this.sendPostRequest(callback);
       } else if(mode == this.$config.FORM_UPDATE){
-        this.sendPutRequest();
+        this.sendPutRequest(callback);
       }
     },
 
@@ -469,7 +466,6 @@ export default {
         content: `Bạn có thực sự muốn xóa nhân viên <${this.deleteCodeList.join(", ")}> không ?`,
         popupType: "warning",
         isHide: false,
-        icon: "icon-delete",
         buttons: [
           { type: "cancel-button", callback: null, value: "Không" },
           {
@@ -491,7 +487,6 @@ export default {
         content: `Bạn có thực sự muốn xóa nhân viên <${code}> không ?`,
         popupType: "warning",
         isHide: false,
-        icon: "icon-delete",
         buttons: [
           { type: "cancel-button", callback: null, value: "Không" },
           {
@@ -554,16 +549,16 @@ export default {
      * Callback khi bấm nút Lưu trên form, form mode sửa nhân viên
      * CreatedBy: HungNguyen81 (07-2021)
      */
-    sendPutRequest() {
+    sendPutRequest(callback) {
       axios
         .put(
           `${this.$config.BASE_API}/${this.entityName}s/${this.entityId}`,
           this.entityDetail
         )
         .then(() => {
-          this.closePopup();
-          this.closeForm();
-
+          // this.closePopup();
+          // this.closeForm();
+          if(callback) callback();
           this.showToast(
             "success",
             "PUT Success",
@@ -573,8 +568,7 @@ export default {
           this.forceTableRerender();
         })
         .catch((err) => {
-          this.showToast("error", "PUT error", err.response.data.Msg);
-          this.closePopup();
+            this.handleInvalidResponse(err);
         });
     },
 
@@ -582,23 +576,45 @@ export default {
      * Callback khi bấm nút Lưu trên form, form mode thêm nhân viên
      * CreatedBy: HungNguyen81 (07-2021)
      */
-    sendPostRequest() {
+    sendPostRequest(callback) {
       axios
         .post(
           `${this.$config.BASE_API}/${this.entityName}s/`,
           this.entityDetail
         )
         .then((res) => {
+          console.log(111);
+          if(callback) {
+            console.log("111");
+            callback();
+          }
           this.showToast("success", "POST success", res.data.Msg);
-          this.closePopup();
-          this.closeForm();
+          // this.closePopup();
+          // this.closeForm();
           this.forceTableRerender();
         })
         .catch((err) => {
-          this.showToast("error", "POST error", err.response.data.Msg);
-          this.closePopup();
+          this.handleInvalidResponse(err);
         });
     },
+
+    handleInvalidResponse(err){
+      var func = () => {
+        this.closePopup();
+        this.$refs.form.$refs['employeeCode'].$el.children[1].focus();
+      }
+      this.showToast("error", "PUT error", err.response.data.Msg);
+      this.showPopup({
+        content: err.response.data.Msg,
+        popupType: "warning",
+        isHide: false,
+        buttons: [
+          { type: "yes-button", callback: func, value: "Đồng ý" },
+        ],
+      })
+      EventBus.$emit('requestFail');
+    },
+
     //#endregion
 
     //#region Làm mới bảng dữ liệu

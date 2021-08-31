@@ -1,8 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MISA.Amis.Core.CustomAttrs;
 using MISA.Amis.Core.Entities;
+using MISA.Amis.Core.Interfaces.Repositiories;
 using MISA.Amis.Core.Interfaces.Services;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MISA.Amis.API.Controllers
 {
@@ -13,14 +20,16 @@ namespace MISA.Amis.API.Controllers
         #region Fields
 
         private readonly IEmployeeService _employeeService;
+        private readonly IEmployeeRepository _employeeRepository;
 
         #endregion
 
         #region Constructors
 
-        public EmployeesController(IEmployeeService employeeService):base(employeeService)
+        public EmployeesController(IEmployeeService employeeService, IEmployeeRepository employeeRepository):base(employeeService)
         {
             _employeeService = employeeService;
+            _employeeRepository = employeeRepository;
         }
 
         #endregion
@@ -99,6 +108,116 @@ namespace MISA.Amis.API.Controllers
             }
         }
 
+
+        [HttpGet("employeesFile")]
+        public async Task<FileStreamResult> ExportEmployees(CancellationToken cancellationToken)
+        {
+            // query data from database  
+            await Task.Yield();
+            
+            //var columnNames = new List<string>();
+            var propNames = new List<string>();
+            var headersName = new List<string>();
+            var columnWidth = new List<int>();
+
+            var props = typeof(EmployeeExport).GetProperties();
+
+            foreach (var prop in props)
+            {
+                propNames.Add(prop.Name);
+
+                var attrs = prop.GetCustomAttributes(false);
+
+                if(attrs.Length > 0)
+                {
+                    var attr = attrs[0] as MISAColumnNameVN;
+                    headersName.Add(attr.Name);
+                    columnWidth.Add(attr.Width);
+                }
+            }
+
+            var procName = "Proc_GetExportEmployeeData";
+
+            var list = _employeeRepository.Get(procName);
+            var stream = new MemoryStream();
+
+            using (var package = new ExcelPackage(stream))
+            {
+                var workSheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                var countColHeader = headersName.Count;
+
+                workSheet.Cells[1, 1].Value = "DANH SÁCH NHÂN VIÊN";
+                workSheet.Cells[1, 1, 1, countColHeader].Merge = true;
+                workSheet.Cells[2, 1, 2, countColHeader].Merge = true;
+                workSheet.Cells[1, 1, 1, countColHeader].Style.Font.Bold = true;
+                workSheet.Cells[1, 1, 1, countColHeader].Style.Font.Size = 16;
+                workSheet.Cells[1, 1, 1, countColHeader].Style.Font.Name = "Arial";
+                workSheet.Cells[1, 1, 1, countColHeader].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+                workSheet.Row(1).Height = 20;
+                workSheet.Row(2).Height = 20;
+                workSheet.View.FreezePanes(4, 0);
+
+                // write các header
+                for (int i = 0; i < headersName.Count; i++)
+                {
+                    var cell = workSheet.Cells[3, i + 1];
+                    cell.Value = headersName[i];
+
+                    // set border style
+                    var cellBorder = cell.Style.Border;
+                    cellBorder.Top.Style = 
+                    cellBorder.Bottom.Style = 
+                    cellBorder.Left.Style = 
+                    cellBorder.Right.Style = ExcelBorderStyle.Thin;
+
+                    // background color
+                    var cellFill = cell.Style.Fill;
+                    cellFill.PatternType = ExcelFillStyle.Solid;
+                    cellFill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
+
+                    // font style
+                    cell.Style.Font.Size = 10;
+                    cell.Style.Font.Bold = true;
+                    cell.Style.Font.Name = "Arial";
+
+                    workSheet.Column(i+1).Width = columnWidth[i];
+                }
+
+                for (int col = 0; col < headersName.Count; col++)
+                {
+                    for (int row = 0; row < list.Count; row++)
+                    {
+                        workSheet.Row(row + 4).Height = 15;
+                        var cell = workSheet.Cells[row + 4, col + 1];
+                        cell.Value = typeof(EmployeeExport).GetProperty(propNames[col]).GetValue(list[row]);
+
+                        // set border style
+                        var cellBorder = cell.Style.Border;
+                        cellBorder.Top.Style =
+                        cellBorder.Bottom.Style =
+                        cellBorder.Left.Style =
+                        cellBorder.Right.Style = ExcelBorderStyle.Thin;
+
+                        // font style
+                        cell.Style.Font.Size = 11;
+                        cell.Style.Font.Bold = false;
+                        cell.Style.Font.Name = "Times New Roman";
+                    }
+                }
+
+                package.Save();
+            }
+            stream.Position = 0;
+            string excelName = $"Danh_sach_nhan_vien-{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.xlsx";
+
+            //return File(stream, "application/octet-stream", excelName);  
+            return new FileStreamResult(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                FileDownloadName = excelName
+            };
+        }
         #endregion
 
     }

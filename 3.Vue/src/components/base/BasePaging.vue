@@ -5,16 +5,15 @@
     </div>
     <div class="navigator-center"></div>
     <div class="navigator-right">
-      <Dropdown
+      <Combobox
       :mode="1"
         :data="pageSizeDropData"
         :type="'PageSize'"
         class="drop-number-of-row"
         :typeDataKey="'PageSizeName'"
-        :initValue="pageSizeDropData[0].PageSizeName"
+        v-model="pageSizeComboboxValue"
         @itemChange="pageSizeChange"
-      ></Dropdown>
-      <!-- <div class="button-firstpage button-navigator" @click="first"></div> -->
+      ></Combobox>
       <div
         class="button-prev-page button-navigator"
         :class="{ disable: current == 1 }"
@@ -59,18 +58,17 @@
         </div>
       </div>
       <div class="button-next-page button-navigator" :class="{disable: current == allPage}" @click="next">Sau</div>
-      <!-- <div class="button-lastpage button-navigator" @click="last"></div> -->
     </div>
   </div>
 </template>
 
 <script>
-import Dropdown from "./BaseCombobox.vue";
+import Combobox from "./BaseCombobox.vue";
 
 export default {
   name: "PagingBar",
   components: {
-    Dropdown,
+    Combobox,
   },
   props: {
     pageNumber: {
@@ -122,6 +120,7 @@ export default {
       allPage: 1,
       isShowFirst: false,
       isShowLast: true,
+      pageSizeComboboxValue: ''
     };
   },
   mounted() {
@@ -129,7 +128,9 @@ export default {
     this.current = this.pageNumber + 1;
     this.allPage = this.totalPage;
   },
-  created() {},
+  created() {
+    this.pageSizeComboboxValue = this.pageSizeDropData[1].PageSizeName;
+  },
   watch: {
     totalPage: function (tp) {
       this.allPage = tp;
@@ -165,7 +166,6 @@ export default {
         ? 1
         : this.current - 1 - Math.max(0, 1 - this.allPage + this.current);
     },
-
     // isShowFirsts: function(){
     //   if(this.isShowFirst || this.current > 3)
     // },
@@ -181,6 +181,7 @@ export default {
       this.isShowFirst = !this.isShowFirst;
       this.isShowLast = !this.isShowLast;
     },
+
     /**
      * Handle khi có thay đổi trong dropdown chọn kích thước trang
      */
@@ -188,6 +189,7 @@ export default {
     // ModifiedBy: HungNguyen81 (18-08-2021)
     pageSizeChange(type, data) {
       this.pSize = data.Size;
+      this.pageSizeComboboxValue = data.PageSizeName;
       this.$emit("pageSizeChange", this.pSize);
       document.getElementById('table-view').style.height = `${this.pSize * 48 + 34 + 56}px`;
     },

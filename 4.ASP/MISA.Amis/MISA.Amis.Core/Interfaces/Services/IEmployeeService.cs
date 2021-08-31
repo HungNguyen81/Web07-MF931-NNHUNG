@@ -1,6 +1,7 @@
 ﻿using MISA.Amis.Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace MISA.Amis.Core.Interfaces.Services
 {
@@ -22,5 +23,7 @@ namespace MISA.Amis.Core.Interfaces.Services
         /// </summary>
         /// <returns></returns>
         ServiceResult GetNewCode();
+
+        Stream GetEmployeesExcelFileStream(Stream stream);
     }
 }

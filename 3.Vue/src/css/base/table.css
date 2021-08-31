@@ -28,8 +28,8 @@ th {
     white-space: nowrap;
     overflow-x: hidden;
     text-overflow: ellipsis;
-    background-color: rgb(236,238,241);
-    box-sizing: border-box;
+    background-color: rgb(236, 238, 241);
+    /* box-sizing: border-box; */
 }
 
 tbody tr td {
@@ -37,7 +37,8 @@ tbody tr td {
     cursor: pointer;
 }
 
-th, td{
+th,
+td {
     box-sizing: border-box;
     border-left: 1px dotted #c7c7c7;
     border-bottom: 1px solid #c7c7c7;
@@ -69,6 +70,41 @@ tbody td {
     white-space: nowrap;
 }
 
+table.loading tr td{
+    background-color: #fff !important;
+}
+table.loading td span {
+    display: inline-block !important;
+    height: 20px;
+    width: calc(100% - 10px);
+    background: linear-gradient(to right, #eee 20%, #ddd 50%, #eee 80%);
+    background-size: 500px 100px;
+    animation-name: moving-gradient;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards; 
+    border-radius: 6px;
+    color: transparent !important;
+}
+table.loading td span *{
+    visibility: hidden;
+}
+
+table.loading {
+    pointer-events: none;
+}
+
+@keyframes moving-gradient {
+    0% {
+        background-position: -250px 0;
+    }
+
+    100% {
+        background-position: 250px 0;
+    }
+}
+
 table tbody {
     margin-top: 0;
     padding: 0;
@@ -76,7 +112,7 @@ table tbody {
     position: absolute;
 }
 
-table thead{
+table thead {
     display: table;
     position: sticky;
     table-layout: fixed;
@@ -90,6 +126,7 @@ table tbody tr {
     table-layout: fixed;
     display: table;
 }
+
 /* TABLE EMPLOYEE */
 
 /* Delete checkbox */
@@ -97,16 +134,17 @@ table tbody tr {
 .table-employee th:nth-child(1) {
     width: 20px;
     background-color: #fff !important;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     position: sticky;
     left: 0;
     border-color: #fff;
 }
+
 .table-employee tbody td:last-child,
 .table-employee th:last-child {
     width: 30px;
     background-color: #fff;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     position: sticky;
     border-right: 1px solid #fff;
     border-color: #fff;
@@ -126,10 +164,10 @@ table tbody tr {
 /* Employee ID */
 .table-employee tbody td:nth-child(3),
 .table-employee th:nth-child(3) {
-    width: 150px ;
-    position: sticky;
+    width: 150px;
+    /* position: sticky;
     left: 60px;
-    background-color: #fff;
+    background-color: #fff; */
 }
 
 /* Full name */
@@ -137,15 +175,16 @@ table tbody tr {
 .table-employee th:nth-child(4) {
     width: 250px;
     position: sticky;
-    left: 210px;
+    /* left: 210px; */
+    left: 60px;
     background-color: #fff;
     border-right: 1px dotted #bababa;
 }
 
 .table-employee th:nth-child(2),
 .table-employee th:nth-child(3),
-.table-employee th:nth-child(4){
-    background-color: rgb(236,238,241);
+.table-employee th:nth-child(4) {
+    background-color: rgb(236, 238, 241);
 }
 
 
@@ -162,7 +201,7 @@ table tbody tr {
     text-align: center;
     padding-left: 10px;
     padding-right: 10px;
-    width: 120px;
+    width: 150px;
 }
 
 /* Phone number */
@@ -208,6 +247,7 @@ table tbody tr {
 .table-employee th:nth-child(12) {
     width: 200px;
 }
+
 .table-employee tbody td:nth-child(13),
 .table-employee th:nth-child(13) {
     width: 120px;
@@ -217,18 +257,19 @@ table tbody tr {
     padding-left: 0;
     background-color: #fff;
 }
-.table-employee th:nth-child(13){
+
+.table-employee th:nth-child(13) {
     background-color: #ECEEF1;
 }
 
 
-.tools{
+.tools {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.update-btn{
+.update-btn {
     color: #0075C0;
     font-weight: 600;
     width: fit-content;
@@ -237,11 +278,13 @@ table tbody tr {
     margin-left: 25px;
     /* box-sizing: border-box; */
 }
+
 .update-btn:hover,
 .more-action-btn:hover {
     border: 1px solid #0075C0;
 }
-.more-action-btn{
+
+.more-action-btn {
     height: 16px;
     width: 25px;
     display: inline-block;
@@ -251,17 +294,19 @@ table tbody tr {
     background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -892px -360px;
 }
 
-#drop-options{
+#drop-options {
     position: fixed;
     top: 0;
     left: 0;
     width: 120px;
     visibility: hidden;
 }
-#drop-options .dropdown-item{
+
+#drop-options .dropdown-item {
     height: 30px;
     line-height: 30px;
 }
-#drop-options .item-text{
+
+#drop-options .item-text {
     white-space: nowrap;
 }

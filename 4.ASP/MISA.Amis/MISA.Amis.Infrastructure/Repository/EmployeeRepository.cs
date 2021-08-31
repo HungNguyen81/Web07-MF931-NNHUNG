@@ -57,6 +57,7 @@ namespace MISA.Amis.Infrastructure.Repository
             };
         }
 
+
         /// <summary>
         /// Lấy mã mới
         /// </summary>
@@ -74,15 +75,27 @@ namespace MISA.Amis.Infrastructure.Repository
             {
                 employeeNumber = int.Parse(employeeCode.Split("NV-")[1]);
                 employeeNumber++;
-                newEmployeeCode = $"NV-{employeeNumber.ToString().PadLeft(5, '0')}";
+                newEmployeeCode = $"NV-{employeeNumber.ToString().PadLeft(4, '0')}";
             } 
             else
             {
-                newEmployeeCode = "NV-00001";
+                newEmployeeCode = "NV-0001";
             }
             _dbConnection.Close();
 
             return newEmployeeCode;
+        }
+
+
+        public List<EmployeeExport> Get(string proc)
+        {
+
+            _dbConnection.Open();
+
+            var res = (List<EmployeeExport>)_dbConnection.Query<EmployeeExport>(proc, param: new DynamicParameters(), commandType: CommandType.StoredProcedure);
+
+            _dbConnection.Close();
+            return res;
         }
 
         #endregion

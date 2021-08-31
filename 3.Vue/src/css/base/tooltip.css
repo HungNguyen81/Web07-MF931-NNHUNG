@@ -16,11 +16,11 @@
     border-radius: 6px;
     padding: 10px;
     position: absolute;
-    /* z-index: 1; */
-    /* bottom: 150%;
-    left: 50%; */
     margin-left: 4px;
-    transform: translate(0, -20px);
+    transform: translate(-4px, -20px);
+}
+.combobox-tooltip .tooltip-text {
+    transform: translate(-5px, -40px);
 }
 
 .tooltip .tooltip-text::after {

@@ -14,6 +14,7 @@
       v-bind:value="value"
       v-on="inputListeners"
       :tabindex="tabindex"
+      @keydown="onInput"
     />
   </div>
 </template>
@@ -54,6 +55,11 @@ export default {
       type: Boolean,
       require: false,
     },
+    pattern:{
+      type: RegExp,
+      require: false
+    },
+    
   },
   data() {
     return {
@@ -104,19 +110,34 @@ export default {
     inputValidate() {
       if (this.validates) {
         let res = true;
+        let msg = "";
         for (let func of this.validates) {
           let valid = func(this.label, this.value);
           res = res && valid.isValid;
-          this.invalidTooltip = valid.msg;
+          msg = this.invalidTooltip = valid.msg;
           if (!res) break;
         }
         this.isValidate = res;
 
         this.$emit("valid", this.inputKey, res);
+        return {
+          IsValid : res,
+          Msg: msg
+        };
       } else {
         console.log("NO validations");
+        return {
+          IsValid: true
+        };
       }
     },
+    onInput(e){
+      if(!this.pattern) return;
+      if(!/^(Tab)|^(Backspace)|^(Shift)|^(Home)|^(End)|^(Arrow)/.test(e.key)
+      && !this.pattern.test(e.key)){
+        e.preventDefault();
+      }
+    }
   },
 };
 </script>

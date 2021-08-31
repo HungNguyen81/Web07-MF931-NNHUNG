@@ -1,21 +1,21 @@
 <template>
   <div class="combobox-container" v-if="isDataLoaded">
-    <div class="combobox" ref="combobox">
+    <div class="combobox tooltip combobox-tooltip" ref="combobox">
       <input
         spellcheck="false"
         type="text"
-        :class="['combobox-input', 'textbox-default']"
+        :class="['combobox-input', 'textbox-default', { invalid: !isValidate }]"
         :tabindex="tabindex"
+        @input="comboboxInput()"
+        @focus="comboboxInput()"
+        @blur="inputValidate()"
+        @keyup="handleKeyPress($event)"
+        v-bind:value="value"
+        v-on="inputListeners"
         ref="comboboxInput"
-        @input="comboboxInput"
-        @focus="comboboxInput"
-        @keyup="handleKeyPress"
-        v-model="value"
       />
-      <!-- <div :class="['x-icon', { hide: isEmptyVal }]" @click="emptyInput">
-        <i class="fas fa-times"></i>
-      </div> -->
-      <div class="combobox-icon-container" @click="toggleDropList">
+      <span class="tooltip-text" v-if="!isValidate">{{ invalidTooltip }}</span>
+      <div class="combobox-icon-container" @click="toggleDropList()">
         <div class="combobox-icon"></div>
       </div>
     </div>
@@ -32,7 +32,6 @@
         :key="index"
         @click="itemSelect(item, index)"
       >
-        <!-- <i class="fas fa-check item-icon"></i> -->
         <div class="item-text">{{ item[typeDataKey] }}</div>
       </div>
     </div>
@@ -47,8 +46,6 @@ export default {
   name: "Combobox",
   components: {},
   // type: Position, Department,
-  // mode: 1- add "Tat ca ...", 0/null- normal
-  // props: ["type", "api", "mode"],
   props: {
     type: {
       type: String,
@@ -72,19 +69,28 @@ export default {
       type: Array,
       required: false,
     },
-    initValue: {
-      type: String,
-      require: false,
-    },
+    // initValue: {
+    //   type: String,
+    //   require: false,
+    // },
     tabindex: {
       type: Number,
       required: false,
+    },
+    // mảng các hàm validate áp dụng lên input
+    validates: {
+      type: Array,
+    },
+    label: {
+      type: String,
+    },
+    value: {
+      type: String,
     },
   },
   mixins: [utils],
   data() {
     return {
-      value: "",
       current: 0,
       // Ẩn hiện drop list
       isHide: true,
@@ -96,9 +102,11 @@ export default {
         Department: "phòng ban",
         CustomerGroup: "nhóm khách hàng",
         PageSize: "Kích thước trang",
-        Unit: "Đơn vị"
+        Unit: "Đơn vị",
       },
       isEmptyVal: true,
+      isValidate: true,
+      invalidTooltip: "",
     };
   },
   created() {
@@ -126,13 +134,14 @@ export default {
           }));
 
           this.isDataLoaded = true;
-          if (this.initValue) {
-            this.value = this.initValue;
-            this.data.forEach((e, i) => {
-              if (e[this.typeDataKey] == this.initValue) {
-                this.current = i;
-              }
-            });
+          if (this.value) {
+            if (this.data) {
+              this.data.forEach((e, i) => {
+                if (e[this.typeDataKey] == this.value) {
+                  this.current = i;
+                }
+              });
+            }
           }
         })
         .catch((err) => {
@@ -153,14 +162,14 @@ export default {
       }));
 
       this.isDataLoaded = true;
-      if (this.initValue) {
-        this.value = this.initValue;
-        this.data.forEach((e, i) => {
-          if (e[this.typeDataKey] == this.initValue) {
-            this.current = i;
-          }
-        });
-      }
+      // if (this.initValue) {
+      //   this.value = this.initValue;
+      //   this.data.forEach((e, i) => {
+      //     if (e[this.typeDataKey] == this.initValue) {
+      //       this.current = i;
+      //     }
+      //   });
+      // }
     }
   },
   mounted() {
@@ -173,6 +182,22 @@ export default {
     });
   },
   computed: {
+    inputListeners: function () {
+      var vm = this;
+      return Object.assign(
+        {},
+        // We add all the listeners from the parent
+        this.$listeners,
+        // Then we can add custom listeners or override the
+        // behavior of some listeners.
+        {
+          // This ensures that the component works with v-model
+          input: function (event) {
+            vm.$emit("input", event.target.value);
+          },
+        }
+      );
+    },
     /**
      * Compute class cho combobox
      */
@@ -184,7 +209,7 @@ export default {
   watch: {
     // giá trị hiển thị trên input
     value: function () {
-      this.isEmptyVal = !(this.value || this.value.trim());
+      this.isEmptyVal = !(this.value || (this.value && this.value.trim()));
       if (this.isEmptyVal) {
         this.current = -1;
         this.items = this.items.map((e) => ({
@@ -196,7 +221,7 @@ export default {
     // chỉ số của item hiện tại
     current: function (c) {
       if (c < 0) return;
-      this.value = this.items[c][this.typeDataKey];
+      // this.value = this.items[c][this.typeDataKey];
 
       if (c >= 3) {
         this.$refs.dropList.scrollTop = 40 * (c - 3);
@@ -207,17 +232,35 @@ export default {
   },
   methods: {
     /**
-     * handle khi click chọn 1 item trong list dropdown
-     * CreatedBy: HungNguyen81 (07-2021)
+     * Kiểm tra tính hợp lệ bằng cách gọi lần lượt các hàm validate truyền vào từ props
+     * CreatedBy: HungNguyen81 (30-08-2021)
      */
-    // itemClicked() {
-    //   this.isHide = true;
-    //   this.$emit(
-    //     "filterActive",
-    //     this.type,
-    //     this.items[this.current][this.type + "Id"]
-    //   );
-    // },
+    inputValidate() {
+      console.log("VALIDATE");
+      if (this.validates) {
+        let res = true;
+        let msg = "";
+        for (let func of this.validates) {
+          let valid = func(this.label, this.value);
+          res = res && valid.isValid;
+          msg = this.invalidTooltip = valid.msg;
+          if (!res) break;
+        }
+        this.isValidate = res;
+
+        this.$emit("valid", this.typeDataKey, res);
+        return {
+          IsValid: res,
+          Msg: msg,
+        };
+      } else {
+        console.log("NO validations");
+        return {
+          IsValid: true,
+        };
+      }
+    },
+
     /**
      * Handle khi click chọn item
      * CreatedBy: HungNguyen81 (07-2021)
@@ -226,7 +269,8 @@ export default {
       this.current = index;
       this.isHide = true;
       this.$emit("itemChange", this.typeDataKey, item);
-      this.$refs.combobox.focus();
+      this.isValidate = true;
+      this.$refs.comboboxInput.focus();
     },
 
     /**
@@ -256,7 +300,7 @@ export default {
         } while (this.items[this.current].Hidden == true);
       } else if (event.code == "Enter") {
         this.isHide = true;
-        this.value = this.items[this.current][this.typeDataKey];
+        // this.value = this.items[this.current][this.typeDataKey];
         // this.$emit(
         //   "filterActive",
         //   this.type,
@@ -293,7 +337,7 @@ export default {
     },
 
     emptyInput() {
-      this.value = "";
+      // this.value = "";
       this.items = this.items.map((e) => ({
         ...e,
         Hidden: false,
@@ -302,17 +346,22 @@ export default {
       this.$refs.comboboxInput.focus();
       this.$emit("filterActive", this.type, "");
     },
+
     showAllItems() {
       this.items = this.items.map((e) => ({
         ...e,
         Hidden: false,
       }));
     },
+
     toggleDropList() {
       this.isHide = !this.isHide;
       if (!this.isHide) {
         this.showAllItems();
       }
+      // this.$nextTick(() => {
+      //   this.$refs.comboboxInput.focus();
+      // });
     },
   },
 };
@@ -321,4 +370,5 @@ export default {
 <style scoped>
 @import "../../css/base/text-box.css";
 @import "../../css/base/combobox.css";
+@import "../../css/base/tooltip.css";
 </style>

@@ -23,6 +23,8 @@ namespace MISA.Amis.Core.Interfaces.Repositiories
         /// </summary>
         /// <returns></returns>
         string GetNewCode();
-       
+
+        List<EmployeeExport> Get(string proc);
+
     }
 }

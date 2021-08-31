@@ -88,6 +88,20 @@ export default {
                 isValid : true,
                 msg: ""
             };
+        },
+        dateNotExceedToday(label, dateString){
+            let valid = this.date(label, dateString)
+            if(valid.isValid){
+                var today = new Date();
+                var dateVal = new Date(dateString);
+                if(dateVal > today) return {
+                    isValid: false,
+                    msg: `${label} không được vượt quá ngày hiện tại !`
+                }
+                else return {isValid: true, msg: ''};
+            } else {
+                return valid;
+            }
         }
     }
 }

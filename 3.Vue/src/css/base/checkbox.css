@@ -45,15 +45,12 @@
 }
 
 @keyframes checkboxRotate {
-    0% {
-        transform: rotate(0deg) translate(0, 3px);
+    0% {    
+        transform: rotate(-120deg) translate(0, 3px);
+        opacity: 0;
     }
-
-    50% {
-        transform: rotate(30deg) translate(0, 3px);
-    }
-
     100% {
         transform: rotate(0deg) translate(0, 3px);
+        opacity: 1;
     }
 }

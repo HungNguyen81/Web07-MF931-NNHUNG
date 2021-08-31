@@ -1,6 +1,6 @@
 <template>
   <div class="content-table" id="table-view">
-    <table :class="'table-' + [type.toLowerCase()]">
+    <table :class="['table-' + type.toLowerCase(), {loading : isLoading}]">
       <thead>
         <tr>
           <th></th>
@@ -21,7 +21,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="(e, index) in employees"
+          v-for="(e, index) in isLoading? loadingRows : employees"
           :key="index"
           @dblclick="
             $emit(
@@ -42,20 +42,15 @@
             </span>
           </td>
           <td :title="e[cell]" v-for="(cell, k) in dataMap" :key="k">
-            <span v-if="cell == 'Salary'">
-              {{ formatMoneyString(e[cell]) }}</span
-            >
-            <span v-else-if="cell == 'DateOfBirth'">
+            
+            <span v-if="cell == 'DateOfBirth'">
               {{ dateFormatVer2(e[cell], "dd/mm/yyyy") }}</span
-            >
-            <span v-else-if="cell == 'WorkStatus'">
-              {{ workStatusCode2Text(e[cell]) }}</span
             >
             <span v-else> {{ e[cell] }} </span>
           </td>
           <td @dblclick.stop="">
             <div class="tools">
-              <div
+              <span
                 class="update-btn"
                 @click.stop="
                   $emit(
@@ -67,8 +62,8 @@
                 "
               >
                 Sửa
-              </div>
-              <div class="more-action-btn" @click.stop="moreAction($event, e)"></div>
+              </span>
+              <span class="more-action-btn" @click.stop="moreAction($event, e)"></span>
             </div>
           </td>
           <td @dblclick.stop=""></td>
@@ -120,6 +115,10 @@ export default {
       type: String,
       require: false,
     },
+    loading:{
+      type: Boolean,
+      required: false
+    }
   },
   data() {
     return {
@@ -130,6 +129,8 @@ export default {
         Employee: "Nhân Viên",
         Customer: "Khách Hàng",
       },
+      loadingRows: [{},{},{}],
+      isLoading: false
     };
   },
   updated: function () {
@@ -169,6 +170,9 @@ export default {
       this.buildTableContent();
       this.hideMoreActionDrop();
     },
+    loading: function(val){
+      this.isLoading = val;
+    }
   },
   methods: {
     moreAction(event, data) {
@@ -227,11 +231,14 @@ export default {
      * @ CreatedBy: HungNguyen81 (18-08-2021)
      */
     buildTableContent() {
-      console.log("api", this.$config.BASE_API);
+      // console.log("api", this.$config.BASE_API);
+      this.isLoading = true;
+
       if (this.api) {
         axios
           .get(this.api)
           .then((res) => {
+            this.isLoading = false;
             this.employees = res.data.Data;
             if (this.employees) {
               this.$emit("dataLoaded");
@@ -255,6 +262,7 @@ export default {
             }
           })
           .catch((err) => {
+            this.isLoading = false;
             console.log(err);
             this.$emit("dataLoaded");
             this.$emit(

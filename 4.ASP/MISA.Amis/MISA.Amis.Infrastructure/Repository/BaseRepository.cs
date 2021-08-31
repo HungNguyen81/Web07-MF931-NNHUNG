@@ -56,6 +56,8 @@ namespace MISA.Amis.Infrastructure.Repository
             return res;
         }
 
+        
+
         /// <summary>
         /// Lấy theo Id
         /// </summary>
@@ -65,11 +67,6 @@ namespace MISA.Amis.Infrastructure.Repository
         public virtual MISAEntity GetById(Guid entityId)
         //:                                       ^ id của nv/kh
         {
-            //var sqlQuery = $"SELECT e.*, CASE " +
-            //    $"WHEN e.Gender=0 THEN 'Nữ' " +
-            //    $"WHEN e.Gender=1 THEN 'Nam' " +
-            //    $"ELSE 'Không xác định' " +
-            //    $"END as GenderName FROM {_entityName} e WHERE e.{_entityName}Id = @entityId";
             var procName = $"Proc_Get{_entityName}ById";
             var parameters = new DynamicParameters();
 
