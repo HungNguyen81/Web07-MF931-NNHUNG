@@ -49,14 +49,14 @@ export default {
                 date = new Date(data);
             }
             let dd = this.zeroPad(date.getDate(), 2);
-            let MM = this.zeroPad(date.getMonth() + 1, 2);
+            let mM = this.zeroPad(date.getMonth() + 1, 2);
             let yyyy = this.zeroPad(date.getFullYear(), 4);
             let hh = this.zeroPad(date.getHours(), 2);
             let mm = this.zeroPad(date.getMinutes(), 2);
             let ss = this.zeroPad(date.getSeconds(), 2);
 
             formatString = formatString.replace('dd', dd);
-            formatString = formatString.replace('MM', MM);
+            formatString = formatString.replace('MM', mM);
             formatString = formatString.replace('yyyy', yyyy);
             formatString = formatString.replace('hh', hh);
             formatString = formatString.replace('mm', mm);

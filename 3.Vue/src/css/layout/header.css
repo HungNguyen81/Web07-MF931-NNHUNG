@@ -115,3 +115,45 @@
     z-index: 6;
     width: 180px;
 }
+
+
+.header.collapse .header-left{
+    display: none;
+}
+
+.header.collapse .collapse-btn {
+    margin-right: 18px;
+    background: url(/img/Sprites.64af8f61.64af8f61.svg) no-repeat -299px -20px;
+    height: 49px;
+    background-color: rgb(57,58,61);
+    margin: 0;
+    width: 50px;
+    animation: rotateCollapse 0.5s linear;
+}
+
+@keyframes rotateCollapse {
+    0%{
+        background-color: transparent;
+        filter: brightness(1.2);
+    }
+    50%{
+        background-color: transparent; 
+        filter: brightness(0.9);       
+    }
+    75%{
+        background-color: transparent; 
+        filter: brightness(1.1);
+    }
+    100%{
+        background-color: rgb(57,58,61);
+        filter: brightness(1);
+    }
+}
+
+.header.collapse .header-right {
+    width: 100vw;
+    height: 49px;
+    left: 225px;
+    display: flex;
+    align-items: center;
+}

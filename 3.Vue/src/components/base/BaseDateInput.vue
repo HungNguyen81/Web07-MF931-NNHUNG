@@ -107,7 +107,7 @@ export default {
     },
     maxDateValue: function(){
       if(this.maxDate) return this.maxDate;
-      return this.dateFormatVer2(new Date(), 'yyyy-mm-dd');
+      return this.dateFormatVer2(new Date(), 'yyyy-MM-dd');
     }
   },
   watch: {
@@ -126,11 +126,8 @@ export default {
         this.formatedValue = null;
         return;
       }
-      let data = val.split("-");
-      let yyyy = this.zeroPad(data[0], 4);
-      let mm = this.zeroPad(data[1], 2);
-      let dd = this.zeroPad(data[2], 2);
-      this.formatedValue = `${dd}/${mm}/${yyyy}`;
+      
+      this.formatedValue = this.dateFormatVer2(val, "dd/MM/yyyy");
     },
     
     /**
@@ -179,7 +176,7 @@ export default {
       if (this.validates) {
         let res = true;
         for (let func of this.validates) {
-          let valid = func(this.label, this.formatedValue);
+          let valid = func(this.label, this.value);
           res = res && valid.isValid;
           this.invalidTooltip = valid.msg;
           if (!res) break;
@@ -200,7 +197,7 @@ export default {
     },
 
     /**
-     * Không cho phép nhập kí tự khác kí tự số và dấu "/"
+     * Không cho phép nhập kí tự ngoài kí tự số và dấu "/"
      * CreatedBy: HungNguyen81 (23-08-2021)
      */
     onInput(e){

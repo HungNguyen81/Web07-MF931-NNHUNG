@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="header-right">
-      <div class="collapse-btn"></div>
+      <div class="collapse-btn" @click="collapse"></div>
       <div class="company-label">
         CÔNG TY TNHH SẢN XUẤT - THƯƠNG MẠI - DỊCH VỤ QUI PHÚC
       </div>
@@ -29,6 +29,12 @@
 export default {
   name: "Header",
   components: {},
+  props:{
+    collapse:{
+      type: Function,
+      require: false
+    }
+  },
   data() {
     return {
       isHide: true,

@@ -8,8 +8,13 @@
       :class="['form-container', { open: isOpen, close: !isOpen }]"
       id="form-container"
       @click.stop="formClick"
+      ref="draggableContainer" 
     >
-      <div class="form-header" id="form-container-header">
+      <div
+        class="form-header"
+        id="form-container-header"
+        @mousedown="this.dragMouseDown"
+      >
         <div class="title-header">
           <div class="form-title">Thông tin nhân viên</div>
           <div class="options">
@@ -98,6 +103,7 @@
                   ref="unitName"
                   @valid="validateForm"
                   v-model="detail.UnitName"
+                  :rerenderFlag="isRerender"
                 >
                 </Combobox>
               </div>
@@ -287,7 +293,11 @@
           :value="'Hủy'"
           class="form-btn"
           :type="'cancel-btn'"
-          :onclick="() => {closeForm(isChange)}"
+          :onclick="
+            () => {
+              closeForm(isChange);
+            }
+          "
           :disable="isDisableSaveButton"
           tabindex="17"
         ></BaseButtonIcon>
@@ -318,6 +328,9 @@
           ></BaseButtonIcon>
         </div>
       </div>
+      <div id="loader" class="spinner-wrapper" :class="{ hidden: !isLoading }">
+        <div class="spinner"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -328,7 +341,6 @@ import axios from "axios";
 import ultis from "../../mixins/ultis";
 import validate from "../../mixins/validate";
 import BaseButtonIcon from "../base/BaseButtonIcon.vue";
-// import BaseDropdown from "../base/BaseDropdown.vue";
 import BaseTextInput from "../base/BaseTextInput.vue";
 import BaseDateInput from "../base/BaseDateInput.vue";
 import Combobox from "../base/BaseCombobox.vue";
@@ -343,7 +355,6 @@ export default {
   name: "Form",
   components: {
     BaseButtonIcon,
-    // BaseDropdown,
     BaseTextInput,
     BaseDateInput,
     Combobox,
@@ -408,7 +419,14 @@ export default {
         "date-of-birth": "Ngày sinh",
         "identity-date": "Ngày cấp",
       },
-      dateInputFormat: "yyyy-mm-dd",
+      dateInputFormat: "yyyy-MM-dd",
+      isLoading: false,
+      positions: {
+        clientX: undefined,
+        clientY: undefined,
+        movementX: 0,
+        movementY: 0,
+      },
     };
   },
   mounted() {},
@@ -428,17 +446,14 @@ export default {
      * CreatedBy: HungNguyen81 (07-2021)
      */
     isOpen: function (val) {
-      this.$nextTick(() => {
-        // tự động focus vào ô mã nv
-        if (val) this.$refs.employeeCode.$el.children[1].focus();
-
-        // khởi tạo các giá trị ban đầu => so sánh khi đóng form
-        if (this.mode == this.$config.FORM_ADD || this.mode == this.$config.FORM_CLONE) {
-          this.initDetail = Object.assign({}, initObject);
-          this.detail = Object.assign({}, initObject);
-        }
-        this.isDisableSaveButton = false;
-      });
+      // khởi tạo các giá trị ban đầu => so sánh khi đóng form
+      if (
+        this.mode == this.$config.FORM_ADD ||
+        this.mode == this.$config.FORM_CLONE
+      ) {
+        this.initDetail = Object.assign({}, initObject);
+        this.detail = Object.assign({}, initObject);
+      }
 
       this.isDataLoaded = false;
       this.isRerender = !this.isRerender;
@@ -446,12 +461,8 @@ export default {
       console.log("form " + (val ? "open" : "close"), this.mode);
 
       if (this.isOpen) {
-        console.log(
-          "open",
-          this.mode,
-          this.detailId,
-          `${this.$config.BASE_API}/Employees/${this.detailId}`
-        );
+        this.$refs.draggableContainer.style.top = '50px'
+        this.$refs.draggableContainer.style.left = '50%'
 
         // Nếu mode là FORM_UPDATE: sửa nv
         if (this.mode == this.$config.FORM_UPDATE && this.detailId) {
@@ -465,9 +476,19 @@ export default {
         }
       }
     },
+    isLoading: function (state) {
+      if (!state) {
+        this.$nextTick(() => {
+          if (this.isOpen) this.$refs.employeeCode.$el.children[1].focus();
+        });
+      }
+    },
   },
   methods: {
-    closeForm(isChange) {
+    closeForm(isChange, event) {
+      if (this.isLoading) {
+        event.preventDefault();
+      }
       this.close(isChange, this.mode, this.detailId, this.getRawData());
     },
 
@@ -475,7 +496,12 @@ export default {
       EventBus.$emit("appClick", event.target);
     },
 
+    /**
+     * Khởi tạo data cho form với mode = FORM_UPDATE
+     * CreatedBy: HungNguyen81 (30-08-2021)
+     */
     generateUpdateForm: function (callback) {
+      this.isLoading = true;
       axios
         .get(`${this.$config.BASE_API}/Employees/${this.detailId}`)
         .then((res) => {
@@ -495,21 +521,37 @@ export default {
 
           this.initDetail = Object.assign({}, this.detail);
           this.isDataLoaded = true;
+          this.isLoading = false;
 
-          if(callback) callback();
+          if (callback) callback();
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          this.$emit(
+            "showToast",
+            "error",
+            "Lỗi",
+            `Có lỗi xảy ra, vui lòng liên hệ MISA !`
+          );
+          this.isLoading = false;
         });
     },
 
+    /**
+     * Khởi tạo form với mode = FORM_ADD
+     * CreatedBy: HungNguyen81 (30-08-2021)
+     */
     generateAddForm: function () {
       this.isDataLoaded = true;
 
       this.getNewCode();
     },
 
+    /**
+     * Lấy mã nv mới từ API
+     * CreatedBy: HungNguyen81 (30-08-2021)
+     */
     getNewCode() {
+      this.isLoading = true;
       axios
         .get(`${this.$config.BASE_API}/Employees/NewEmployeeCode`)
         .then((res) => {
@@ -519,19 +561,20 @@ export default {
             this.$emit(
               "showToast",
               "error",
-              "GET error",
+              "Có lỗi xảy ra",
               `Không thể lấy mã nhân viên mới !`
             );
           }
           this.$set(this.detail, "EmployeeCode", newCode);
 
           this.initDetail = Object.assign({}, this.detail);
+          this.isLoading = false;
         })
         .catch(() => {
           this.$emit(
             "showToast",
             "error",
-            "GET error",
+            "Có lỗi xảy ra",
             `Không thể lấy mã nhân viên mới !`
           );
           let newCode = `NV-${Math.round(Math.random() * 10000)}`;
@@ -539,8 +582,10 @@ export default {
           this.$set(this.detail, "EmployeeCode", newCode);
 
           this.initDetail = Object.assign({}, this.detail);
+          this.isLoading = false;
         });
     },
+
     /**
      * Handle mỗi khi date input value thay đổi
      * CreatedBy: HungNguyen81 (07-2021)
@@ -618,7 +663,9 @@ export default {
      * CreatedBy: HungNguyen81 (07-2021)
      */
     btnSaveClick(isAddNext) {
-      this.isDisableSaveButton = true;
+      // this.isDisableSaveButton = true;
+      this.isLoading = true;
+
       var invalidMsg = "";
       var isInvalid = false;
       for (let ref of this.validateRefs) {
@@ -638,7 +685,8 @@ export default {
           isHide: false,
           buttons: [{ type: "button-ok", callback: null, value: "Đóng" }],
         });
-        this.isDisableSaveButton = false;
+        // this.isDisableSaveButton = false;
+        this.isLoading = false;
         return;
       }
 
@@ -646,27 +694,27 @@ export default {
         this.initDetail = Object.assign({}, initObject);
         this.detail = Object.assign({}, initObject);
         this.getNewCode();
-        this.isDisableSaveButton = false;
-        this.$nextTick(() => {
-          // tự động focus vào ô mã nv
-          this.$refs.employeeCode.$el.children[1].focus();
-        });
+
+        this.isLoading = false;
       };
 
       // nếu thông tin đã thay đổi
       if (this.isChange) {
-        this.isDisableSaveButton = true;
         this.$emit(
           "saveClicked",
           this.mode,
           this.detailId,
           this.getRawData(),
-          isAddNext ? func : ()=>{this.closeForm(false);}
+          isAddNext
+            ? func
+            : () => {
+                this.isLoading = false;
+                this.closeForm(false);
+              }
         );
-        EventBus.$on('requestFail', () =>{
-          this.isDisableSaveButton= false;
-        })
-
+        EventBus.$on("requestFail", () => {
+          this.isLoading = false;
+        });
       } else {
         if (!isAddNext) {
           this.closeForm(false);
@@ -706,6 +754,33 @@ export default {
     validateForm(key, isValid) {
       this.$set(this.validate, key, isValid);
     },
+
+    //#region Tạo Draggable form
+
+    dragMouseDown: function (event) {
+      event.preventDefault()
+      // get the mouse cursor position at startup:
+      this.positions.clientX = event.clientX
+      this.positions.clientY = event.clientY
+      document.onmousemove = this.elementDrag
+      document.onmouseup = this.closeDragElement
+    },
+    elementDrag: function (event) {
+      event.preventDefault()
+      this.positions.movementX = this.positions.clientX - event.clientX
+      this.positions.movementY = this.positions.clientY - event.clientY
+      this.positions.clientX = event.clientX
+      this.positions.clientY = event.clientY
+      // set the element's new position:
+      this.$refs.draggableContainer.style.top = (this.$refs.draggableContainer.offsetTop - this.positions.movementY) + 'px'
+      this.$refs.draggableContainer.style.left = (this.$refs.draggableContainer.offsetLeft - this.positions.movementX) + 'px'
+    },
+    closeDragElement () {
+      document.onmouseup = null
+      document.onmousemove = null
+    }
+
+    //#region 
   },
 };
 </script>
@@ -714,4 +789,5 @@ export default {
 @import "../../css/components/popup-form.css";
 @import "../../css/base/checkbox.css";
 @import "../../css/base/radio.css";
+@import "../../css/base/loader.css";
 </style>

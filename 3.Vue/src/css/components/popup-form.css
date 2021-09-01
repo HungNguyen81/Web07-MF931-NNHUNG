@@ -127,6 +127,10 @@
     margin-left: 5px;
     margin-right: 22px;
 }
+.options .option{
+    display: inline-flex;
+    align-items: center;
+}
 
 .header-btn{
     height: 72px;
@@ -140,6 +144,10 @@
     width: 24px;
     height: 100%;
     margin-left: 3px;
+    cursor: pointer;
+}
+.form-header-btn:hover{
+    transform: scale(1.1);
 }
 
 .help-btn{
@@ -270,10 +278,11 @@
 #unit .combobox-container{
     margin-top: 6px;
     width: 395.5px;
+    box-sizing: border-box;
     margin-bottom: 10px;
 }
 #unit .dropdown-data{
-    width: 393.5px;
+    width: 394px;
 }
 #identity-number{
     width: 245px;

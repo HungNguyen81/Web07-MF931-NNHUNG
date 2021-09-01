@@ -78,7 +78,7 @@ export default {
                     msg: ""
                 };
             }
-            if (!/^(0[1-9]|[12][0-9]|3[01])[-/.](0[1-9]|1[012])[-/.]\d{4}$/g.test(dateString)) {
+            if (!/^([0-9]{4})-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/g.test(dateString)) {
                 return {
                     isValid: false,
                     msg: `"${label}" ${dateString} không đúng định dạng !`

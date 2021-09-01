@@ -6,8 +6,8 @@
         type="text"
         :class="['combobox-input', 'textbox-default', { invalid: !isValidate }]"
         :tabindex="tabindex"
-        @input="comboboxInput()"
-        @focus="comboboxInput()"
+        
+        @focus="handleComboboxInput()"
         @blur="inputValidate()"
         @keyup="handleKeyPress($event)"
         v-bind:value="value"
@@ -87,11 +87,15 @@ export default {
     value: {
       type: String,
     },
+    rerenderFlag: {
+      type: Boolean,
+      require: false
+    }
   },
   mixins: [utils],
   data() {
     return {
-      current: 0,
+      current: -1,
       // Ẩn hiện drop list
       isHide: true,
       isDataLoaded: false,
@@ -164,11 +168,11 @@ export default {
       this.isDataLoaded = true;
       // if (this.initValue) {
       //   this.value = this.initValue;
-      //   this.data.forEach((e, i) => {
-      //     if (e[this.typeDataKey] == this.initValue) {
-      //       this.current = i;
-      //     }
-      //   });
+        this.data.forEach((e, i) => {
+          if (e[this.typeDataKey] == this.value) {
+            this.current = i;
+          }
+        });
       // }
     }
   },
@@ -208,8 +212,8 @@ export default {
   },
   watch: {
     // giá trị hiển thị trên input
-    value: function () {
-      this.isEmptyVal = !(this.value || (this.value && this.value.trim()));
+    value: function (value) {
+      this.isEmptyVal = !(value || (value && value.trim()));
       if (this.isEmptyVal) {
         this.current = -1;
         this.items = this.items.map((e) => ({
@@ -217,7 +221,13 @@ export default {
           Hidden: false,
         }));
       }
+      // this.data.forEach((e, i) => {
+      //     if (e[this.typeDataKey] == value) {
+      //       this.current = i;
+      //     }
+      // });
     },
+    
     // chỉ số của item hiện tại
     current: function (c) {
       if (c < 0) return;
@@ -228,6 +238,13 @@ export default {
       } else if (c == 0) {
         this.$refs.dropList.scrollTop = 0;
       }
+    },
+
+    /**
+     * Tắt border cảnh báo invalid khi mở form (hoặc re-render form)
+     */
+    rerenderFlag: function () {
+      this.isValidate = true;
     },
   },
   methods: {
@@ -279,6 +296,8 @@ export default {
      * ModifiedBy: HungNguyen81 (20-08-2021) <Sửa lại code xử lý khi bấm phím mũi tên>
      */
     handleKeyPress(event) {
+      console.log("keyup");
+
       let maxOffset = this.items.length; //0;
       // for (let item of this.items) {
       //   maxOffset = maxOffset + (item.Hidden ? 0 : 1);
@@ -300,13 +319,9 @@ export default {
         } while (this.items[this.current].Hidden == true);
       } else if (event.code == "Enter") {
         this.isHide = true;
-        // this.value = this.items[this.current][this.typeDataKey];
-        // this.$emit(
-        //   "filterActive",
-        //   this.type,
-        //   this.items[this.current][this.type + "Id"]
-        // );
         this.$emit("itemChange", this.typeDataKey, this.items[this.current]);
+      } else {
+        this.handleComboboxInput()
       }
     },
 
@@ -314,11 +329,14 @@ export default {
      * Handle khi client nhập vào combobox
      * CreatedBy: HungNguyen81 (07-2021)
      */
-    comboboxInput() {
+    handleComboboxInput() {
+      console.log("input", this.value);
       this.isHide = false;
-      // if (!this.value) {
-      //   this.isHide = false;
-      // }
+
+      if (!this.value) {
+        return;
+      }
+
       if (this.items) {
         for (let item of this.items) {
           let comparedString = this.value

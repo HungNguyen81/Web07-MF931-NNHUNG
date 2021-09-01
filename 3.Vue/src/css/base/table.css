@@ -9,7 +9,7 @@
     flex-shrink: 0;
 }
 
-.table-employee,
+table,
 .table-customer {
     height: 100%;
     width: 100%;
@@ -47,14 +47,16 @@ td {
 tbody tr.selected,
 tbody tr.selected td:nth-child(2),
 tbody tr.selected td:nth-child(3),
-tbody tr.selected td:nth-child(4) {
+tbody tr.selected td:nth-child(4),
+tbody tr.selected td:nth-child(19) {
     background-color: #f8f8f8;
 }
 
 tbody tr:hover,
 tbody tr:hover td:nth-child(2),
 tbody tr:hover td:nth-child(3),
-tbody tr:hover td:nth-child(4) {
+tbody tr:hover td:nth-child(4),
+tbody tr:hover td:nth-child(19) {
     background-color: #f3f8f8;
 }
 
@@ -127,21 +129,26 @@ table tbody tr {
     display: table;
 }
 
+/* table th, td{
+    min-width: 120px;
+} */
+
 /* TABLE EMPLOYEE */
 
 /* Delete checkbox */
-.table-employee tbody td:nth-child(1),
-.table-employee th:nth-child(1) {
+table tbody td:nth-child(1),
+table th:nth-child(1) {
     width: 20px;
     background-color: #fff !important;
     /* box-sizing: border-box; */
     position: sticky;
     left: 0;
     border-color: #fff;
+    z-index: 10;
 }
 
-.table-employee tbody td:last-child,
-.table-employee th:last-child {
+table tbody td:last-child,
+table th:last-child {
     width: 30px;
     background-color: #fff;
     /* box-sizing: border-box; */
@@ -149,55 +156,59 @@ table tbody tr {
     border-right: 1px solid #fff;
     border-color: #fff;
     right: -1px;
+    z-index: 10;
 }
 
-.table-employee tbody td:nth-child(2),
-.table-employee th:nth-child(2) {
+table tbody td:nth-child(2),
+table th:nth-child(2) {
     width: 40px;
     position: sticky;
     left: 20px;
     background-color: #fff;
     border-left: none;
     padding-left: 10px;
+    z-index: 10;
 }
 
 /* Employee ID */
-.table-employee tbody td:nth-child(3),
-.table-employee th:nth-child(3) {
+table tbody td:nth-child(3),
+table th:nth-child(3) {
     width: 150px;
+    z-index: 10;
     /* position: sticky;
     left: 60px;
     background-color: #fff; */
 }
 
 /* Full name */
-.table-employee tbody td:nth-child(4),
-.table-employee th:nth-child(4) {
-    width: 250px;
+table tbody td:nth-child(4),
+table th:nth-child(4) {
+    width: 200px;
     position: sticky;
     /* left: 210px; */
     left: 60px;
     background-color: #fff;
     border-right: 1px dotted #bababa;
+    z-index: 10;
 }
 
-.table-employee th:nth-child(2),
-.table-employee th:nth-child(3),
-.table-employee th:nth-child(4) {
+table th:nth-child(2),
+table th:nth-child(3),
+table th:nth-child(4){
     background-color: rgb(236, 238, 241);
 }
 
 
 /* Gender */
-.table-employee tbody td:nth-child(5),
-.table-employee th:nth-child(5) {
+table tbody td:nth-child(5),
+table th:nth-child(5) {
     width: 150px;
     border-left: none;
 }
 
 /* birthday */
-.table-employee thead th:nth-child(6),
-.table-employee tbody td:nth-child(6) {
+table thead th:nth-child(6),
+table tbody td:nth-child(6) {
     text-align: center;
     padding-left: 10px;
     padding-right: 10px;
@@ -205,60 +216,90 @@ table tbody tr {
 }
 
 /* Phone number */
-.table-employee tbody td:nth-child(7),
-.table-employee th:nth-child(7) {
+table tbody td:nth-child(7),
+table th:nth-child(7) {
     width: 150px;
 }
 
 /* Email */
-.table-employee tbody td:nth-child(8),
-.table-employee th:nth-child(8) {
+table tbody td:nth-child(8),
+table th:nth-child(8) {
     width: 200px;
 }
 
 /* Position */
-.table-employee tbody td:nth-child(9),
-.table-employee th:nth-child(9) {
+table tbody td:nth-child(9),
+table th:nth-child(9) {
     width: 150px;
 }
 
 /* Department */
-.table-employee tbody td:nth-child(10),
-.table-employee th:nth-child(10) {
+table tbody td:nth-child(10),
+table th:nth-child(10) {
     width: 150px;
 }
 
 /* salary */
-.table-employee th:nth-child(11),
-.table-employee tr td:nth-child(11) {
-    /* text-align: right; */
-    /* padding-left: 10px;
-    padding-right: 10px; */
+/* table th:nth-child(11),
+table tr td:nth-child(11) {
     width: 150px;
-}
+} */
 
 /* Work status */
-.table-employee tbody td:nth-child(11),
-.table-employee th:nth-child(11) {
-    width: 250px;
-}
-
-.table-employee tbody td:nth-child(12),
-.table-employee th:nth-child(12) {
+table tbody td:nth-child(11),
+table th:nth-child(11) {
     width: 200px;
 }
 
-.table-employee tbody td:nth-child(13),
-.table-employee th:nth-child(13) {
+table tbody td:nth-child(12),
+table th:nth-child(12) {
+    width: 200px;
+}
+
+table tbody td:nth-child(13),
+table th:nth-child(13) {
+    width: 250px;
+}
+
+table tbody td:nth-child(14),
+table th:nth-child(14) {
+    width: 150px;
+    text-align: center;
+}
+table tbody td:nth-child(15),
+table th:nth-child(15) {
+    width: 150px;
+    text-align: center;
+}
+
+table tbody td:nth-child(16),
+table th:nth-child(16) {
+    width: 150px;
+    /* text-align: center; */
+}
+
+table tbody td:nth-child(17),
+table th:nth-child(17) {
+    width: 150px;
+}
+
+table tbody td:nth-child(18),
+table th:nth-child(18) {
+    width: 200px;
+}
+
+table tbody td:nth-child(19),
+table th:nth-child(19) {
     width: 120px;
     position: sticky;
     right: 29px;
     text-align: center;
     padding-left: 0;
     background-color: #fff;
+    z-index: 11;
 }
 
-.table-employee th:nth-child(13) {
+table th:nth-child(19) {
     background-color: #ECEEF1;
 }
 
@@ -295,11 +336,12 @@ table tbody tr {
 }
 
 #drop-options {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 120px;
     visibility: hidden;
+    z-index: 20;
 }
 
 #drop-options .dropdown-item {
@@ -309,4 +351,12 @@ table tbody tr {
 
 #drop-options .item-text {
     white-space: nowrap;
+}
+
+table .checkbox-container.disable{
+    display: table-cell;
+}
+
+table thead {
+    z-index: 20;
 }

@@ -1,6 +1,6 @@
 <template>
-  <div class="content-table" id="table-view">
-    <table :class="['table-' + type.toLowerCase(), {loading : isLoading}]">
+  <div class="content-table" id="table-view" ref="tableView">
+    <table :class="['table-' + type.toLowerCase(), { loading: isLoading }]">
       <thead>
         <tr>
           <th></th>
@@ -14,23 +14,18 @@
               <div class="checkmark"></div>
             </span>
           </th>
-          <th v-for="(header, i) in thead" :key="i"><span>{{ header }}</span></th>
+          <th v-for="(header, i) in headers" :key="i">
+            <span>{{ header.name }}</span>
+          </th>
           <th><span>CHỨC NĂNG</span></th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <tr
-          v-for="(e, index) in isLoading? loadingRows : employees"
+          v-for="(e, index) in isLoading ? loadingRows : employees"
           :key="index"
-          @dblclick="
-            $emit(
-              'rowDblClick',
-              e[type + 'Id'],
-              e.PositionName,
-              e.DepartmentName
-            )
-          "
+          @dblclick="$emit('rowDblClick', e[type + 'Id'])"
           @click="rowClickHandle(e, type)"
           :class="{ selected: checkSelected(e, type) }"
         >
@@ -41,29 +36,30 @@
               <div class="checkmark"></div>
             </span>
           </td>
-          <td :title="e[cell]" v-for="(cell, k) in dataMap" :key="k">
-            
-            <span v-if="cell == 'DateOfBirth'">
-              {{ dateFormatVer2(e[cell], "dd/mm/yyyy") }}</span
+          <td :title="e[cell.key]" v-for="(cell, k) in headers" :key="k">
+            <span v-if="cell.key == 'DateOfBirth'">
+              {{ dateFormatVer2(e[cell.key], "dd/mm/yyyy") }}</span
             >
-            <span v-else> {{ e[cell] }} </span>
+            <span v-else-if="cell.key.split('Is')[1] != null">
+              <span class="checkbox-container disable">
+                <input type="checkbox" name="delete" v-model="e[cell.key]" />
+                <div class="checkmark"></div>
+              </span>
+            </span>
+            <span v-else> {{ e[cell.key] }} </span>
           </td>
           <td @dblclick.stop="">
             <div class="tools">
               <span
                 class="update-btn"
-                @click.stop="
-                  $emit(
-                    'rowDblClick',
-                    e[type + 'Id'],
-                    e.PositionName,
-                    e.DepartmentName
-                  )
-                "
+                @click.stop="$emit('rowDblClick', e[type + 'Id'])"
               >
                 Sửa
               </span>
-              <span class="more-action-btn" @click.stop="moreAction($event, e)"></span>
+              <span
+                class="more-action-btn"
+                @click.stop="moreAction($event, e)"
+              ></span>
             </div>
           </td>
           <td @dblclick.stop=""></td>
@@ -85,7 +81,6 @@
 </template>
 
 <script>
-// import config from '../../../config/dev.env'
 import EventBus from "../../event-bus/EventBus";
 import axios from "axios";
 import ultis from "../../mixins/ultis";
@@ -102,12 +97,7 @@ export default {
       required: true,
     },
     //Mảng tên header <th>
-    thead: {
-      type: Array,
-      required: true,
-    },
-    //Mảng key tương ứng các cột trong thead
-    dataMap: {
+    headers: {
       type: Array,
       required: true,
     },
@@ -115,10 +105,10 @@ export default {
       type: String,
       require: false,
     },
-    loading:{
+    loading: {
       type: Boolean,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
@@ -129,8 +119,11 @@ export default {
         Employee: "Nhân Viên",
         Customer: "Khách Hàng",
       },
-      loadingRows: [{},{},{}],
-      isLoading: false
+      loadingRows: [{}, {}, {}],
+      isLoading: false,
+      tableScrollTop: 0,
+      optionsPopup: null,
+      curRow: null,
     };
   },
   updated: function () {
@@ -157,11 +150,15 @@ export default {
     });
   },
   mounted() {
-    // this.hideMoreActionDrop();
-    EventBus.$on("appClick", target => {
-      if(!target.classList.contains("dropdown-item")){
+    this.optionsPopup = document.getElementById("drop-options");
+    EventBus.$on("appClick", (target) => {
+      if (!target.classList.contains("dropdown-item")) {
         this.hideMoreActionDrop();
       }
+    });
+    EventBus.$on("scrollView", (top, left) => {
+      this.setOptionsPopupPosition(top, left);
+      // this.optionsPopup.style.visibility = 'hidden';
     });
   },
   computed: {},
@@ -170,30 +167,47 @@ export default {
       this.buildTableContent();
       this.hideMoreActionDrop();
     },
-    loading: function(val){
+    loading: function (val) {
       this.isLoading = val;
-    }
+    },
   },
   methods: {
     moreAction(event, data) {
-      console.log(data);
-      var pos = event.target.getBoundingClientRect();
-      var options = document.getElementById("drop-options");
+      this.curRow = event.target;
+      let contentBody = document.querySelector(".content-body");
 
-      // toggle list chuc nang
-      if (options.style.visibility == "hidden") {
-        // hiển thị options drop
-        options.style.top = pos.top + 25 + "px";
-        options.style.left = pos.left - 80 + "px";
-        options.style.visibility = "visible";
-
-        // set data để truyền khi click
-        options.setAttribute('entityid', data[this.type + 'Id']);
-        options.setAttribute('entitycode', data[this.type + 'Code']);
-      } else {
-        // ẩn options drop
+      // xử lí toggle popup
+      if (
+        this.optionsPopup.getAttribute("entityId") == data[`${this.type}Id`] &&
+        this.optionsPopup.style.visibility != "hidden"
+      ) {
         this.hideMoreActionDrop();
+        return;
       }
+
+      // set vị trí cho popup
+      this.setOptionsPopupPosition(
+        contentBody.scrollTop,
+        contentBody.scrollLeft
+      );
+
+      this.optionsPopup.style.visibility = "visible";
+
+      // set data để truyền khi click
+      this.optionsPopup.setAttribute("entityid", data[this.type + "Id"]);
+      this.optionsPopup.setAttribute("entitycode", data[this.type + "Code"]);
+    },
+
+    /**
+     * Set vị trí cho options popup
+     * CreatedBy: HungNguyen81 (01-09-2021)
+     */
+    setOptionsPopupPosition(top, left) {
+      if (this.curRow) {
+        var pos = this.curRow.getBoundingClientRect();
+        this.optionsPopup.style.top = pos.top - 189 + 90 + top + "px";
+        this.optionsPopup.style.left = pos.left - 198 - 90 + left + "px";
+      } else return;
     },
 
     /**
@@ -209,9 +223,9 @@ export default {
      * Handle khi click "nhân bản"
      * CreatedBy: HungNguyen81 (29-08-2021)
      */
-    cloneOptionClicked(e){
+    cloneOptionClicked(e) {
       var optionsDrop = e.target.parentNode;
-      var id = optionsDrop.getAttribute('entityId')
+      var id = optionsDrop.getAttribute("entityId");
       this.$emit("cloneEntity", id);
     },
 
@@ -219,10 +233,10 @@ export default {
      * Handle khi click option "xóa"
      * CreatedBy: HungNguyen81 (29-08-2021)
      */
-    deleteOptionClicked(e){
+    deleteOptionClicked(e) {
       var optionsDrop = e.target.parentNode;
-      var id = optionsDrop.getAttribute('entityid');
-      var code = optionsDrop.getAttribute('entitycode');
+      var id = optionsDrop.getAttribute("entityid");
+      var code = optionsDrop.getAttribute("entitycode");
       this.$emit("deleteEntity", id, code);
     },
 
@@ -240,6 +254,7 @@ export default {
           .then((res) => {
             this.isLoading = false;
             this.employees = res.data.Data;
+
             if (this.employees) {
               this.$emit("dataLoaded");
               this.$emit(
@@ -256,7 +271,7 @@ export default {
                 "showToast",
                 "warning",
                 this.typeMap[this.type],
-                "Không có dữ liệu phản hồi !"
+                "Không tìm thấy !"
               );
               this.$emit("dataLoaded");
             }

@@ -53,3 +53,46 @@
     background-color: tomato;
     font-weight: bold;
 }
+
+.button.button-delete{
+    animation: appear 0.2s ease-in;
+}
+.button.button-delete.hidden{    
+    animation: hideBtn 0.2s ease-in;
+    visibility: hidden;
+    transition: visibility;
+    transition-duration: 0.2s;
+}
+
+@keyframes hideBtn{
+    0%{
+        visibility: hidden;
+    }
+}
+
+@keyframes appear {
+    0%{
+        opacity: 0;
+        transform: translate(-30px, 0);
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes disappear {
+    0%{
+        visibility: visible;
+        opacity: 1;
+    }
+    70%{
+        visibility: visible;
+        opacity: 1;
+        transform: translate(5px, -15px) scale(0.9);
+    }
+    100%{
+        visibility: hidden;
+        opacity: 0;
+        transform: translate(-50px, -15px) scale(0.9);
+    }
+}

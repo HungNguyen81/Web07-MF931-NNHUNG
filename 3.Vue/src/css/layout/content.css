@@ -1,12 +1,12 @@
-body{
+/* body{
     overflow: hidden;
-}
+} */
 
 .content {
     position: absolute;
     height: calc(100vh - 49px);
     top: 49px;
-    left: 178px;  
+    left: var(--menu-width);  
     width: 100%;
     background-color:#F4F5F8;  
 }
@@ -16,7 +16,7 @@ body{
 .content-heading {
     position: absolute;
     left: 0px;
-    width: calc(100vw - 178px);
+    width: calc(100vw - var(--menu-width));
     margin: 24px 0;
 }
 
@@ -44,7 +44,7 @@ body{
 
 .content-body{
     position: absolute;
-    width: calc(100% - 178px - 40px);
+    width: calc(100% - var(--menu-width) - 40px);
     margin-left: 20px;
     background-color: #fff;
     top: 72px;
@@ -124,4 +124,32 @@ body{
 
 .feature-btn.btn-export{
     background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -705px -256px;
+}
+
+.feature-btn.btn-export.loading{
+    background-image: url('../../assets/loading.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    animation: rotateBtn 1s linear infinite;
+}
+
+@keyframes rotateBtn{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+
+.collapse .content{
+    left: 50px;
+}
+.collapse .content-heading{
+    width: calc(100vw - var(--menu-collapse-width));
+}
+.collapse .content-body{
+    width: calc(100% - var(--menu-collapse-width) - 40px);
 }

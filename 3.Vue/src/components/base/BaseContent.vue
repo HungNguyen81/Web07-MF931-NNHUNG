@@ -9,17 +9,17 @@
             type="button-delete"
             icon="icon-delete"
             :onclick="delBtnClick"
-            :class="{ hidden: !delBtnActive }"
+            :class="{ 'hidden': !delBtnActive }"
           ></BaseButtonIcon>
           <BaseButtonIcon
-            :value="'Thêm ' + entityMap[entityName].toLowerCase()"
+            :value="'Thêm mới ' + entityMap[entityName].toLowerCase()"
             icon="icon-add"
             :onclick="btnAddClick"
           ></BaseButtonIcon>
         </div>
       </div>
 
-      <div class="content-body">
+      <div class="content-body" @scroll="handleScroll">
         <div class="content-search">
           <div class="more-feature-btn-wrap">
             <input
@@ -45,8 +45,7 @@
 
         <Table
           :type="entityName"
-          :thead="thead"
-          :dataMap="theadMap"
+          :headers="headers"
           :api="`${
             $config.BASE_API
           }/${entityName}s/${entityName.toLowerCase()}Filter?pageSize=${pageSize}&pageNumber=${pageNumber}&filterString=${
@@ -63,13 +62,7 @@
           @cloneEntity="cloneEntity"
           @deleteEntity="deleteEntity"
         ></Table>
-        <!-- <div
-          id="loader"
-          class="spinner-wrapper"
-          :class="{ hidden: !isTableLoading }"
-        >
-          <div class="spinner"></div>
-        </div> -->
+        
         <Paging
           :pageNumber="pageNumber"
           :pageSize="pageSize"
@@ -122,7 +115,6 @@
 import axios from "axios";
 import EventBus from "../../event-bus/EventBus";
 import BaseButtonIcon from "./BaseButtonIcon.vue";
-// import Combobox from "./BaseCombobox.vue";
 import Form from "./BaseForm.vue";
 import Table from "./BaseTable.vue";
 import Popup from "./BasePopup.vue";
@@ -133,7 +125,6 @@ export default {
   name: "Content",
   components: {
     BaseButtonIcon,
-    // Combobox,
     Paging,
     Form,
     Table,
@@ -152,11 +143,7 @@ export default {
       type: Array,
       required: false,
     },
-    thead: {
-      type: Array,
-      require: true,
-    },
-    theadMap: {
+    headers: {
       type: Array,
       require: true,
     },
@@ -381,6 +368,12 @@ export default {
       this.totalPage = numPage;
     },
 
+
+    handleScroll(event){
+      // console.log(event.target.scrollRight);
+      EventBus.$emit('scrollView', event.target.scrollTop, event.target.scrollLeft)
+    },
+
     //#endregion
 
     //#region xử lí sự kiện DOM
@@ -389,22 +382,6 @@ export default {
      * CreatedBy: HungNguyen81 (07-2021)
      */
     formSaveButtonClick(mode, id, detail, callback) {
-      // this.popup = {
-      //   content: `Bạn có chắc chắn muốn <b>${
-      //     mode ? "SỬA" : "THÊM"
-      //   }</b> nhân viên hay không ?`,
-      //   popupType: "warning",
-      //   isHide: false,
-      //   icon: null,
-      //   buttons: [
-      //     { type: "cancel-button", callback: this.closePopup, value: "Không" },
-      //     {
-      //       type: "yes-button",
-      //       callback: ()=> {this.excuteFormModeAction(mode)},
-      //       value: "Có",
-      //     },
-      //   ],
-      // };
       this.entityId = id;
       this.entityDetail = detail;
       this.excuteFormModeAction(mode, callback);
@@ -657,7 +634,7 @@ export default {
 
 <style scoped>
 @import "../../css/layout/content.css";
-@import "../../css/base/loader.css";
+/* @import "../../css/base/loader.css"; */
 
 .toast-stack {
   position: fixed;
