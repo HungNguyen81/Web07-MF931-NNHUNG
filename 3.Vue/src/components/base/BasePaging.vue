@@ -1,12 +1,12 @@
 <template>
   <div class="content-page-navigator">
     <div class="navigator-left" id="current-pagesize">
-      Tổng số: <b> {{ totalRecord }} </b> bản ghi
+      {{ $resourceVn.LabelTotalRecord.replace('@', totalRecord) }}
     </div>
     <div class="navigator-center"></div>
     <div class="navigator-right">
       <Combobox
-      :mode="1"
+        :mode="1"
         :data="pageSizeDropData"
         :type="'PageSize'"
         class="drop-number-of-row"
@@ -19,7 +19,7 @@
         :class="{ disable: current == 1 }"
         @click="prev"
       >
-        Trước
+        {{ $resourceVn.NextButtonText }}
       </div>
       <div class="page-buttons">
         <div
@@ -29,9 +29,13 @@
         >
           1
         </div>
-        <div class="button-page-number"
-        v-if="isShowFirst && current > 3"
-        @click="toggleShow">...</div>
+        <div
+          class="button-page-number"
+          v-if="isShowFirst && current > 3"
+          @click="toggleShow"
+        >
+          ...
+        </div>
         <div
           class="button-page-number"
           :class="{ 'button-current-page': current == item + offset - 1 }"
@@ -57,7 +61,13 @@
           {{ totalPage }}
         </div>
       </div>
-      <div class="button-next-page button-navigator" :class="{disable: current == allPage}" @click="next">Sau</div>
+      <div
+        class="button-next-page button-navigator"
+        :class="{ disable: current == allPage }"
+        @click="next"
+      >
+        {{ $resourceVn.PrevButtonText }}
+      </div>
     </div>
   </div>
 </template>
@@ -101,16 +111,10 @@ export default {
   data() {
     return {
       entityNameMap: {
-        Employee: "Nhân viên",
-        Customer: "Khách hàng",
+        Employee: this.$resourceVn.Employee,
+        Customer: this.$resourceVn.Customer,
       },
-      pageSizeDropData: [
-        { PageSizeName: "10 bản ghi trên 1 trang", Size: 10 },
-        { PageSizeName: "20 bản ghi trên 1 trang", Size: 20 },
-        { PageSizeName: "30 bản ghi trên 1 trang", Size: 30 },
-        { PageSizeName: "50 bản ghi trên 1 trang", Size: 50 },
-        { PageSizeName: "100 bản ghi trên 1 trang", Size: 100 },
-      ],
+      pageSizeDropData: this.$resourceVn.PageSizeDropData,
       page: {
         start: 1,
         end: 20,
@@ -120,7 +124,7 @@ export default {
       allPage: 1,
       isShowFirst: false,
       isShowLast: true,
-      pageSizeComboboxValue: ''
+      pageSizeComboboxValue: "",
     };
   },
   mounted() {
@@ -134,16 +138,16 @@ export default {
   watch: {
     totalPage: function (tp) {
       this.allPage = tp;
-      if(tp < 6){
+      if (tp < 6) {
         this.isShowFirst = this.isShowLast = false;
       }
     },
     pageNumber: function (c) {
       this.current = c + 1;
-      if(this.current == this.totalPage){
+      if (this.current == this.totalPage) {
         this.isShowFirst = true;
         this.isShowLast = false;
-      } else if (this.current < 4){
+      } else if (this.current < 4) {
         this.isShowFirst = false;
         this.isShowLast = true;
       }
@@ -166,18 +170,11 @@ export default {
         ? 1
         : this.current - 1 - Math.max(0, 1 - this.allPage + this.current);
     },
-    // isShowFirsts: function(){
-    //   if(this.isShowFirst || this.current > 3)
-    // },
-
-    // isShowLasts: function(){
-      
-    // }
   },
   methods: {
-    toggleShow(){
-      if(this.allPage - this.current < 3) return;
-      if(this.current < 4) return;
+    toggleShow() {
+      if (this.allPage - this.current < 3) return;
+      if (this.current < 4) return;
       this.isShowFirst = !this.isShowFirst;
       this.isShowLast = !this.isShowLast;
     },
@@ -191,7 +188,9 @@ export default {
       this.pSize = data.Size;
       this.pageSizeComboboxValue = data.PageSizeName;
       this.$emit("pageSizeChange", this.pSize);
-      document.getElementById('table-view').style.height = `${this.pSize * 48 + 34 + 56}px`;
+      document.getElementById("table-view").style.height = `${
+        this.pSize * 48 + 34 + 56
+      }px`;
     },
 
     /**

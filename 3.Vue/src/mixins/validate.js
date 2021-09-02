@@ -13,7 +13,7 @@ export default {
                 // this.$emit('showToast', 'warning', 'Required', `<b>"${label}"</b> không được để trống`);
                 return {
                     isValid: false,
-                    msg: `"${label}" không được để trống`
+                    msg: this.$resourceVn.InvalidRequiredMsg.replace('@', label)
                 };
             }
             return {
@@ -39,27 +39,7 @@ export default {
             let res = reg.test(val);
             return {
                 isValid: res,
-                msg: res? "":`"${label}" không đúng định dạng !`
-            };
-        },
-
-        /**
-         * Validate định dạng số điện thoại
-         * @param {String} label Tên input
-         * @param {String} val Giá trị số điện thoại
-         * @returns True/False
-         * CreatedBy: HungNguyen81 (18-08-2021)
-         * ModifiedBy: HungNguyen81 (18-08-2021)
-         */
-        phone(label, val) {
-            let reg = /^0[0-9]{9,11}$/;
-            let res = reg.test(val);
-            // if (!res) {
-            //     this.$emit('showToast', 'warning', 'Phone Number invalid', `<b>"${label}"</b> phải bắt đầu bằng 0 và dài 10-12 kí tự !`);
-            // }
-            return {
-                isValid: res,
-                msg: res? "":`"${label}" phải bắt đầu bằng 0 và dài 10-12 kí tự !`
+                msg: res? "": this.$resourceVn.InvalidEmailMsg.replace('@', label)
             };
         },
 
@@ -81,7 +61,7 @@ export default {
             if (!/^([0-9]{4})-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/g.test(dateString)) {
                 return {
                     isValid: false,
-                    msg: `"${label}" ${dateString} không đúng định dạng !`
+                    msg: this.$resourceVn.InvalidDateMsg.replace('@', label).replace('#', dateString)
                 };
             }
             return {
@@ -96,7 +76,7 @@ export default {
                 var dateVal = new Date(dateString);
                 if(dateVal > today) return {
                     isValid: false,
-                    msg: `${label} không được vượt quá ngày hiện tại !`
+                    msg: this.$resourceVn.InvalidDayNotExceedTodayMsg.replace('@', label)
                 }
                 else return {isValid: true, msg: ''};
             } else {

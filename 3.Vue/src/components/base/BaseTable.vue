@@ -129,8 +129,7 @@ export default {
   updated: function () {
     /**
      * Giữ trạng thái selected của những dòng đã click chọn khi refresh table
-     * @ CreatedBy: HungNguyen81 (18-08-2021)
-     * @ ModifiedBy: HungNguyen81 (18-08-2021)
+     * CreatedBy: HungNguyen81 (18-08-2021)
      */
     this.$nextTick(function () {
       // Code that will run only after the
@@ -151,27 +150,36 @@ export default {
   },
   mounted() {
     this.optionsPopup = document.getElementById("drop-options");
+    
+    // lắng nghe sự kiện click ra ngoài => ẩn dropdown list
     EventBus.$on("appClick", (target) => {
       if (!target.classList.contains("dropdown-item")) {
         this.hideMoreActionDrop();
       }
     });
+    // thay đổi vị trí menu options popup khi scroll
     EventBus.$on("scrollView", (top, left) => {
       this.setOptionsPopupPosition(top, left);
-      // this.optionsPopup.style.visibility = 'hidden';
     });
   },
   computed: {},
   watch: {
+    // Handle khi re-render bảng
     tableKey: function () {
       this.buildTableContent();
       this.hideMoreActionDrop();
     },
+
+    // hiển thị loader khi đang tải dữ liệu
     loading: function (val) {
       this.isLoading = val;
     },
   },
   methods: {
+    /**
+     * Handle khi click nút chọn chức năng ở bảng
+     * CreatedBy: HungNguyen81 (31-08-2021)
+     */
     moreAction(event, data) {
       this.curRow = event.target;
       let contentBody = document.querySelector(".content-body");
@@ -200,7 +208,7 @@ export default {
 
     /**
      * Set vị trí cho options popup
-     * CreatedBy: HungNguyen81 (01-09-2021)
+     * CreatedBy: HungNguyen81 (31-08-2021)
      */
     setOptionsPopupPosition(top, left) {
       if (this.curRow) {
@@ -242,10 +250,9 @@ export default {
 
     /**
      * Lấy dữ liệu từ API và đổ vào table
-     * @ CreatedBy: HungNguyen81 (18-08-2021)
+     *  CreatedBy: HungNguyen81 (18-08-2021)
      */
     buildTableContent() {
-      // console.log("api", this.$config.BASE_API);
       this.isLoading = true;
 
       if (this.api) {
@@ -270,8 +277,8 @@ export default {
               this.$emit(
                 "showToast",
                 "warning",
-                this.typeMap[this.type],
-                "Không tìm thấy !"
+                this.$resourceVn.NotFoundTitle,
+                this.$resourceVn.EmployeeNotFoundMsg
               );
               this.$emit("dataLoaded");
             }
@@ -283,8 +290,8 @@ export default {
             this.$emit(
               "showToast",
               "error",
-              "LỖI SERVER",
-              `Không nhận được dữ liệu ${this.typeMap[this.type]} !`
+              this.$resourceVn.ErrorTitle,
+              this.$resourceVn.EmployeeNotFoundMsg,
             );
           });
       }

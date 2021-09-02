@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import EmployeePage from '../components/pages/PageEmployee'
-// import CustomerPage from '../components/pages/PageCustomer'
 
 Vue.use(VueRouter)
 

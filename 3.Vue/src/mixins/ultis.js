@@ -74,37 +74,7 @@ export default {
         zeroPad(num, places) {
             let res = String(num).padStart(places, "0");
             return res.substr(res.length - places);
-        },
-
-        /**
-         * Lấy tên ttcv ứng với mã
-         * @param {Number} statusCode mã số tương ứng với trạng thái công việc
-         * @returns Tên trạng thái cv
-         * CreatedBy: HungNguyen81 (18-08-2021)
-         */
-        workStatusCode2Text(statusCode) {
-            switch (statusCode) {
-                case 1: return "Đang làm việc";
-                case 2: return "Đang thử việc";
-                case 3: return "Sắp nghỉ việc";
-                default: return "Đã nghỉ việc";
-            }
-        },
-
-        /**
-         * Trả về mã ứng với tên ttcv
-         * @param {String} text Tên trạng thái cv
-         * @returns Mã trạng thái cv
-         * CreatedBy: HungNguyen81 (18-08-2021)
-         */
-        workStatusText2Code(text) {
-            switch (text) {
-                case "Đang làm việc": return 1;
-                case "Đang thử việc": return 2;
-                case "Sắp nghỉ việc": return 3;
-                default: return 3;
-            }
-        },
+        },        
 
         /**
          * Lấy tên giới tính theo mã

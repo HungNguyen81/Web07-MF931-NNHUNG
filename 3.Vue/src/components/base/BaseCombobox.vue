@@ -6,7 +6,6 @@
         type="text"
         :class="['combobox-input', 'textbox-default', { invalid: !isValidate }]"
         :tabindex="tabindex"
-        
         @focus="handleComboboxInput()"
         @blur="inputValidate()"
         @keyup="handleKeyPress($event)"
@@ -69,10 +68,6 @@ export default {
       type: Array,
       required: false,
     },
-    // initValue: {
-    //   type: String,
-    //   require: false,
-    // },
     tabindex: {
       type: Number,
       required: false,
@@ -89,8 +84,8 @@ export default {
     },
     rerenderFlag: {
       type: Boolean,
-      require: false
-    }
+      require: false,
+    },
   },
   mixins: [utils],
   data() {
@@ -102,11 +97,9 @@ export default {
       typeName: this.typeDataKey,
       items: [],
       map: {
-        Position: "vị trí",
-        Department: "phòng ban",
-        CustomerGroup: "nhóm khách hàng",
-        PageSize: "Kích thước trang",
-        Unit: "Đơn vị",
+        Position: this.$resourceVn.Position,
+        PageSize: this.$resourceVn.PageSize,
+        Unit: this.$resourceVn.Unit,
       },
       isEmptyVal: true,
       isValidate: true,
@@ -127,9 +120,7 @@ export default {
               [this.type + "Id"]: "",
             });
           }
-          // res.data.forEach((e) => {
-          //   this.items.push(e);
-          // });
+
           Object.assign(this.items, res.data);
 
           this.items = this.items.map((e) => ({
@@ -153,8 +144,8 @@ export default {
           this.$emit(
             "showToast",
             "error",
-            "SERVER ERROR",
-            `Cannot load ${this.type}!`
+            this.$resourceVn.ErrorMsg,
+            this.$resourceVn.ServerErrorTitle
           );
           this.isDataLoaded = true;
         });
@@ -166,17 +157,15 @@ export default {
       }));
 
       this.isDataLoaded = true;
-      // if (this.initValue) {
-      //   this.value = this.initValue;
-        this.data.forEach((e, i) => {
-          if (e[this.typeDataKey] == this.value) {
-            this.current = i;
-          }
-        });
-      // }
+      this.data.forEach((e, i) => {
+        if (e[this.typeDataKey] == this.value) {
+          this.current = i;
+        }
+      });
     }
   },
   mounted() {
+    // Lắng nghe sự kiện click trên app để đóng dropdown list khi click ra ngoài
     EventBus.$on("appClick", (target) => {
       var container = this.$refs.combobox;
       if (!container) return;
@@ -190,12 +179,11 @@ export default {
       var vm = this;
       return Object.assign(
         {},
-        // We add all the listeners from the parent
+        // add tất cả listener từ component cha
         this.$listeners,
-        // Then we can add custom listeners or override the
-        // behavior of some listeners.
+        // Thêm custom listener, ghi đè lên các listener mặc định
         {
-          // This ensures that the component works with v-model
+          // Để chắc chắn componen hoạt động với v-model
           input: function (event) {
             vm.$emit("input", event.target.value);
           },
@@ -204,6 +192,7 @@ export default {
     },
     /**
      * Compute class cho combobox
+     * Tính toán class tương ứng với type
      */
     dropListClass: function () {
       if (!this.type) return "";
@@ -221,18 +210,11 @@ export default {
           Hidden: false,
         }));
       }
-      // this.data.forEach((e, i) => {
-      //     if (e[this.typeDataKey] == value) {
-      //       this.current = i;
-      //     }
-      // });
     },
-    
+
     // chỉ số của item hiện tại
     current: function (c) {
       if (c < 0) return;
-      // this.value = this.items[c][this.typeDataKey];
-
       if (c >= 3) {
         this.$refs.dropList.scrollTop = 40 * (c - 3);
       } else if (c == 0) {
@@ -242,6 +224,8 @@ export default {
 
     /**
      * Tắt border cảnh báo invalid khi mở form (hoặc re-render form)
+     * bằng cách thay đổi isValidate
+     * CreatedBy: HungNguyen81 (08-2021)
      */
     rerenderFlag: function () {
       this.isValidate = true;
@@ -298,10 +282,7 @@ export default {
     handleKeyPress(event) {
       console.log("keyup");
 
-      let maxOffset = this.items.length; //0;
-      // for (let item of this.items) {
-      //   maxOffset = maxOffset + (item.Hidden ? 0 : 1);
-      // }
+      let maxOffset = this.items.length; 
 
       if (event.code == "ArrowDown") {
         event.preventDefault();
@@ -321,7 +302,7 @@ export default {
         this.isHide = true;
         this.$emit("itemChange", this.typeDataKey, this.items[this.current]);
       } else {
-        this.handleComboboxInput()
+        this.handleComboboxInput();
       }
     },
 
@@ -354,17 +335,10 @@ export default {
       }
     },
 
-    emptyInput() {
-      // this.value = "";
-      this.items = this.items.map((e) => ({
-        ...e,
-        Hidden: false,
-      }));
-      this.current = -1;
-      this.$refs.comboboxInput.focus();
-      this.$emit("filterActive", this.type, "");
-    },
-
+    /**
+     * Hiển thị toàn bộ items trong list dropdown
+     * CreatedBy: HungNguyen81 (08-2021)
+     */
     showAllItems() {
       this.items = this.items.map((e) => ({
         ...e,
@@ -372,14 +346,15 @@ export default {
       }));
     },
 
+    /**
+     * Ẩn/ hiện drop list
+     * CreatedBy: HungNguyen81 (08-2021)
+     */
     toggleDropList() {
       this.isHide = !this.isHide;
       if (!this.isHide) {
         this.showAllItems();
       }
-      // this.$nextTick(() => {
-      //   this.$refs.comboboxInput.focus();
-      // });
     },
   },
 };

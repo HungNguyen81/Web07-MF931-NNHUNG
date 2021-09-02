@@ -67,20 +67,14 @@ export default {
       invalidTooltip: "",
     };
   },
-  mounted() {
-    // console.log('MOUNTED', this.label);
-  },
+  mounted() {},
   computed: {
     inputListeners: function () {
       var vm = this;
       return Object.assign(
         {},
-        // We add all the listeners from the parent
         this.$listeners,
-        // Then we can add custom listeners or override the
-        // behavior of some listeners.
         {
-          // This ensures that the component works with v-model
           input: function (event) {
             vm.$emit("input", event.target.value);
           },
@@ -91,16 +85,11 @@ export default {
   watch: {
     /**
      * Tắt border cảnh báo invalid khi mở form (hoặc re-render form)
+     * CreatedBy: HungNguyen81 (08-2021)
      */
     rerenderFlag: function () {
       this.isValidate = true;
     },
-
-    isValidate: function () {
-      //   console.log("validate", this.label, isValid);
-    },
-
-    value: function () {},
   },
   methods: {
     /**

@@ -63,11 +63,10 @@ export default {
 
       clearTimeout(this.timeOut)
 
-      // destroy the vue listeners, etc
+      // Hủy vue listeners, v.v..
       this.$destroy();
 
-      // remove the element from the DOM
-      // console.log(this.$el.children[0]);
+      // remove element khỏi DOM
       this.$el.parentNode.removeChild(this.$el);
     },
   },

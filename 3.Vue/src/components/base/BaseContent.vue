@@ -5,14 +5,14 @@
         <b class="title">{{ entityMap[entityName] }}</b>
         <div class="buttons-containner">
           <BaseButtonIcon
-            :value="'Xóa ' + entityMap[entityName].toLowerCase()"
+            :value="$resourceVn[`${entityName}ButtonDeleteText`]"
             type="button-delete"
             icon="icon-delete"
             :onclick="delBtnClick"
             :class="{ 'hidden': !delBtnActive }"
           ></BaseButtonIcon>
           <BaseButtonIcon
-            :value="'Thêm mới ' + entityMap[entityName].toLowerCase()"
+            :value="$resourceVn[`${entityName}ButtonAddText`]"
             icon="icon-add"
             :onclick="btnAddClick"
           ></BaseButtonIcon>
@@ -25,7 +25,7 @@
             <input
               type="text"
               class="textbox-default search-field"
-              placeholder="Tìm kiếm theo mã, tên nhân viên"
+              :placeholder="$resourceVn[`${entityName}SearchPlaceHolderText`]"
               v-model="searchInput"
             />
             <div class="search-icon"></div>
@@ -190,19 +190,20 @@ export default {
       isTableLoading: true,
       toasts: [],
       entityMap: {
-        Customer: "Khách hàng",
-        Employee: "Nhân viên",
+        Customer: this.$resourceVn.Customer,
+        Employee: this.$resourceVn.Employee,
       },
     };
   },
   created() {
-    console.log("CREATED");
     EventBus.$on("showPopup", (args) => {
       this.showPopup(args);
     });
   },
   mounted(){
     this.$nextTick(() => {
+
+      // refresh table khi load trang
       this.refreshTableSelected();
     })
   },
@@ -223,6 +224,7 @@ export default {
         // re-render table
         this.pageNumber = 0;
         this.tableFlag = !this.tableFlag;
+
         console.log("search:", c);
       }, 500);
     },
@@ -267,7 +269,7 @@ export default {
      */
     closeFormChanged(mode, id, detail) {
       this.popup = {
-        content: `Dữ liệu đã bị thay đổi. Bạn có muốn cất không?`,
+        content: this.$resourceVn.DataChangeMsg,
         popupType: "info",
         isHide: false,
         buttons: [
@@ -355,7 +357,6 @@ export default {
      * CreatedBy: HungNguyen81 (08-2021)
      */
     onPageNumChange(num) {
-      console.log("PAGE NUMBER: ", num);
       this.pageNumber = num;
     },
 
@@ -370,7 +371,6 @@ export default {
 
 
     handleScroll(event){
-      // console.log(event.target.scrollRight);
       EventBus.$emit('scrollView', event.target.scrollTop, event.target.scrollLeft)
     },
 
@@ -440,15 +440,15 @@ export default {
      */
     delBtnClick() {
       this.showPopup({
-        content: `Bạn có thực sự muốn xóa nhân viên <${this.deleteCodeList.join(", ")}> không ?`,
+        content: this.$resourceVn.EmployeeDeleteMsg.replace('@', this.deleteCodeList.join(", ")),
         popupType: "warning",
         isHide: false,
         buttons: [
-          { type: "cancel-button", callback: null, value: "Không" },
+          { type: "cancel-button", callback: null, value: this.$resourceVn.NoButtonText },
           {
             type: "yes-button",
             callback: this.sendDeleteRequests,
-            value: "Có",
+            value: this.$resourceVn.YesButtonText,
           },
         ],
       });
@@ -461,15 +461,15 @@ export default {
 
     deleteEntity(id, code){
       this.showPopup({
-        content: `Bạn có thực sự muốn xóa nhân viên <${code}> không ?`,
+        content: this.$resourceVn.EmployeeDeleteMsg.replace('@', code),
         popupType: "warning",
         isHide: false,
         buttons: [
-          { type: "cancel-button", callback: null, value: "Không" },
+          { type: "cancel-button", callback: null, value: this.$resourceVn.NoButtonText },
           {
             type: "yes-button",
             callback: ()=>{this.sendDeleteOneRequest(id)},
-            value: "Có",
+            value: this.$resourceVn.YesButtonText,
           },
         ],
       });
@@ -491,10 +491,10 @@ export default {
           this.forceTableRerender();
 
           // hiển thị toast thông báo đã xóa thành công
-          this.showToast("info", "DELETE successfully", res.data.Msg);
+          this.showToast("info", this.$resourceVn.DeleteSuccessTitle, res.data.Msg);
         })
         .catch(() => {
-          this.showToast("error", "Delete error", `Xóa không thành công`);
+          this.showToast("error", "Delete error", this.$resourceVn.DeleteFailTitle);
         });
     },
     /**
@@ -515,10 +515,10 @@ export default {
           this.forceTableRerender();
 
           // hiển thị toast thông báo đã xóa thành công
-          this.showToast("info", "DELETE successfully", res.data.Msg);
+          this.showToast("info", this.$resourceVn.DeleteSuccessTitle, res.data.Msg);
         })
         .catch(() => {
-          this.showToast("error", "Delete error", `Xóa không thành công`);
+          this.showToast("error", "Delete error", this.$resourceVn.DeleteFailTitle);
         });
     },
 
@@ -539,7 +539,7 @@ export default {
           this.showToast(
             "success",
             "PUT Success",
-            `Sửa thông tin của <b>"${this.entityDetail.FullName}"</b> thành công`
+            this.$resourceVn.UpdateSuccessMsg.replace('@', this.entityDetail.FullName)
           );
 
           this.forceTableRerender();
@@ -565,9 +565,7 @@ export default {
             console.log("111");
             callback();
           }
-          this.showToast("success", "POST success", res.data.Msg);
-          // this.closePopup();
-          // this.closeForm();
+          this.showToast("success", this.$resourceVn.PostSuccessTitle, res.data.Msg);
           this.forceTableRerender();
         })
         .catch((err) => {
@@ -580,13 +578,13 @@ export default {
         this.closePopup();
         this.$refs.form.$refs['employeeCode'].$el.children[1].focus();
       }
-      this.showToast("error", "PUT error", err.response.data.Msg);
+      this.showToast("error", this.$resourceVn.PutErrorTitle, err.response.data.Msg);
       this.showPopup({
         content: err.response.data.Msg,
         popupType: "warning",
         isHide: false,
         buttons: [
-          { type: "yes-button", callback: func, value: "Đồng ý" },
+          { type: "yes-button", callback: func, value: this.$resourceVn.ConfirmButtonText },
         ],
       })
       EventBus.$emit('requestFail');
@@ -634,7 +632,6 @@ export default {
 
 <style scoped>
 @import "../../css/layout/content.css";
-/* @import "../../css/base/loader.css"; */
 
 .toast-stack {
   position: fixed;

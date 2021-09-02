@@ -45,7 +45,7 @@ export default {
       type: Array,
       required: false,
       default(){
-        return [{type:"button-ok", callback: () => {this.$emit('closePopup');}, value:"Đóng"}];
+        return [{type:"button-ok", callback: () => {this.$emit('closePopup');}, value: this.$resourceVn.CloseButtonText }];
       }
     }
   },

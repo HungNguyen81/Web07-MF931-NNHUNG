@@ -16,7 +16,7 @@
         @mousedown="this.dragMouseDown"
       >
         <div class="title-header">
-          <div class="form-title">Thông tin nhân viên</div>
+          <div class="form-title">{{ $resourceVn.EmployeeContentHeader }}</div>
           <div class="options">
             <div class="option" @click="detail.IsCustomer = !detail.IsCustomer">
               <span class="checkbox-container">
@@ -27,7 +27,7 @@
                 />
                 <div class="checkmark"></div>
               </span>
-              <span class="label">Là khách hàng</span>
+              <span class="label">{{ $resourceVn.IsCustomer }}</span>
             </div>
             <div class="option" @click="detail.IsProvider = !detail.IsProvider">
               <span class="checkbox-container">
@@ -38,15 +38,15 @@
                 />
                 <div class="checkmark"></div>
               </span>
-              <span class="label">Là nhà cung cấp</span>
+              <span class="label">{{ $resourceVn.IsProvider }}</span>
             </div>
           </div>
         </div>
         <div class="header-btn">
-          <div class="help-btn form-header-btn" title="Giúp"></div>
+          <div class="help-btn form-header-btn" :title="$resourceVn.HelpButtonTitle"></div>
           <div
             class="close-btn form-header-btn"
-            title="Đóng"
+            :title="$resourceVn.CloseButtonTitle"
             @click="closeForm(isChange)"
           ></div>
         </div>
@@ -64,7 +64,7 @@
                 :tabindex="1"
                 ref="employeeCode"
                 v-model="detail.EmployeeCode"
-                label="Mã"
+                :label="$resourceVn.LabelEmployeeCode"
                 :required="true"
                 :validates="[required]"
                 :rerenderFlag="isRerender"
@@ -76,7 +76,7 @@
                 type="input-form"
                 inputKey="fullname"
                 :tabindex="2"
-                label="Tên"
+                :label="$resourceVn.LabelFullname"
                 :required="true"
                 ref="fullName"
                 :validates="[required]"
@@ -87,7 +87,7 @@
             <div class="input-row">
               <div class="input-field" id="unit">
                 <div class="input-label">
-                  Đơn vị
+                  {{ $resourceVn.LabelUnit }}
                   <span v-if="required"><span class="required">*</span></span>
                 </div>
 
@@ -97,7 +97,7 @@
                   :type="'Unit'"
                   :typeDataKey="'UnitName'"
                   :tabindex="5"
-                  :label="'Đơn vị'"
+                  :label="$resourceVn.LabelUnit"
                   :validates="[required]"
                   @itemChange="dropDataChange"
                   ref="unitName"
@@ -115,7 +115,7 @@
                 type="input-form"
                 inputKey="position"
                 :tabindex="8"
-                label="Chức danh"
+                :label="$resourceVn.LabelPositionName"
               />
             </div>
           </div>
@@ -128,18 +128,18 @@
                 ref="dateOfBirth"
                 :tabindex="3"
                 v-model="detail.DateOfBirth"
-                :label="'Ngày sinh'"
+                :label="$resourceVn.LabelDateOfBirth"
                 :validates="[date, dateNotExceedToday]"
                 :rerenderFlag="isRerender"
                 @valid="validateForm"
                 @dateChange="dateChange"
               />
               <div class="input-field" id="gender">
-                <div class="input-label">Giới tính</div>
+                <div class="input-label">{{ $resourceVn.LabelGender }}</div>
 
                 <div class="input">
-                  <label class="icontainer"
-                    >Nam
+                  <label class="icontainer">
+                    {{ $resourceVn.OptionMale }}
                     <input
                       :tabindex="4"
                       type="radio"
@@ -149,8 +149,8 @@
                     />
                     <span class="radio-checkmark"></span>
                   </label>
-                  <label class="icontainer"
-                    >Nữ
+                  <label class="icontainer">
+                    {{ $resourceVn.OptionFemale }}
                     <input
                       :tabindex="4"
                       type="radio"
@@ -160,8 +160,8 @@
                     />
                     <span class="radio-checkmark"></span>
                   </label>
-                  <label class="icontainer"
-                    >Khác
+                  <label class="icontainer">
+                    {{ $resourceVn.OptionOthers }}
                     <input
                       :tabindex="4"
                       type="radio"
@@ -181,7 +181,7 @@
                 type="input-form"
                 inputKey="identity-number"
                 :tabindex="6"
-                label="Số CMND"
+                :label="$resourceVn.LabelIdentityNumber"
                 :rerenderFlag="isRerender"
                 :pattern="/[0-9]/"
               />
@@ -190,7 +190,7 @@
                 :type="'input-form'"
                 inputKey="identity-date"
                 :tabindex="7"
-                :label="'Ngày cấp'"
+                :label="$resourceVn.LabelIdentityDate"
                 :validates="[date, dateNotExceedToday]"
                 :rerenderFlag="isRerender"
                 @dateChange="dateChange"
@@ -205,7 +205,7 @@
                 type="input-form"
                 inputKey="identity-place"
                 :tabindex="9"
-                label="Nơi cấp"
+                :label="$resourceVn.LabelIdentityPlace"
               />
             </div>
           </div>
@@ -219,7 +219,7 @@
                 type="input-form"
                 inputKey="address"
                 :tabindex="10"
-                label="Địa chỉ"
+                :label="$resourceVn.LabelAddress"
               />
             </div>
             <div class="input-row">
@@ -229,7 +229,7 @@
                 type="input-form"
                 inputKey="mobile-number"
                 :tabindex="11"
-                label="ĐT di động"
+                :label="$resourceVn.LabelMobileNumber"
                 ref="mobileNumber"
                 :pattern="/[0-9]/"
               />
@@ -239,7 +239,7 @@
                 type="input-form"
                 inputKey="phone-number"
                 :tabindex="12"
-                label="ĐT cố định"
+                :label="$resourceVn.LabelPhoneNumber"
                 ref="phoneNumber"
                 :pattern="/[0-9()-]/"
               />
@@ -249,7 +249,7 @@
                 type="input-form"
                 inputKey="email"
                 :tabindex="13"
-                label="Email"
+                :label="$resourceVn.LabelEmail"
                 ref="email"
                 :rerenderFlag="isRerender"
                 :validates="[email]"
@@ -263,7 +263,7 @@
                 type="input-form"
                 inputKey="bank-account"
                 :tabindex="14"
-                label="Tài khoản ngân hàng"
+                :label="$resourceVn.LabelBankAccount"
                 :pattern="/[0-9]/"
               />
               <BaseTextInput
@@ -272,7 +272,7 @@
                 type="input-form"
                 inputKey="bank-name"
                 :tabindex="15"
-                label="Tên ngân hàng"
+                :label="$resourceVn.LabelBankName"
               />
               <BaseTextInput
                 v-model="detail.BankBranch"
@@ -280,7 +280,7 @@
                 type="input-form"
                 inputKey="bank-branch"
                 :tabindex="16"
-                label="Chi nhánh"
+                :label="$resourceVn.LabelBankBranch"
               />
             </div>
           </div>
@@ -290,7 +290,7 @@
       <div class="form-footer">
         <!-- <div class="button  cancel-btn">Hủy</div> -->
         <BaseButtonIcon
-          :value="'Hủy'"
+          :value="$resourceVn.CancelButtonText"
           class="form-btn"
           :type="'cancel-btn'"
           :onclick="
@@ -298,32 +298,29 @@
               closeForm(isChange);
             }
           "
-          :disable="isDisableSaveButton"
           tabindex="17"
         ></BaseButtonIcon>
         <div class="action-btns">
           <BaseButtonIcon
             class="form-btn"
-            :value="'Cất'"
+            :value="$resourceVn.SaveButtonText"
             :type="'save-btn'"
             :onclick="
               () => {
                 btnSaveClick(false);
               }
             "
-            :disable="isDisableSaveButton"
             tabindex="17"
           ></BaseButtonIcon>
           <BaseButtonIcon
             class="form-btn"
-            :value="'Cất và thêm'"
+            :value="$resourceVn.SaveAddButtonText"
             :type="'save-add-btn'"
             :onclick="
               () => {
                 btnSaveClick(true);
               }
             "
-            :disable="isDisableSaveButton"
             tabindex="17"
           ></BaseButtonIcon>
         </div>
@@ -392,7 +389,6 @@ export default {
       isDetailChange: false,
       isDataLoaded: false,
       isRerender: false,
-      isDisableSaveButton: false,
       validate: {
         "employee-code": false,
         fullname: false,
@@ -485,6 +481,10 @@ export default {
     },
   },
   methods: {
+    /**
+     * Đóng form, gọi hàm Close truyền từ props
+     * CreatedBy: HungNguyen81 (08-2021)
+     */
     closeForm(isChange, event) {
       if (this.isLoading) {
         event.preventDefault();
@@ -492,6 +492,10 @@ export default {
       this.close(isChange, this.mode, this.detailId, this.getRawData());
     },
 
+    /**
+     * Handle sự kiện click trên form để đóng các dropdown list đang mở
+     * CreatedBy: HungNguyen81 (09-2021)
+     */
     formClick(event) {
       EventBus.$emit("appClick", event.target);
     },
@@ -529,8 +533,8 @@ export default {
           this.$emit(
             "showToast",
             "error",
-            "Lỗi",
-            `Có lỗi xảy ra, vui lòng liên hệ MISA !`
+            this.$resourceVn.ErrorTitle,
+            this.$resourceVn.ServerErrorMsg
           );
           this.isLoading = false;
         });
@@ -561,8 +565,8 @@ export default {
             this.$emit(
               "showToast",
               "error",
-              "Có lỗi xảy ra",
-              `Không thể lấy mã nhân viên mới !`
+              this.$resourceVn.ErrorTitle,
+              this.$resourceVn.CannotGetNewEmployeeCodeMsg
             );
           }
           this.$set(this.detail, "EmployeeCode", newCode);
@@ -574,8 +578,8 @@ export default {
           this.$emit(
             "showToast",
             "error",
-            "Có lỗi xảy ra",
-            `Không thể lấy mã nhân viên mới !`
+            this.$resourceVn.ErrorTitle,
+            this.$resourceVn.CannotGetNewEmployeeCodeMsg
           );
           let newCode = `NV-${Math.round(Math.random() * 10000)}`;
           this.$refs.employeeCode.$el.value = newCode;
@@ -663,7 +667,6 @@ export default {
      * CreatedBy: HungNguyen81 (07-2021)
      */
     btnSaveClick(isAddNext) {
-      // this.isDisableSaveButton = true;
       this.isLoading = true;
 
       var invalidMsg = "";
@@ -678,14 +681,14 @@ export default {
         }
       }
       if (!this.isValidate()) {
-        this.$emit("showToast", "warning", "Dữ liệu không hợp lệ", invalidMsg);
+        this.$emit("showToast", "warning", this.$resourceVn.DataInvalidMsg, invalidMsg);
         this.$emit("showPopup", {
           content: invalidMsg,
           popupType: "error",
           isHide: false,
-          buttons: [{ type: "button-ok", callback: null, value: "Đóng" }],
+          buttons: [{ type: "button-ok", callback: null, value: this.$resourceVn.CloseButtonText }],
         });
-        // this.isDisableSaveButton = false;
+        
         this.isLoading = false;
         return;
       }
@@ -759,7 +762,7 @@ export default {
 
     dragMouseDown: function (event) {
       event.preventDefault()
-      // get the mouse cursor position at startup:
+      // lấy vị trí của con trỏ chuột
       this.positions.clientX = event.clientX
       this.positions.clientY = event.clientY
       document.onmousemove = this.elementDrag
@@ -771,7 +774,8 @@ export default {
       this.positions.movementY = this.positions.clientY - event.clientY
       this.positions.clientX = event.clientX
       this.positions.clientY = event.clientY
-      // set the element's new position:
+
+      // set vị trí mới cho element
       this.$refs.draggableContainer.style.top = (this.$refs.draggableContainer.offsetTop - this.positions.movementY) + 'px'
       this.$refs.draggableContainer.style.left = (this.$refs.draggableContainer.offsetLeft - this.positions.movementX) + 'px'
     },

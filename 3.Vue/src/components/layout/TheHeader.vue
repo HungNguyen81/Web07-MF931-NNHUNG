@@ -12,7 +12,7 @@
     <div class="header-right">
       <div class="collapse-btn" @click="collapse"></div>
       <div class="company-label">
-        CÔNG TY TNHH SẢN XUẤT - THƯƠNG MẠI - DỊCH VỤ QUI PHÚC
+        {{ $resourceVn.CompanyName }}
       </div>
       <div class="mode-btn"></div>
       <div class="user-options">
