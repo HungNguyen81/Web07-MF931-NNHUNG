@@ -124,37 +124,37 @@
     <value>Mã khách hàng đã trùng với khách hàng khác trong tệp nhập khẩu.</value>
   </data>
   <data name="CustomerCodeInvalidMsg" xml:space="preserve">
-    <value>Mã khách hàng không được để trống !</value>
+    <value>Mã khách hàng không được để trống.</value>
   </data>
   <data name="CustomerGroupNotExistMsg" xml:space="preserve">
     <value>Nhóm khách hàng không có trong hệ thống.</value>
   </data>
   <data name="DuplicateCustomerCodeMsg" xml:space="preserve">
-    <value>Mã khách hàng đã tồn tại trong hệ thống !</value>
+    <value>Mã khách hàng đã tồn tại trong hệ thống.</value>
   </data>
   <data name="DuplicateEmployeeCodeMsg" xml:space="preserve">
-    <value>Mã nhân viên đã tồn tại, xin vui lòng tạo mã mới !</value>
+    <value>Mã nhân viên &lt;@&gt; đã tồn tại trong hệ thống, vui lòng kiểm tra lại.</value>
   </data>
   <data name="EmailInvalidMsg" xml:space="preserve">
     <value>Email không đúng định dạng !</value>
   </data>
   <data name="EmployeeCodeInvalidMsg" xml:space="preserve">
-    <value>Mã nhân viên không được để trống !</value>
+    <value>Mã nhân viên không được để trống.</value>
   </data>
   <data name="ErrorMsg" xml:space="preserve">
-    <value>Có lỗi xảy ra, vui lòng liên hệ MISA !</value>
+    <value>Có lỗi xảy ra, vui lòng liên hệ MISA.</value>
   </data>
   <data name="FileEmptyMsg" xml:space="preserve">
-    <value>Bạn chưa chọn file nhập khẩu hoặc file nhập khẩu bị lỗi !</value>
+    <value>Bạn chưa chọn file nhập khẩu hoặc file nhập khẩu bị lỗi.</value>
   </data>
   <data name="IdEmptyMsg" xml:space="preserve">
-    <value>ID không được để trống !</value>
+    <value>ID không được để trống.</value>
   </data>
   <data name="LocalConnectionString" xml:space="preserve">
     <value>Host = localhost;Database = web07.amis.hungnn; User Id = hungdev; Password = hung;</value>
   </data>
   <data name="NotSupportFileExtMsg" xml:space="preserve">
-    <value>Định dạng file không được hỗ trợ !</value>
+    <value>Định dạng file không được hỗ trợ.</value>
   </data>
   <data name="PhoneNumberDuplicateMsg" xml:space="preserve">
     <value>SĐT đã tồn tại trong hệ thống.</value>

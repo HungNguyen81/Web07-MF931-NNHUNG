@@ -150,7 +150,7 @@ export default {
   },
   mounted() {
     this.optionsPopup = document.getElementById("drop-options");
-    
+
     // lắng nghe sự kiện click ra ngoài => ẩn dropdown list
     EventBus.$on("appClick", (target) => {
       if (!target.classList.contains("dropdown-item")) {
@@ -211,10 +211,17 @@ export default {
      * CreatedBy: HungNguyen81 (31-08-2021)
      */
     setOptionsPopupPosition(top, left) {
+      let offsetX = -99;
+      let offsetY = -288;
+      if(document.querySelector('.menu').classList.contains('collapse')){
+        offsetX = -99;
+        offsetY = -162;
+      }
+
       if (this.curRow) {
         var pos = this.curRow.getBoundingClientRect();
-        this.optionsPopup.style.top = pos.top - 189 + 90 + top + "px";
-        this.optionsPopup.style.left = pos.left - 198 - 90 + left + "px";
+        this.optionsPopup.style.top = pos.top + offsetX + top + "px";
+        this.optionsPopup.style.left = pos.left + offsetY + left + "px";
       } else return;
     },
 
@@ -285,13 +292,24 @@ export default {
           })
           .catch((err) => {
             this.isLoading = false;
-            console.log(err);
+
+            if (!err.response) {
+              this.$emit("dataLoaded");
+              this.$emit(
+                "showToast",
+                "error",
+                this.$resourceVn.ErrorTitle,
+                this.$resourceVn.NetworkErrorMsg
+              );
+              return;
+            }
+            
             this.$emit("dataLoaded");
             this.$emit(
               "showToast",
               "error",
               this.$resourceVn.ErrorTitle,
-              this.$resourceVn.EmployeeNotFoundMsg,
+              this.$resourceVn.EmployeeNotFoundMsg
             );
           });
       }

@@ -79,7 +79,7 @@ namespace MISA.Amis.Core.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mã khách hàng không được để trống !.
+        ///   Looks up a localized string similar to Mã khách hàng không được để trống..
         /// </summary>
         public static string CustomerCodeInvalidMsg {
             get {
@@ -97,7 +97,7 @@ namespace MISA.Amis.Core.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mã khách hàng đã tồn tại trong hệ thống !.
+        ///   Looks up a localized string similar to Mã khách hàng đã tồn tại trong hệ thống..
         /// </summary>
         public static string DuplicateCustomerCodeMsg {
             get {
@@ -106,7 +106,7 @@ namespace MISA.Amis.Core.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mã nhân viên đã tồn tại, xin vui lòng tạo mã mới !.
+        ///   Looks up a localized string similar to Mã nhân viên &lt;@&gt; đã tồn tại trong hệ thống, vui lòng kiểm tra lại..
         /// </summary>
         public static string DuplicateEmployeeCodeMsg {
             get {
@@ -124,7 +124,7 @@ namespace MISA.Amis.Core.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mã nhân viên không được để trống !.
+        ///   Looks up a localized string similar to Mã nhân viên không được để trống..
         /// </summary>
         public static string EmployeeCodeInvalidMsg {
             get {
@@ -133,7 +133,7 @@ namespace MISA.Amis.Core.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Có lỗi xảy ra, vui lòng liên hệ MISA !.
+        ///   Looks up a localized string similar to Có lỗi xảy ra, vui lòng liên hệ MISA..
         /// </summary>
         public static string ErrorMsg {
             get {
@@ -142,7 +142,7 @@ namespace MISA.Amis.Core.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bạn chưa chọn file nhập khẩu hoặc file nhập khẩu bị lỗi !.
+        ///   Looks up a localized string similar to Bạn chưa chọn file nhập khẩu hoặc file nhập khẩu bị lỗi..
         /// </summary>
         public static string FileEmptyMsg {
             get {
@@ -151,7 +151,7 @@ namespace MISA.Amis.Core.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ID không được để trống !.
+        ///   Looks up a localized string similar to ID không được để trống..
         /// </summary>
         public static string IdEmptyMsg {
             get {
@@ -169,7 +169,7 @@ namespace MISA.Amis.Core.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Định dạng file không được hỗ trợ !.
+        ///   Looks up a localized string similar to Định dạng file không được hỗ trợ..
         /// </summary>
         public static string NotSupportFileExtMsg {
             get {

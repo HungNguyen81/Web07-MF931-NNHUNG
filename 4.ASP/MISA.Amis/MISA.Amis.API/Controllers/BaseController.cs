@@ -58,7 +58,7 @@ namespace MISA.Amis.API.Controllers
                 var response = new
                 {
                     devMsg = e.Message,
-                    userMsg = Properties.Resources.MISAErrorMessage,
+                    Msg = Properties.Resources.MISAErrorMessage,
                     errorCode = "MISA_003",
                     traceId = Guid.NewGuid().ToString()
                 };
@@ -94,7 +94,7 @@ namespace MISA.Amis.API.Controllers
                 var response = new
                 {
                     devMsg = e.Message,
-                    userMsg = Properties.Resources.MISAErrorMessage,
+                    Msg = Properties.Resources.MISAErrorMessage,
                     errorCode = "MISA_003",
                     traceId = Guid.NewGuid().ToString()
                 };
@@ -132,7 +132,7 @@ namespace MISA.Amis.API.Controllers
                 var response = new
                 {
                     devMsg = e.Message,
-                    userMsg = Properties.Resources.MISAErrorMessage,
+                    Msg = Properties.Resources.MISAErrorMessage,
                     errorCode = "MISA_003",
                     traceId = Guid.NewGuid().ToString()
                 };
@@ -173,7 +173,7 @@ namespace MISA.Amis.API.Controllers
                 var response = new
                 {
                     devMsg = e.Message,
-                    userMsg = Properties.Resources.MISAErrorMessage,
+                    Msg = Properties.Resources.MISAErrorMessage,
                     errorCode = "MISA_003",
                     traceId = Guid.NewGuid().ToString()
                 };
@@ -213,7 +213,7 @@ namespace MISA.Amis.API.Controllers
                 var response = new
                 {
                     devMsg = e.Message,
-                    userMsg = Properties.Resources.MISAErrorMessage,
+                    Msg = Properties.Resources.MISAErrorMessage,
                     errorCode = "MISA_003",
                     traceId = Guid.NewGuid().ToString()
                 };
@@ -251,7 +251,7 @@ namespace MISA.Amis.API.Controllers
                 var response = new
                 {
                     devMsg = e.Message,
-                    userMsg = Properties.Resources.MISAErrorMessage,
+                    Msg = Properties.Resources.MISAErrorMessage,
                     errorCode = "MISA_003",
                     traceId = Guid.NewGuid().ToString()
                 };

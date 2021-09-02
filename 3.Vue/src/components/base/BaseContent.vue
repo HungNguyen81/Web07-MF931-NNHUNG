@@ -199,6 +199,9 @@ export default {
     EventBus.$on("showPopup", (args) => {
       this.showPopup(args);
     });
+    EventBus.$on("showToast", (type, header, msg, delay) => {
+      this.showToast(type, header, msg, delay);
+    })
   },
   mounted(){
     this.$nextTick(() => {
@@ -502,6 +505,7 @@ export default {
      * CreatedBy: HungNguyen81 (07-2021)
      */
     sendDeleteRequests() {
+      this.forceTableRerender();
       axios
         .delete(`${this.$config.BASE_API}/${this.entityName}s/`, {
           data: this.deleteIdList,

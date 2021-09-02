@@ -1,7 +1,6 @@
 <template>
   <div class="content-page-navigator">
-    <div class="navigator-left" id="current-pagesize">
-      {{ $resourceVn.LabelTotalRecord.replace('@', totalRecord) }}
+    <div class="navigator-left" id="current-pagesize" v-html="$resourceVn.LabelTotalRecord.replace('@', totalRecord)">
     </div>
     <div class="navigator-center"></div>
     <div class="navigator-right">

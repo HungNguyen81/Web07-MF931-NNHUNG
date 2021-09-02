@@ -157,7 +157,7 @@ namespace MISA.Amis.API.Controllers
 
                 workSheet.Row(1).Height = 20;
                 workSheet.Row(2).Height = 20;
-                workSheet.View.FreezePanes(4, 0);
+                workSheet.View.FreezePanes(4, 4);
 
                 // write các header
                 for (int i = 0; i < headersName.Count; i++)

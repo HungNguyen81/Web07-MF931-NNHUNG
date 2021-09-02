@@ -3,6 +3,7 @@ module.exports = {
     CompanyName: "CÔNG TY TNHH SẢN XUẤT - THƯƠNG MẠI - DỊCH VỤ QUI PHÚC",
 
     // messages
+    NetworkErrorMsg: "Không thể kết nối đến máy chủ, vui lòng kiểm tra kết nối mạng.",
     DataChangeMsg: "Dữ liệu đã bị thay đổi. Bạn có muốn cất không?",
     EmployeeDeleteMsg: "Bạn có thực sự muốn xóa nhân viên <@> không ?",
     ServerErrorMsg: "Đã có lỗi xảy ra, vui lòng liên hệ MISA !",

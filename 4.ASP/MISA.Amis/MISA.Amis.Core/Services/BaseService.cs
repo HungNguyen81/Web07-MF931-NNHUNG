@@ -37,7 +37,6 @@ namespace MISA.Amis.Core.Services
         }
         #endregion
 
-
         #region Các phương thức GET
 
         /// <summary>
@@ -97,7 +96,7 @@ namespace MISA.Amis.Core.Services
             // Kiểm tra trùng mã
             if (mode == (int)Mode.Add && code != null && CheckDuplicateEntityCode((string)code.GetValue(entity)))
             {
-                invalids.Add(ResourceVN.ResourceManager.GetString($"Duplicate{_entityName}CodeMsg"));
+                invalids.Add(ResourceVN.ResourceManager.GetString($"Duplicate{_entityName}CodeMsg").Replace("@", (string)code.GetValue(entity)));
             }
 
             // kiểm tra định dạng email
@@ -177,18 +176,20 @@ namespace MISA.Amis.Core.Services
         public virtual ServiceResult Update(MISAEntity entity, Guid entityId)
         {
             // .Xử lý nghiệp vụ: Ktra tính hợp lệ của một số trường dữ liệu chung
-
-            _serviceResult = Validate(entity, (int)Mode.Update);
-            if (!_serviceResult.IsValid)
+            var id = typeof(MISAEntity).GetProperty($"{_entityName}Id");
+            var mode = (int)Mode.Update;
+            if (id != null)
             {
-                return _serviceResult;
+                var entityIdData = (Guid)id.GetValue(entity);
+                mode = (entityId == entityIdData) ? mode : (int)Mode.Add;
             }
 
-            var id = typeof(MISAEntity).GetProperty($"{_entityName}Id");
-
-            if(id != null)
+            //var mode = (entity == )(int)Mode.Update;
+            _serviceResult = Validate(entity, mode);
+            if (!_serviceResult.IsValid)
             {
-                id.SetValue(entity, entityId);
+                _serviceResult.Msg = _serviceResult.InvalidMsg[0];
+                return _serviceResult;
             }
 
             // Kết nối infrastructure service làm việc với db
