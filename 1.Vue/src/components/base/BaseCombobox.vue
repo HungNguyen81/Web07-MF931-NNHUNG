@@ -6,9 +6,9 @@
         type="text"
         :class="['combobox-input', 'textbox-default', { invalid: !isValidate }]"
         :tabindex="tabindex"
-        @focus="handleComboboxInput()"
+        @focus="toggleDropList()"
         @blur="isHide = true; inputValidate();"
-        @keyup="handleKeyPress($event)"
+        @keydown="handleKeyPress($event)"
         v-bind:value="value"
         v-on="inputListeners"
         ref="comboboxInput"
@@ -291,7 +291,6 @@ export default {
      * ModifiedBy: HungNguyen81 (20-08-2021) <Sửa lại code xử lý khi bấm phím mũi tên>
      */
     handleKeyPress(event) {
-      console.log("keyup");
 
       let maxOffset = this.items.length;
 
