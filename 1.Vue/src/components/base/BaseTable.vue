@@ -289,9 +289,13 @@ export default {
               );
               this.$emit("dataLoaded");
             }
+
+            let pageSize = Number(this.api.split('?')[1].split('&')[0].split('=')[1]);
+            document.getElementById("table-view").style.height = `${pageSize * 48 + 34 + 56}px`;
           })
           .catch((err) => {
             this.isLoading = false;
+            document.getElementById("table-view").style.height = `0px`;
 
             // Handle khi không có kết nối Internet
             if (!err.response) {

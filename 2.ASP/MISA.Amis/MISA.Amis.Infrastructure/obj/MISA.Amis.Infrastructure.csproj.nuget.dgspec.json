@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\4.ASP\\MISA.Amis\\MISA.Amis.Infrastructure\\MISA.Amis.Infrastructure.csproj": {}
+    "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\2.ASP\\MISA.Amis\\MISA.Amis.Infrastructure\\MISA.Amis.Infrastructure.csproj": {}
   },
   "projects": {
-    "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\4.ASP\\MISA.Amis\\MISA.Amis.Core\\MISA.Amis.Core.csproj": {
+    "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\2.ASP\\MISA.Amis\\MISA.Amis.Core\\MISA.Amis.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\4.ASP\\MISA.Amis\\MISA.Amis.Core\\MISA.Amis.Core.csproj",
+        "projectUniqueName": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\2.ASP\\MISA.Amis\\MISA.Amis.Core\\MISA.Amis.Core.csproj",
         "projectName": "MISA.Amis.Core",
-        "projectPath": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\4.ASP\\MISA.Amis\\MISA.Amis.Core\\MISA.Amis.Core.csproj",
+        "projectPath": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\2.ASP\\MISA.Amis\\MISA.Amis.Core\\MISA.Amis.Core.csproj",
         "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\4.ASP\\MISA.Amis\\MISA.Amis.Core\\obj\\",
+        "outputPath": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\2.ASP\\MISA.Amis\\MISA.Amis.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -72,14 +72,14 @@
         }
       }
     },
-    "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\4.ASP\\MISA.Amis\\MISA.Amis.Infrastructure\\MISA.Amis.Infrastructure.csproj": {
+    "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\2.ASP\\MISA.Amis\\MISA.Amis.Infrastructure\\MISA.Amis.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\4.ASP\\MISA.Amis\\MISA.Amis.Infrastructure\\MISA.Amis.Infrastructure.csproj",
+        "projectUniqueName": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\2.ASP\\MISA.Amis\\MISA.Amis.Infrastructure\\MISA.Amis.Infrastructure.csproj",
         "projectName": "MISA.Amis.Infrastructure",
-        "projectPath": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\4.ASP\\MISA.Amis\\MISA.Amis.Infrastructure\\MISA.Amis.Infrastructure.csproj",
+        "projectPath": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\2.ASP\\MISA.Amis\\MISA.Amis.Infrastructure\\MISA.Amis.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\4.ASP\\MISA.Amis\\MISA.Amis.Infrastructure\\obj\\",
+        "outputPath": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\2.ASP\\MISA.Amis\\MISA.Amis.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -100,8 +100,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\4.ASP\\MISA.Amis\\MISA.Amis.Core\\MISA.Amis.Core.csproj": {
-                "projectPath": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\4.ASP\\MISA.Amis\\MISA.Amis.Core\\MISA.Amis.Core.csproj"
+              "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\2.ASP\\MISA.Amis\\MISA.Amis.Core\\MISA.Amis.Core.csproj": {
+                "projectPath": "D:\\0. Subjects\\20203\\MISA fresher Trainning - GĐ1\\Trainning\\Buổi 1 - 13.07.2021\\Bài tập\\TestGD1\\Web07-MF931-NNHUNG\\2.ASP\\MISA.Amis\\MISA.Amis.Core\\MISA.Amis.Core.csproj"
               }
             }
           }

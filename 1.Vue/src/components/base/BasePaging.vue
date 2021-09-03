@@ -187,9 +187,9 @@ export default {
       this.pSize = data.Size;
       this.pageSizeComboboxValue = data.PageSizeName;
       this.$emit("pageSizeChange", this.pSize);
-      document.getElementById("table-view").style.height = `${
-        this.pSize * 48 + 34 + 56
-      }px`;
+      // document.getElementById("table-view").style.height = `${
+      //   this.pSize * 48 + 34 + 56
+      // }px`;
     },
 
     /**
