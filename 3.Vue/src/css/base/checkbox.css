@@ -46,10 +46,17 @@
 .checkbox-container input:checked~.checkmark {
     border-color: rgb(44, 160, 28);
     background-image: url('../../assets/img/Sprites.64af8f61.svg');
-    background-position: -898px -313px;
     background-repeat: no-repeat;
     background-color: #fff;
+    background-position: -898px -313px;
     animation: checkboxRotate 0.2s linear;
+}
+
+.checkmark:focus {
+    outline-style: solid;
+    outline-color: #a4dfff;
+    outline-width: 1px;
+    outline-offset: 1px;
 }
 
 @keyframes checkboxRotate {

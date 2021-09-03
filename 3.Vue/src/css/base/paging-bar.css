@@ -80,18 +80,6 @@
 .button-navigator:hover {
     font-weight: bold;
 }
-/* 
-.button-firstpage {
-    background-image: url('../../assets1/icon/btn-firstpage.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.button-lastpage {
-    background-image: url('../../assets1/icon/btn-lastpage.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-} */
 
 .button-next-page {
     width: fit-content;

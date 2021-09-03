@@ -94,6 +94,7 @@
     background-image: url('../../assets1/icon/toast-error.png');
     background-size: 24px;
     background-repeat: no-repeat;
+    background-color: lightgray;
 }
 .toast-close .error {
     color: #FF7777;

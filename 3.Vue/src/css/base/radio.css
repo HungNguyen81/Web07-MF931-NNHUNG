@@ -30,10 +30,30 @@
 
 .icontainer input:checked~.radio-checkmark {
     background-color: #fff;
-    border-color: rgb(44,160,28);
+    border-color: rgb(44, 160, 28);
 }
-.icontainer input:focus ~ .radio-checkmark{
-    border-color: rgb(44,160,28);
+
+.icontainer input:focus~.radio-checkmark {
+    border-color: rgb(44, 160, 28);
+    /* border-color: red; */
+    /* outline-style: solid;
+    outline-color: #a4dfff;
+    outline-width: 1px;
+    outline-offset: 3px;
+     */
+}
+
+.icontainer input:focus~.radio-checkmark::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -4px;
+    bottom: -4px;
+    left: -4px;
+    right: -4px;
+    border-radius: 50%;
+    border: 2px solid #a4dfff;
+    box-sizing: border-box;    
 }
 
 .radio-checkmark:after {
@@ -43,7 +63,8 @@
 }
 
 .icontainer input:checked~.radio-checkmark:after {
-    display: block;
+    display: flex;
+    flex-shrink: 0;
 }
 
 .icontainer .radio-checkmark:after {
@@ -53,5 +74,5 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: rgb(44,160,28);
+    background: rgb(44, 160, 28);
 }

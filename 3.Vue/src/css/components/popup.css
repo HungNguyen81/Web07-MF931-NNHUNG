@@ -72,22 +72,6 @@
     box-sizing: border-box;
     z-index: 20;
 }
-/* 
-.button-cancel {
-    margin-right: 16px;
-}
-
-.button-cancel:hover {
-    background-color: #e5e5e5 !important;
-}
-
-.button-ok.error {
-    background-color: #f65454 !important;
-}
-
-.button-ok.error:hover {
-    background-color: #f84242 !important;
-} */
 
 .cancel-button, .no-button{
     background: transparent;

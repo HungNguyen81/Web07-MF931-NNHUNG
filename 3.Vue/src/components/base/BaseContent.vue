@@ -9,7 +9,7 @@
             type="button-delete"
             icon="icon-delete"
             :onclick="delBtnClick"
-            :class="{ 'hidden': !delBtnActive }"
+            :class="{ hidden: !delBtnActive }"
           ></BaseButtonIcon>
           <BaseButtonIcon
             :value="$resourceVn[`${entityName}ButtonAddText`]"
@@ -62,7 +62,7 @@
           @cloneEntity="cloneEntity"
           @deleteEntity="deleteEntity"
         ></Table>
-        
+
         <Paging
           :pageNumber="pageNumber"
           :pageSize="pageSize"
@@ -184,7 +184,7 @@ export default {
         popupType: "error",
         okAction: "OK",
         isHide: true,
-        callback: null
+        callback: null,
       },
       formStatus: false,
       isTableLoading: true,
@@ -201,14 +201,13 @@ export default {
     });
     EventBus.$on("showToast", (type, header, msg, delay) => {
       this.showToast(type, header, msg, delay);
-    })
+    });
   },
-  mounted(){
+  mounted() {
     this.$nextTick(() => {
-
       // refresh table khi load trang
       this.refreshTableSelected();
-    })
+    });
   },
   computed: {
     /**
@@ -277,8 +276,21 @@ export default {
         isHide: false,
         buttons: [
           { type: "cancel-button", callback: this.closePopup, value: "Hủy" },
-          { type: "no-button", callback: () => {this.closePopup(); this.closeForm(0);}, value: "Không" },
-          { type: "yes-button", callback: () => {this.excuteFormModeAction(mode);}, value: "Có" },
+          {
+            type: "no-button",
+            callback: () => {
+              this.closePopup();
+              this.closeForm(0);
+            },
+            value: "Không",
+          },
+          {
+            type: "yes-button",
+            callback: () => {
+              this.excuteFormModeAction(mode);
+            },
+            value: "Có",
+          },
         ],
       };
       this.entityId = id;
@@ -372,9 +384,12 @@ export default {
       this.totalPage = numPage;
     },
 
-
-    handleScroll(event){
-      EventBus.$emit('scrollView', event.target.scrollTop, event.target.scrollLeft)
+    handleScroll(event) {
+      EventBus.$emit(
+        "scrollView",
+        event.target.scrollTop,
+        event.target.scrollLeft
+      );
     },
 
     //#endregion
@@ -394,11 +409,13 @@ export default {
      * Thực thi tác vụ tương ứng với form mode
      * CreatedBy: HungNguyen81 (29-08-2021)
      */
-    excuteFormModeAction(mode, callback){
-      if(mode == this.$config.FORM_ADD){
+    excuteFormModeAction(mode, callback) {
+      if (mode == this.$config.FORM_ADD) {
         this.sendPostRequest(callback);
-      } else if(mode == this.$config.FORM_UPDATE){
+      } else if (mode == this.$config.FORM_UPDATE) {
         this.sendPutRequest(callback);
+      } else if (mode == this.$config.FORM_CLONE){
+        this.sendPostRequest(callback);
       }
     },
 
@@ -443,11 +460,18 @@ export default {
      */
     delBtnClick() {
       this.showPopup({
-        content: this.$resourceVn.EmployeeDeleteMsg.replace('@', this.deleteCodeList.join(", ")),
+        content: this.$resourceVn.EmployeeDeleteMsg.replace(
+          "@",
+          this.deleteCodeList.join(", ")
+        ),
         popupType: "warning",
         isHide: false,
         buttons: [
-          { type: "cancel-button", callback: null, value: this.$resourceVn.NoButtonText },
+          {
+            type: "cancel-button",
+            callback: null,
+            value: this.$resourceVn.NoButtonText,
+          },
           {
             type: "yes-button",
             callback: this.sendDeleteRequests,
@@ -457,21 +481,27 @@ export default {
       });
     },
 
-    cloneEntity(id){
+    cloneEntity(id) {
       this.entityId = id;
       this.OpenForm(this.$config.FORM_CLONE);
     },
 
-    deleteEntity(id, code){
+    deleteEntity(id, code) {
       this.showPopup({
-        content: this.$resourceVn.EmployeeDeleteMsg.replace('@', code),
+        content: this.$resourceVn.EmployeeDeleteMsg.replace("@", code),
         popupType: "warning",
         isHide: false,
         buttons: [
-          { type: "cancel-button", callback: null, value: this.$resourceVn.NoButtonText },
+          {
+            type: "cancel-button",
+            callback: null,
+            value: this.$resourceVn.NoButtonText,
+          },
           {
             type: "yes-button",
-            callback: ()=>{this.sendDeleteOneRequest(id)},
+            callback: () => {
+              this.sendDeleteOneRequest(id);
+            },
             value: this.$resourceVn.YesButtonText,
           },
         ],
@@ -485,7 +515,7 @@ export default {
      * Xóa một entity
      * CreatedBy: HungNguyen81 (29-08-2021)
      */
-    sendDeleteOneRequest(id){
+    sendDeleteOneRequest(id) {
       axios
         .delete(`${this.$config.BASE_API}/${this.entityName}s/${id}`)
         .then((res) => {
@@ -494,10 +524,18 @@ export default {
           this.forceTableRerender();
 
           // hiển thị toast thông báo đã xóa thành công
-          this.showToast("info", this.$resourceVn.DeleteSuccessTitle, res.data.Msg);
+          this.showToast(
+            "info",
+            this.$resourceVn.DeleteSuccessTitle,
+            res.data.Msg
+          );
         })
         .catch(() => {
-          this.showToast("error", "Delete error", this.$resourceVn.DeleteFailTitle);
+          this.showToast(
+            "error",
+            "Delete error",
+            this.$resourceVn.DeleteFailTitle
+          );
         });
     },
     /**
@@ -519,10 +557,18 @@ export default {
           this.forceTableRerender();
 
           // hiển thị toast thông báo đã xóa thành công
-          this.showToast("info", this.$resourceVn.DeleteSuccessTitle, res.data.Msg);
+          this.showToast(
+            "info",
+            this.$resourceVn.DeleteSuccessTitle,
+            res.data.Msg
+          );
         })
         .catch(() => {
-          this.showToast("error", "Delete error", this.$resourceVn.DeleteFailTitle);
+          this.showToast(
+            "error",
+            "Delete error",
+            this.$resourceVn.DeleteFailTitle
+          );
         });
     },
 
@@ -537,19 +583,28 @@ export default {
           this.entityDetail
         )
         .then(() => {
-          // this.closePopup();
-          // this.closeForm();
-          if(callback) callback();
+          if (callback) callback();
           this.showToast(
             "success",
             this.$resourceVn.PutSuccessTitle,
-            this.$resourceVn.UpdateSuccessMsg.replace('@', this.entityDetail.FullName)
+            this.$resourceVn.UpdateSuccessMsg.replace(
+              "@",
+              this.entityDetail.FullName
+            )
           );
 
           this.forceTableRerender();
         })
         .catch((err) => {
-            this.handleInvalidResponse(err);
+          this.$emit("dataLoaded");
+            this.$emit(
+              "showToast",
+              "error",
+              this.$resourceVn.ErrorTitle,
+              this.$resourceVn.NetworkErrorMsg
+            );
+            EventBus.$emit("requestFail");
+          this.handleInvalidResponse(err);
         });
     },
 
@@ -558,44 +613,64 @@ export default {
      * CreatedBy: HungNguyen81 (07-2021)
      */
     sendPostRequest(callback) {
-      let entityCode = this.entityDetail[this.entityName+'Code'];
+      let entityCode = this.entityDetail[this.entityName + "Code"];
       axios
         .post(
           `${this.$config.BASE_API}/${this.entityName}s/`,
           this.entityDetail
         )
         .then(() => {
-          if(callback) {
+          if (callback) {
             callback();
           }
           this.showToast(
-            "success", 
-            this.$resourceVn.PostSuccessTitle, 
+            "success",
+            this.$resourceVn.PostSuccessTitle,
             // res.data.Msg
-            this.$resourceVn.PostSuccessMsg.replaceAll('@', entityCode)
+            this.$resourceVn.PostSuccessMsg.replaceAll("@", entityCode)
           );
           this.forceTableRerender();
         })
         .catch((err) => {
+          // Handle khi không có kết nối Internet
+          if (!err.response) {
+            this.$emit("dataLoaded");
+            this.$emit(
+              "showToast",
+              "error",
+              this.$resourceVn.ErrorTitle,
+              this.$resourceVn.NetworkErrorMsg
+            );
+            EventBus.$emit("requestFail");
+            return;
+          }
           this.handleInvalidResponse(err);
         });
     },
 
-    handleInvalidResponse(err){
+    handleInvalidResponse(err) {
       var func = () => {
         this.closePopup();
-        this.$refs.form.$refs['employeeCode'].$el.children[1].focus();
-      }
-      this.showToast("error", this.$resourceVn.PutErrorTitle, err.response.data.Msg);
+        this.$refs.form.$refs["employeeCode"].$el.children[1].focus();
+      };
+      this.showToast(
+        "error",
+        this.$resourceVn.PutErrorTitle,
+        err.response.data.Msg
+      );
       this.showPopup({
         content: err.response.data.Msg,
         popupType: "warning",
         isHide: false,
         buttons: [
-          { type: "yes-button", callback: func, value: this.$resourceVn.ConfirmButtonText },
+          {
+            type: "yes-button",
+            callback: func,
+            value: this.$resourceVn.ConfirmButtonText,
+          },
         ],
-      })
-      EventBus.$emit('requestFail');
+      });
+      EventBus.$emit("requestFail");
     },
 
     //#endregion

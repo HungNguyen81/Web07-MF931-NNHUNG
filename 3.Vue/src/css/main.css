@@ -79,7 +79,7 @@ body {
     visibility: hidden;
 }
 
-.disable{
+.disable {
     pointer-events: none;
     opacity: 0.6;
 }

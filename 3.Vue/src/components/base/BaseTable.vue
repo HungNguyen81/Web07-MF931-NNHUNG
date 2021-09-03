@@ -293,6 +293,7 @@ export default {
           .catch((err) => {
             this.isLoading = false;
 
+            // Handle khi không có kết nối Internet
             if (!err.response) {
               this.$emit("dataLoaded");
               this.$emit(

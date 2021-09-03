@@ -8,7 +8,7 @@
       :class="['form-container', { open: isOpen, close: !isOpen }]"
       id="form-container"
       @click.stop="formClick"
-      ref="draggableContainer" 
+      ref="draggableContainer"
     >
       <div
         class="form-header"
@@ -25,7 +25,7 @@
                   name="isCustomer"
                   v-model="detail.IsCustomer"
                 />
-                <div class="checkmark"></div>
+                <div class="checkmark" :tabindex="1" @keyup.enter="detail.IsCustomer=!detail.IsCustomer"></div>
               </span>
               <span class="label">{{ $resourceVn.IsCustomer }}</span>
             </div>
@@ -36,14 +36,17 @@
                   name="isProvider"
                   v-model="detail.IsProvider"
                 />
-                <div class="checkmark"></div>
+                <div class="checkmark" :tabindex="2" @keyup.enter="detail.IsProvider=!detail.IsProvider"></div>
               </span>
               <span class="label">{{ $resourceVn.IsProvider }}</span>
             </div>
           </div>
         </div>
         <div class="header-btn">
-          <div class="help-btn form-header-btn" :title="$resourceVn.HelpButtonTitle"></div>
+          <div
+            class="help-btn form-header-btn"
+            :title="$resourceVn.HelpButtonTitle"
+          ></div>
           <div
             class="close-btn form-header-btn"
             :title="$resourceVn.CloseButtonTitle"
@@ -61,7 +64,7 @@
                 :valueType="'text'"
                 type="input-form"
                 inputKey="employee-code"
-                :tabindex="1"
+                :tabindex="3"
                 ref="employeeCode"
                 v-model="detail.EmployeeCode"
                 :label="$resourceVn.LabelEmployeeCode"
@@ -75,7 +78,7 @@
                 :valueType="'text'"
                 type="input-form"
                 inputKey="fullname"
-                :tabindex="2"
+                :tabindex="4"
                 :label="$resourceVn.LabelFullname"
                 :required="true"
                 ref="fullName"
@@ -114,7 +117,7 @@
                 :valueType="'text'"
                 type="input-form"
                 inputKey="position"
-                :tabindex="8"
+                :tabindex="6"
                 :label="$resourceVn.LabelPositionName"
               />
             </div>
@@ -126,7 +129,7 @@
                 :type="'input-form'"
                 inputKey="date-of-birth"
                 ref="dateOfBirth"
-                :tabindex="3"
+                :tabindex="7"
                 v-model="detail.DateOfBirth"
                 :label="$resourceVn.LabelDateOfBirth"
                 :validates="[date, dateNotExceedToday]"
@@ -141,7 +144,7 @@
                   <label class="icontainer">
                     {{ $resourceVn.OptionMale }}
                     <input
-                      :tabindex="4"
+                      :tabindex="8"
                       type="radio"
                       value="1"
                       name="gender"
@@ -152,7 +155,7 @@
                   <label class="icontainer">
                     {{ $resourceVn.OptionFemale }}
                     <input
-                      :tabindex="4"
+                      :tabindex="9"
                       type="radio"
                       value="0"
                       name="gender"
@@ -163,7 +166,7 @@
                   <label class="icontainer">
                     {{ $resourceVn.OptionOthers }}
                     <input
-                      :tabindex="4"
+                      :tabindex="10"
                       type="radio"
                       value="2"
                       name="gender"
@@ -180,7 +183,7 @@
                 :valueType="'text'"
                 type="input-form"
                 inputKey="identity-number"
-                :tabindex="6"
+                :tabindex="11"
                 :label="$resourceVn.LabelIdentityNumber"
                 :rerenderFlag="isRerender"
                 :pattern="/[0-9]/"
@@ -189,7 +192,7 @@
                 v-model="detail.IdentityDate"
                 :type="'input-form'"
                 inputKey="identity-date"
-                :tabindex="7"
+                :tabindex="12"
                 :label="$resourceVn.LabelIdentityDate"
                 :validates="[date, dateNotExceedToday]"
                 :rerenderFlag="isRerender"
@@ -204,7 +207,7 @@
                 :valueType="'text'"
                 type="input-form"
                 inputKey="identity-place"
-                :tabindex="9"
+                :tabindex="13"
                 :label="$resourceVn.LabelIdentityPlace"
               />
             </div>
@@ -218,7 +221,7 @@
                 :valueType="'text'"
                 type="input-form"
                 inputKey="address"
-                :tabindex="10"
+                :tabindex="14"
                 :label="$resourceVn.LabelAddress"
               />
             </div>
@@ -228,7 +231,7 @@
                 :valueType="'text'"
                 type="input-form"
                 inputKey="mobile-number"
-                :tabindex="11"
+                :tabindex="15"
                 :label="$resourceVn.LabelMobileNumber"
                 ref="mobileNumber"
                 :pattern="/[0-9]/"
@@ -238,7 +241,7 @@
                 :valueType="'text'"
                 type="input-form"
                 inputKey="phone-number"
-                :tabindex="12"
+                :tabindex="16"
                 :label="$resourceVn.LabelPhoneNumber"
                 ref="phoneNumber"
                 :pattern="/[0-9()-]/"
@@ -248,7 +251,7 @@
                 :valueType="'text'"
                 type="input-form"
                 inputKey="email"
-                :tabindex="13"
+                :tabindex="17"
                 :label="$resourceVn.LabelEmail"
                 ref="email"
                 :rerenderFlag="isRerender"
@@ -262,7 +265,7 @@
                 :valueType="'text'"
                 type="input-form"
                 inputKey="bank-account"
-                :tabindex="14"
+                :tabindex="18"
                 :label="$resourceVn.LabelBankAccount"
                 :pattern="/[0-9]/"
               />
@@ -271,7 +274,7 @@
                 :valueType="'text'"
                 type="input-form"
                 inputKey="bank-name"
-                :tabindex="15"
+                :tabindex="19"
                 :label="$resourceVn.LabelBankName"
               />
               <BaseTextInput
@@ -279,7 +282,7 @@
                 :valueType="'text'"
                 type="input-form"
                 inputKey="bank-branch"
-                :tabindex="16"
+                :tabindex="20"
                 :label="$resourceVn.LabelBankBranch"
               />
             </div>
@@ -298,7 +301,7 @@
               closeForm(isChange);
             }
           "
-          tabindex="17"
+          tabindex="21"
         ></BaseButtonIcon>
         <div class="action-btns">
           <BaseButtonIcon
@@ -310,7 +313,7 @@
                 btnSaveClick(false);
               }
             "
-            tabindex="17"
+            tabindex="22"
           ></BaseButtonIcon>
           <BaseButtonIcon
             class="form-btn"
@@ -321,7 +324,7 @@
                 btnSaveClick(true);
               }
             "
-            tabindex="17"
+            tabindex="23"
           ></BaseButtonIcon>
         </div>
       </div>
@@ -457,8 +460,8 @@ export default {
       console.log("form " + (val ? "open" : "close"), this.mode);
 
       if (this.isOpen) {
-        this.$refs.draggableContainer.style.top = '50px'
-        this.$refs.draggableContainer.style.left = '50%'
+        this.$refs.draggableContainer.style.top = "50px";
+        this.$refs.draggableContainer.style.left = "50%";
 
         // Nếu mode là FORM_UPDATE: sửa nv
         if (this.mode == this.$config.FORM_UPDATE && this.detailId) {
@@ -529,7 +532,20 @@ export default {
 
           if (callback) callback();
         })
-        .catch(() => {
+        .catch(err => {
+          // Handle khi không có kết nối Internet
+          if (!err.response) {
+            this.$emit("dataLoaded");
+            this.$emit(
+              "showToast",
+              "error",
+              this.$resourceVn.ErrorTitle,
+              this.$resourceVn.NetworkErrorMsg
+            );
+            this.isLoading = false;
+            return;
+          }
+
           this.$emit(
             "showToast",
             "error",
@@ -571,7 +587,7 @@ export default {
           }
           this.$set(this.detail, "EmployeeCode", newCode);
 
-          this.initDetail = Object.assign({}, this.detail);
+          // this.initDetail = Object.assign({}, this.detail);
           this.isLoading = false;
         })
         .catch(() => {
@@ -581,11 +597,6 @@ export default {
             this.$resourceVn.ErrorTitle,
             this.$resourceVn.CannotGetNewEmployeeCodeMsg
           );
-          let newCode = `NV-${Math.round(Math.random() * 10000)}`;
-          this.$refs.employeeCode.$el.value = newCode;
-          this.$set(this.detail, "EmployeeCode", newCode);
-
-          this.initDetail = Object.assign({}, this.detail);
           this.isLoading = false;
         });
     },
@@ -681,14 +692,25 @@ export default {
         }
       }
       if (!this.isValidate()) {
-        this.$emit("showToast", "warning", this.$resourceVn.DataInvalidMsg, invalidMsg);
+        this.$emit(
+          "showToast",
+          "warning",
+          this.$resourceVn.DataInvalidMsg,
+          invalidMsg
+        );
         this.$emit("showPopup", {
           content: invalidMsg,
           popupType: "error",
           isHide: false,
-          buttons: [{ type: "button-ok", callback: null, value: this.$resourceVn.CloseButtonText }],
+          buttons: [
+            {
+              type: "button-ok",
+              callback: null,
+              value: this.$resourceVn.CloseButtonText,
+            },
+          ],
         });
-        
+
         this.isLoading = false;
         return;
       }
@@ -698,7 +720,7 @@ export default {
         this.detail = Object.assign({}, initObject);
         this.getNewCode();
 
-        this.isLoading = false;
+        // this.isLoading = false;
       };
 
       // nếu thông tin đã thay đổi
@@ -720,6 +742,7 @@ export default {
         });
       } else {
         if (!isAddNext) {
+          this.isLoading = false;
           this.closeForm(false);
         } else {
           func();
@@ -761,30 +784,36 @@ export default {
     //#region Tạo Draggable form
 
     dragMouseDown: function (event) {
-      event.preventDefault()
+      event.preventDefault();
       // lấy vị trí của con trỏ chuột
-      this.positions.clientX = event.clientX
-      this.positions.clientY = event.clientY
-      document.onmousemove = this.elementDrag
-      document.onmouseup = this.closeDragElement
+      this.positions.clientX = event.clientX;
+      this.positions.clientY = event.clientY;
+      document.onmousemove = this.elementDrag;
+      document.onmouseup = this.closeDragElement;
     },
     elementDrag: function (event) {
-      event.preventDefault()
-      this.positions.movementX = this.positions.clientX - event.clientX
-      this.positions.movementY = this.positions.clientY - event.clientY
-      this.positions.clientX = event.clientX
-      this.positions.clientY = event.clientY
+      event.preventDefault();
+      this.positions.movementX = this.positions.clientX - event.clientX;
+      this.positions.movementY = this.positions.clientY - event.clientY;
+      this.positions.clientX = event.clientX;
+      this.positions.clientY = event.clientY;
 
       // set vị trí mới cho element
-      this.$refs.draggableContainer.style.top = (this.$refs.draggableContainer.offsetTop - this.positions.movementY) + 'px'
-      this.$refs.draggableContainer.style.left = (this.$refs.draggableContainer.offsetLeft - this.positions.movementX) + 'px'
+      this.$refs.draggableContainer.style.top =
+        this.$refs.draggableContainer.offsetTop -
+        this.positions.movementY +
+        "px";
+      this.$refs.draggableContainer.style.left =
+        this.$refs.draggableContainer.offsetLeft -
+        this.positions.movementX +
+        "px";
     },
-    closeDragElement () {
-      document.onmouseup = null
-      document.onmousemove = null
-    }
+    closeDragElement() {
+      document.onmouseup = null;
+      document.onmousemove = null;
+    },
 
-    //#region 
+    //#region
   },
 };
 </script>

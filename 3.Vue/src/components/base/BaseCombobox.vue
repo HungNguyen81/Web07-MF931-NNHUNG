@@ -7,7 +7,7 @@
         :class="['combobox-input', 'textbox-default', { invalid: !isValidate }]"
         :tabindex="tabindex"
         @focus="handleComboboxInput()"
-        @blur="inputValidate()"
+        @blur="isHide = true; inputValidate();"
         @keyup="handleKeyPress($event)"
         v-bind:value="value"
         v-on="inputListeners"
