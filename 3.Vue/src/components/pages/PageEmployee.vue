@@ -38,14 +38,60 @@ export default {
       features: [],
       menuItems: this.$resourceVn.MenuItems,
       isCollapse: false,
+      isCtrlPressed: false,
+      isAltPressed: false,
+      isEKeyPressed: false,
+      isSKeyPressed: false,
       route: "/",
     };
   },
   created() {
     this.features.push({
+      title: "Ctrl + Alt + E",
       featureClass: "btn-export",
       action: this.exportEmployees,
     });
+  },
+  mounted(){
+    document.addEventListener('keydown', e => {
+      switch(e.key){
+        case 'Control': 
+          this.isCtrlPressed = true;
+          break;
+        case 'Alt': 
+          this.isAltPressed = true;
+          break;
+        case 'e': 
+          this.isEKeyPressed = true;
+          break;
+        case 's': 
+          this.isSKeyPressed = true;
+          break;          
+      }
+      if(this.isCtrlPressed && this.isAltPressed){
+        if(this.isSKeyPressed){
+          document.querySelector('.textbox-default.search-field').focus();
+        } else if (this.isEKeyPressed){
+          document.querySelector('.btn-export').click();
+        }
+      }
+    });
+    document.addEventListener('keyup', e => {
+      switch(e.key){
+        case 'Control': 
+          this.isCtrlPressed = false;
+          break;
+        case 'Alt': 
+          this.isAltPressed = false;
+          break;
+        case 'e': 
+          this.isEKeyPressed = false;
+          break;
+        case 's': 
+          this.isSKeyPressed = false;
+          break;          
+      }
+    })
   },
   methods: {
     /**

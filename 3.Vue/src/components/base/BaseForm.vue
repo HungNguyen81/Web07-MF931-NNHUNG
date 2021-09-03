@@ -25,7 +25,11 @@
                   name="isCustomer"
                   v-model="detail.IsCustomer"
                 />
-                <div class="checkmark" :tabindex="1" @keyup.enter="detail.IsCustomer=!detail.IsCustomer"></div>
+                <div
+                  class="checkmark"
+                  :tabindex="1"
+                  @keyup.enter="detail.IsCustomer = !detail.IsCustomer"
+                ></div>
               </span>
               <span class="label">{{ $resourceVn.IsCustomer }}</span>
             </div>
@@ -36,7 +40,11 @@
                   name="isProvider"
                   v-model="detail.IsProvider"
                 />
-                <div class="checkmark" :tabindex="2" @keyup.enter="detail.IsProvider=!detail.IsProvider"></div>
+                <div
+                  class="checkmark"
+                  :tabindex="2"
+                  @keyup.enter="detail.IsProvider = !detail.IsProvider"
+                ></div>
               </span>
               <span class="label">{{ $resourceVn.IsProvider }}</span>
             </div>
@@ -474,6 +482,12 @@ export default {
           this.generateUpdateForm(this.getNewCode);
         }
       }
+
+      if (this.isOpen) {
+        document.addEventListener("keydown", this.escListener);
+      } else {
+        document.removeEventListener("keydown", this.escListener);
+      }
     },
     isLoading: function (state) {
       if (!state) {
@@ -484,6 +498,16 @@ export default {
     },
   },
   methods: {
+    /**
+     * Đóng form khi bấm phím Esc trên bàn phím
+     * CreatedBy: HungNguyen81 (03-09-2021)
+     */
+    escListener(e) {
+      if (e.key == "Escape") {
+        if (!this.isLoading) this.closeForm();
+      }
+    },
+
     /**
      * Đóng form, gọi hàm Close truyền từ props
      * CreatedBy: HungNguyen81 (08-2021)
@@ -532,7 +556,7 @@ export default {
 
           if (callback) callback();
         })
-        .catch(err => {
+        .catch((err) => {
           // Handle khi không có kết nối Internet
           if (!err.response) {
             this.$emit("dataLoaded");

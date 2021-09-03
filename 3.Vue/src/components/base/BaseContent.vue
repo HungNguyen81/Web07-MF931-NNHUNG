@@ -23,6 +23,7 @@
         <div class="content-search">
           <div class="more-feature-btn-wrap">
             <input
+              title="Ctrl + Alt + S"
               type="text"
               class="textbox-default search-field"
               :placeholder="$resourceVn[`${entityName}SearchPlaceHolderText`]"
@@ -35,6 +36,7 @@
             ></div>
             <div
               class="feature-btn"
+              :title="btn.title"
               :class="btn.featureClass"
               @click="btn.action"
               v-for="(btn, i) in features"
