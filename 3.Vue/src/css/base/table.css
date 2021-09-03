@@ -248,12 +248,12 @@ table tr td:nth-child(11) {
 /* Work status */
 table tbody td:nth-child(11),
 table th:nth-child(11) {
-    width: 200px;
+    width: 150px;
 }
 
 table tbody td:nth-child(12),
 table th:nth-child(12) {
-    width: 200px;
+    width: 150px;
 }
 
 table tbody td:nth-child(13),

@@ -40,7 +40,9 @@ module.exports = {
     DeleteSuccessTitle: "Xóa thành công",
     DeleteFailTitle: "Xóa thất bại",
     UpdateSuccessMsg: "Sửa thông tin của <b>@</b> thành công.",
+    PostSuccessMsg: "Thêm mới nhân viên <b>@</b> thành công.",
     PostSuccessTitle: "Thêm mới thành công",
+    PutSuccessTitle: "Cập nhật thành công",
     PutErrorTitle: "Sửa thông tin thất bại",
     EmployeeContentHeader: "Thông tin nhân viên",
 

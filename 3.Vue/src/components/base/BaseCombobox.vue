@@ -109,46 +109,7 @@ export default {
   created() {
     // nếu truyền vào API url
     if (this.api) {
-      axios
-        .get(this.api)
-        .then((res) => {
-          this.items = [];
-
-          if (this.mode == 1 && this.type) {
-            this.items.push({
-              [this.typeName]: "Tất cả " + this.map[this.type],
-              [this.type + "Id"]: "",
-            });
-          }
-
-          Object.assign(this.items, res.data);
-
-          this.items = this.items.map((e) => ({
-            ...e,
-            Hidden: false,
-          }));
-
-          this.isDataLoaded = true;
-          if (this.value) {
-            if (this.data) {
-              this.data.forEach((e, i) => {
-                if (e[this.typeDataKey] == this.value) {
-                  this.current = i;
-                }
-              });
-            }
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          this.$emit(
-            "showToast",
-            "error",
-            this.$resourceVn.ErrorMsg,
-            this.$resourceVn.ServerErrorTitle
-          );
-          this.isDataLoaded = true;
-        });
+      this.getDataFromApi();
     } else {
       // nếu truyền vào data cố định
       this.items = this.data.map((e) => ({
@@ -229,9 +190,59 @@ export default {
      */
     rerenderFlag: function () {
       this.isValidate = true;
+      if (this.api) {
+        this.getDataFromApi();
+      }
     },
   },
   methods: {
+    /**
+     * Gọi API và lấy dữ liệu hiển thị lên drop-list của combobox
+     * CreatedBy: HungNguyen81 (03-09-2021)
+     */
+    getDataFromApi() {
+      axios
+        .get(this.api)
+        .then((res) => {
+          this.items = [];
+
+          if (this.mode == 1 && this.type) {
+            this.items.push({
+              [this.typeName]: "Tất cả " + this.map[this.type],
+              [this.type + "Id"]: "",
+            });
+          }
+
+          Object.assign(this.items, res.data);
+
+          this.items = this.items.map((e) => ({
+            ...e,
+            Hidden: false,
+          }));
+
+          this.isDataLoaded = true;
+          if (this.value) {
+            if (this.data) {
+              this.data.forEach((e, i) => {
+                if (e[this.typeDataKey] == this.value) {
+                  this.current = i;
+                }
+              });
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$emit(
+            "showToast",
+            "error",
+            this.$resourceVn.ErrorMsg,
+            this.$resourceVn.ServerErrorTitle
+          );
+          this.isDataLoaded = true;
+        });
+    },
+
     /**
      * Kiểm tra tính hợp lệ bằng cách gọi lần lượt các hàm validate truyền vào từ props
      * CreatedBy: HungNguyen81 (30-08-2021)
@@ -282,7 +293,7 @@ export default {
     handleKeyPress(event) {
       console.log("keyup");
 
-      let maxOffset = this.items.length; 
+      let maxOffset = this.items.length;
 
       if (event.code == "ArrowDown") {
         event.preventDefault();

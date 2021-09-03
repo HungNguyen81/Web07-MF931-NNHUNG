@@ -542,7 +542,7 @@ export default {
           if(callback) callback();
           this.showToast(
             "success",
-            "PUT Success",
+            this.$resourceVn.PutSuccessTitle,
             this.$resourceVn.UpdateSuccessMsg.replace('@', this.entityDetail.FullName)
           );
 
@@ -558,18 +558,22 @@ export default {
      * CreatedBy: HungNguyen81 (07-2021)
      */
     sendPostRequest(callback) {
+      let entityCode = this.entityDetail[this.entityName+'Code'];
       axios
         .post(
           `${this.$config.BASE_API}/${this.entityName}s/`,
           this.entityDetail
         )
-        .then((res) => {
-          console.log(111);
+        .then(() => {
           if(callback) {
-            console.log("111");
             callback();
           }
-          this.showToast("success", this.$resourceVn.PostSuccessTitle, res.data.Msg);
+          this.showToast(
+            "success", 
+            this.$resourceVn.PostSuccessTitle, 
+            // res.data.Msg
+            this.$resourceVn.PostSuccessMsg.replaceAll('@', entityCode)
+          );
           this.forceTableRerender();
         })
         .catch((err) => {
