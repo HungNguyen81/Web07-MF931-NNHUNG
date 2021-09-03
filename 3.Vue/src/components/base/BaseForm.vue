@@ -504,7 +504,7 @@ export default {
      */
     escListener(e) {
       if (e.key == "Escape") {
-        if (!this.isLoading) this.closeForm();
+        if (!this.isLoading) this.closeForm(this.isChange);
       }
     },
 
