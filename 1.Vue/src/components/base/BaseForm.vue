@@ -57,7 +57,7 @@
           ></div>
           <div
             class="close-btn form-header-btn"
-            :title="$resourceVn.CloseButtonTitle"
+            :title="$resourceVn.CloseButtonTitle + ' (ESC)'"
             @click="closeForm(isChange)"
           ></div>
         </div>
@@ -611,7 +611,9 @@ export default {
           }
           this.$set(this.detail, "EmployeeCode", newCode);
 
-          // this.initDetail = Object.assign({}, this.detail);
+          // if(this.mode == this.$config.FORM_ADD){
+            this.initDetail = Object.assign({}, this.detail);
+          // }
           this.isLoading = false;
         })
         .catch(() => {
@@ -748,7 +750,7 @@ export default {
       };
 
       // nếu thông tin đã thay đổi
-      if (this.isChange) {
+      if (this.isChange || this.mode == this.$config.FORM_CLONE) {
         this.$emit(
           "saveClicked",
           this.mode,
