@@ -23,7 +23,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="(e, index) in isLoading ? loadingRows : employees"
+          v-for="(e, index) in !employees ? loadingRows : employees"
           :key="index"
           @dblclick="$emit('rowDblClick', e[type + 'Id'])"
           @click="rowClickHandle(e, type)"

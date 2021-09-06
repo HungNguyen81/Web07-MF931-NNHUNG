@@ -226,8 +226,8 @@ export default {
       if (this.searchTimeOut) clearTimeout(this.searchTimeOut);
       this.searchTimeOut = setTimeout(() => {
         // re-render table
-        this.pageNumber = 0;
-        this.tableFlag = !this.tableFlag;
+        if(this.pageNumber != 0) this.pageNumber = 0;
+        else this.refreshTableSelected();
 
         console.log("search:", c);
       }, 500);
@@ -650,6 +650,10 @@ export default {
         });
     },
 
+    /**
+     * Handle các response khi dữ liệu không hợp lệ
+     * CreatedBy: HungNguyen81 (01-09-2021)
+     */
     handleInvalidResponse(err) {
       var func = () => {
         this.closePopup();
