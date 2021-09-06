@@ -168,7 +168,7 @@ export default {
       // page
       pageSize: 20,
       pageNumber: 0, // = current - 1
-      totalRecord: 20,
+      totalRecord: 0,
       totalPage: 1,
       pageItems: [],
       // search

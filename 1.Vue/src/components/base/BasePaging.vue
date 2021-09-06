@@ -140,9 +140,26 @@ export default {
       if (tp < 6) {
         this.isShowFirst = this.isShowLast = false;
       }
+      this.showLastOrFirst();
     },
     pageNumber: function (c) {
       this.current = c + 1;
+      this.showLastOrFirst();
+    },
+  },
+  computed: {
+    offset: function () {
+      return this.current < 2
+        ? 1
+        : this.current - 1 - Math.max(0, 1 - this.allPage + this.current);
+    },
+  },
+  methods: {
+    /**
+     * Hiển thị chỉ số trang đầu / cuối
+     * CreatedBy: HungNguyen81 (01-09-2021)
+     */
+    showLastOrFirst(){
       if (this.current == this.totalPage) {
         this.isShowFirst = true;
         this.isShowLast = false;
@@ -151,26 +168,11 @@ export default {
         this.isShowLast = true;
       }
     },
-  },
-  computed: {
-    startRow: function () {
-      return Math.min(
-        (this.current - 1) * this.pSize + 1,
-        Number(this.totalRecord)
-      );
-    },
 
-    endRow: function () {
-      return Math.min(this.current * this.pSize, Number(this.totalRecord));
-    },
-
-    offset: function () {
-      return this.current < 2
-        ? 1
-        : this.current - 1 - Math.max(0, 1 - this.allPage + this.current);
-    },
-  },
-  methods: {
+    /**
+     * Toggle giữa hiển thị chỉ số trang đầu và cuối
+     * CreatedBy: HungNguyen81 (01-09-2021)
+     */
     toggleShow() {
       if (this.allPage - this.current < 3) return;
       if (this.current < 4) return;
