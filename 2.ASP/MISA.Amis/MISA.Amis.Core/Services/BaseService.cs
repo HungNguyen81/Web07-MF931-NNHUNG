@@ -78,7 +78,7 @@ namespace MISA.Amis.Core.Services
         /// <returns></returns>
         //@ Created_By: HungNguyen81 (17-08-2021)
         //@ Modified_By: HungNguyen81 (17-08-2021)
-        protected ServiceResult Validate(MISAEntity entity, int mode)
+        protected virtual ServiceResult Validate(MISAEntity entity, int mode)
         {
             var email = typeof(MISAEntity).GetProperty("Email");
             var code = typeof(MISAEntity).GetProperty($"{_entityName}Code");

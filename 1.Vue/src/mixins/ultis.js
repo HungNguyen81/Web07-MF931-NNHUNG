@@ -47,6 +47,9 @@ export default {
             let date = data;
             if(!(data instanceof Date)){
                 date = new Date(data);
+                if(isNaN(Date.parse(date))){
+                    return "";
+                }
             }
             let dd = this.zeroPad(date.getDate(), 2);
             let mM = this.zeroPad(date.getMonth() + 1, 2);

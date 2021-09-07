@@ -115,7 +115,7 @@
 
 <script>
 import axios from "axios";
-import EventBus from "../../event-bus/EventBus";
+import EventBus from "../../event-bus/event-bus";
 import BaseButtonIcon from "./BaseButtonIcon.vue";
 import Form from "./BaseForm.vue";
 import Table from "./BaseTable.vue";
@@ -226,7 +226,7 @@ export default {
       if (this.searchTimeOut) clearTimeout(this.searchTimeOut);
       this.searchTimeOut = setTimeout(() => {
         // re-render table
-        if(this.pageNumber != 0) this.pageNumber = 0;
+        if (this.pageNumber != 0) this.pageNumber = 0;
         else this.refreshTableSelected();
 
         console.log("search:", c);
@@ -258,11 +258,15 @@ export default {
      * ModifiedBy: HungNguyen81 (18-08-2021)
      */
     closeForm(isChange, mode, id, detail) {
-      if (isChange) {
-        this.closeFormChanged(mode, id, detail);
-      } else {
-        this.formStatus = false;
-        this.popup.isHide = true;
+      try {
+        if (isChange) {
+          this.closeFormChanged(mode, id, detail);
+        } else {
+          this.formStatus = false;
+          this.popup.isHide = true;
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
 
@@ -416,7 +420,7 @@ export default {
         this.sendPostRequest(callback);
       } else if (mode == this.$config.FORM_UPDATE) {
         this.sendPutRequest(callback);
-      } else if (mode == this.$config.FORM_CLONE){
+      } else if (mode == this.$config.FORM_CLONE) {
         this.sendPostRequest(callback);
       }
     },
@@ -461,26 +465,30 @@ export default {
      * CreatedBy: HungNguyen81 (07-2021)
      */
     delBtnClick() {
-      this.showPopup({
-        content: this.$resourceVn.EmployeeDeleteMsg.replace(
-          "@",
-          this.deleteCodeList.join(", ")
-        ),
-        popupType: "warning",
-        isHide: false,
-        buttons: [
-          {
-            type: "cancel-button",
-            callback: null,
-            value: this.$resourceVn.NoButtonText,
-          },
-          {
-            type: "yes-button",
-            callback: this.sendDeleteRequests,
-            value: this.$resourceVn.YesButtonText,
-          },
-        ],
-      });
+      try {
+        this.showPopup({
+          content: this.$resourceVn.EmployeeDeleteMsg.replace(
+            "@",
+            this.deleteCodeList.join(", ")
+          ),
+          popupType: "warning",
+          isHide: false,
+          buttons: [
+            {
+              type: "cancel-button",
+              callback: null,
+              value: this.$resourceVn.NoButtonText,
+            },
+            {
+              type: "yes-button",
+              callback: this.sendDeleteRequests,
+              value: this.$resourceVn.YesButtonText,
+            },
+          ],
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     cloneEntity(id) {
@@ -527,14 +535,14 @@ export default {
 
           // hiển thị toast thông báo đã xóa thành công
           this.showToast(
-            "info",
+            this.$config.MSG_TYPE.SUCCESS,
             this.$resourceVn.DeleteSuccessTitle,
             res.data.Msg
           );
         })
         .catch(() => {
           this.showToast(
-            "error",
+            this.$config.MSG_TYPE.ERROR,
             "Delete error",
             this.$resourceVn.DeleteFailTitle
           );
@@ -560,14 +568,14 @@ export default {
 
           // hiển thị toast thông báo đã xóa thành công
           this.showToast(
-            "info",
+            this.$config.MSG_TYPE.SUCCESS,
             this.$resourceVn.DeleteSuccessTitle,
             res.data.Msg
           );
         })
         .catch(() => {
           this.showToast(
-            "error",
+            this.$config.MSG_TYPE.ERROR,
             "Delete error",
             this.$resourceVn.DeleteFailTitle
           );
@@ -587,7 +595,7 @@ export default {
         .then(() => {
           if (callback) callback();
           this.showToast(
-            "success",
+            this.$config.MSG_TYPE.SUCCESS,
             this.$resourceVn.PutSuccessTitle,
             this.$resourceVn.UpdateSuccessMsg.replace(
               "@",
@@ -598,14 +606,14 @@ export default {
           this.forceTableRerender();
         })
         .catch((err) => {
-          this.$emit("dataLoaded");
-            this.$emit(
-              "showToast",
-              "error",
-              this.$resourceVn.ErrorTitle,
-              this.$resourceVn.NetworkErrorMsg
-            );
-            EventBus.$emit("requestFail");
+          // this.$emit("dataLoaded");
+          this.$emit(
+            "showToast",
+            this.$config.MSG_TYPE.ERROR,
+            this.$resourceVn.ErrorTitle,
+            this.$resourceVn.NetworkErrorMsg
+          );
+          EventBus.$emit("requestFail");
           this.handleInvalidResponse(err);
         });
     },
@@ -626,7 +634,7 @@ export default {
             callback();
           }
           this.showToast(
-            "success",
+            this.$config.MSG_TYPE.SUCCESS,
             this.$resourceVn.PostSuccessTitle,
             // res.data.Msg
             this.$resourceVn.PostSuccessMsg.replaceAll("@", entityCode)
@@ -636,10 +644,10 @@ export default {
         .catch((err) => {
           // Handle khi không có kết nối Internet
           if (!err.response) {
-            this.$emit("dataLoaded");
+            // this.$emit("dataLoaded");
             this.$emit(
               "showToast",
-              "error",
+              this.$config.MSG_TYPE.ERROR,
               this.$resourceVn.ErrorTitle,
               this.$resourceVn.NetworkErrorMsg
             );
@@ -660,7 +668,7 @@ export default {
         this.$refs.form.$refs["employeeCode"].$el.children[1].focus();
       };
       this.showToast(
-        "error",
+        this.$config.MSG_TYPE.ERROR,
         this.$resourceVn.PutErrorTitle,
         err.response.data.Msg
       );

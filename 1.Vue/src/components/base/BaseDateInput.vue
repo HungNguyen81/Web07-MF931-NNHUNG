@@ -150,6 +150,9 @@ export default {
         let dd = this.zeroPad(data[0], 2);
 
         newVal = `${yyyy}-${mm}-${dd}`;
+        // if(isNaN(Date.parse(new Date(newVal)))){
+        //   newVal = ""
+        // }
       }
 
       this.dateTimeOut = setTimeout(() => {

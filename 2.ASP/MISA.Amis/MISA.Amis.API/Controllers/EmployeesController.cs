@@ -3,6 +3,7 @@ using MISA.Amis.Core.CustomAttrs;
 using MISA.Amis.Core.Entities;
 using MISA.Amis.Core.Interfaces.Repositiories;
 using MISA.Amis.Core.Interfaces.Services;
+using MISA.Amis.Core.Resource;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System;
@@ -89,7 +90,7 @@ namespace MISA.Amis.API.Controllers
                 if (!serviceResult.IsValid)
                 {
                     serviceResult.Msg = Properties.Resources.MISANoContentMsg;
-                    return Ok(serviceResult);
+                    return StatusCode(204, serviceResult);
                 }
 
                 // Trả dữ liệu về cho client
@@ -147,7 +148,7 @@ namespace MISA.Amis.API.Controllers
 
                 var countColHeader = headersName.Count;
 
-                workSheet.Cells[1, 1].Value = "DANH SÁCH NHÂN VIÊN";
+                workSheet.Cells[1, 1].Value = ResourceVN.ExcelFileHeader;
                 workSheet.Cells[1, 1, 1, countColHeader].Merge = true;
                 workSheet.Cells[2, 1, 2, countColHeader].Merge = true;
                 workSheet.Cells[1, 1, 1, countColHeader].Style.Font.Bold = true;
@@ -183,6 +184,12 @@ namespace MISA.Amis.API.Controllers
                     cell.Style.Font.Name = "Arial";
 
                     workSheet.Column(i+1).Width = columnWidth[i];
+
+                    // căn giữa ngày tháng
+                    if (propNames[i].Equals("DateOfBirth") || propNames[i].Equals("IdentityDate"))
+                    {
+                        workSheet.Column(i+1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    }
                 }
 
                 for (int col = 0; col < headersName.Count; col++)
@@ -203,7 +210,7 @@ namespace MISA.Amis.API.Controllers
                         // font style
                         cell.Style.Font.Size = 11;
                         cell.Style.Font.Bold = false;
-                        cell.Style.Font.Name = "Times New Roman";
+                        cell.Style.Font.Name = "Arial";
                     }
                 }
 

@@ -142,6 +142,15 @@ namespace MISA.Amis.Core.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DANH SÁCH NHÂN VIÊN.
+        /// </summary>
+        public static string ExcelFileHeader {
+            get {
+                return ResourceManager.GetString("ExcelFileHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bạn chưa chọn file nhập khẩu hoặc file nhập khẩu bị lỗi..
         /// </summary>
         public static string FileEmptyMsg {

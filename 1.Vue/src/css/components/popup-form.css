@@ -187,6 +187,9 @@
 .form-btn:hover {
     filter: brightness(0.8);
 }
+.form-btn:focus {
+    filter: brightness(0.8);
+}
 
 .form-btn:active {
     filter: brightness(0.6);
@@ -200,6 +203,10 @@
 }
 .save-add-btn:focus{
     border-color: #1b5c12;
+    filter: brightness(1.2) !important;
+}
+.save-add-btn:hover{
+    filter: brightness(1.2) !important;
 }
 
 /* ---------------------------------------------------- BODY */
@@ -212,9 +219,7 @@
 .form-section{
     width: 816px;
     margin-left: 32px;
-    /* border: 1px solid teal; */
     display: flex;
-    /* box-sizing: border-box; */
 }
 .form-section-1{
     height: 208px;
@@ -227,7 +232,6 @@
 .section-column{
     width: 418px !important;
     height: 196px;
-    /* border-right: 1px dashed red; */
 }
 .section-column-1{
     padding-right: 25px;

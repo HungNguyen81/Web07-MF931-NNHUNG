@@ -15,10 +15,6 @@
 .dropdown-container:focus{
     outline: none;
 }
-/* .dropdown-container:focus > .dropdown {
-    border: 1px solid #016e4a;
-    animation: outline-animate 2s infinite;
-} */
 
 @keyframes outline-animate {
     50% {
@@ -31,7 +27,6 @@
 }
 
 .dropdown-icon {
-    /* background-color: #019160; */
     width: 16px;
     height: 16px;
     margin: 0 12px;
@@ -41,8 +36,6 @@
 }
 
 .dropdown-data {
-    /* padding: 3px 0; */
-    /* box-shadow: 1px 2px 4px 1px #454545; */
     border-radius: 2px;
     cursor: pointer;
     box-sizing: border-box;
@@ -52,8 +45,7 @@
     width: 100%;
 }
 
-.dropdown-data .dropdown-item {
-    padding-left: 10px;
+.dropdown-data .dropdown-item {    
     height: 40px;
     line-height: 40px;
     background-color: #fff;
@@ -67,11 +59,12 @@
 .dropdown-data .dropdown-item .item-icon {
     width: 16px;
     height: 16px;
-    opacity: 0;
+    opacity: 0;    
 }
 
 .dropdown-data .dropdown-item .item-text {
-    /* padding-left: 10px; */
+    padding-left: 10px;
+    padding-right: 10px;
     display: inline-block;
 }
 
@@ -80,4 +73,20 @@
     background-color: #2ca01c;
     opacity: 1;
     color: #fff;
+}
+
+/* Dropdown của combobox unit */
+
+.dropdown-item.header-item {
+    background-color: #F4F5F8;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+.dropdown-item.header-item:hover{
+    background-color: #F4F5F8;
+    color: #111111;
+}
+.dropdown-data .item-text.unitCode{
+    min-width: 100px;
+    box-sizing: border-box;
 }

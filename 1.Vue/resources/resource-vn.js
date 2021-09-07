@@ -15,6 +15,7 @@ module.exports = {
     EmployeeButtonDeleteText: "Xóa nhân viên",
     CannotGetNewEmployeeCodeMsg: "Không thể lấy mã nhân viên mới !",
     DataInvalidMsg: "Dữ liệu không hợp lệ",
+    NoContentTitle: "Không có dữ liệu",
 
     // entities
     Customer: "Khách hàng",
@@ -119,5 +120,5 @@ module.exports = {
     InvalidRequiredMsg: `"@" không được để trống.`,
     InvalidEmailMsg: `"@" không đúng định dạng.`,
     InvalidDateMsg: `"@" # không đúng định dạng.`,
-    InvalidDayNotExceedTodayMsg: `"@" không được vượt quá ngày hiện tại !`
+    InvalidDayNotExceedTodayMsg: `"@" không được vượt quá ngày hiện tại!`
 }

@@ -12,6 +12,10 @@ namespace MISA.Amis.Core.Entities
         /// </summary>
         public Guid UnitId { get; set; }
 
+        /// <summary>
+        /// Mã đơn vị
+        /// </summary>
+        public string UnitCode { get; set; }
 
         /// <summary>
         /// Tên đơn vị

@@ -344,7 +344,7 @@
 </template>
 
 <script>
-import EventBus from "../../event-bus/EventBus";
+import EventBus from "../../event-bus/event-bus";
 import axios from "axios";
 import ultis from "../../mixins/ultis";
 import validate from "../../mixins/validate";
@@ -463,11 +463,13 @@ export default {
       }
 
       this.isDataLoaded = false;
-      this.isRerender = !this.isRerender;
+      // this.isRerender = !this.isRerender;
 
       console.log("form " + (val ? "open" : "close"), this.mode);
 
       if (this.isOpen) {
+        this.isRerender = !this.isRerender;
+        // hiển thị form ở chính giữa màn hình
         this.$refs.draggableContainer.style.top = "50px";
         this.$refs.draggableContainer.style.left = "50%";
 
@@ -537,7 +539,7 @@ export default {
         .get(`${this.$config.BASE_API}/Employees/${this.detailId}`)
         .then((res) => {
           if (res.data.IsValid === false) {
-            this.$emit("showToast", "warning", "NO Content", res.data.Msg);
+            this.$emit("showToast", this.$config.MSG_TYPE.WARNING, this.$$resourceVn.NoContentTitle, res.data.Msg);
             return;
           }
 
@@ -562,7 +564,7 @@ export default {
             this.$emit("dataLoaded");
             this.$emit(
               "showToast",
-              "error",
+              this.$config.MSG_TYPE.ERROR,
               this.$resourceVn.ErrorTitle,
               this.$resourceVn.NetworkErrorMsg
             );
@@ -572,7 +574,7 @@ export default {
 
           this.$emit(
             "showToast",
-            "error",
+            this.$config.MSG_TYPE.ERROR,
             this.$resourceVn.ErrorTitle,
             this.$resourceVn.ServerErrorMsg
           );
@@ -604,7 +606,7 @@ export default {
           if (!newCode) {
             this.$emit(
               "showToast",
-              "error",
+              this.$config.MSG_TYPE.ERROR,
               this.$resourceVn.ErrorTitle,
               this.$resourceVn.CannotGetNewEmployeeCodeMsg
             );
@@ -619,7 +621,7 @@ export default {
         .catch(() => {
           this.$emit(
             "showToast",
-            "error",
+            this.$config.MSG_TYPE.ERROR,
             this.$resourceVn.ErrorTitle,
             this.$resourceVn.CannotGetNewEmployeeCodeMsg
           );
@@ -636,14 +638,15 @@ export default {
       let oldVal = this.detail[keyName];
       if (oldVal != val && val) {
         // validate định dạng ngày
-        !this.date(this.dateName[key], formatedVal);
+        this.date(this.dateName[key], formatedVal);
 
         let start = input.selectionStart;
-        // console.log("start", start, ", date", val, formatedVal);
         this.$set(this.detail, keyName, val);
         this.$nextTick(() => {
           input.setSelectionRange(start + 1, start + 1);
         });
+      } else if(!val){
+        this.$set(this.detail, keyName, val);
       }
     },
 
@@ -720,13 +723,13 @@ export default {
       if (!this.isValidate()) {
         this.$emit(
           "showToast",
-          "warning",
+          this.$config.MSG_TYPE.WARNING,
           this.$resourceVn.DataInvalidMsg,
           invalidMsg
         );
         this.$emit("showPopup", {
           content: invalidMsg,
-          popupType: "error",
+          popupType: this.$config.MSG_TYPE.ERROR,
           isHide: false,
           buttons: [
             {

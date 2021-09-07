@@ -3,7 +3,7 @@ import App from './App.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Config from '../config/dev.env'
-import ResourceVn from '../resources/resourceVn.js'
+import ResourceVn from '../resources/resource-vn.js'
 import router from './router'
 
 Vue.config.productionTip = false  

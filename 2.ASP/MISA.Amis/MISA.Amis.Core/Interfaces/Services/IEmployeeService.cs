@@ -24,6 +24,6 @@ namespace MISA.Amis.Core.Interfaces.Services
         /// <returns></returns>
         ServiceResult GetNewCode();
 
-        Stream GetEmployeesExcelFileStream(Stream stream);
+        //Stream GetEmployeesExcelFileStream(Stream stream);
     }
 }

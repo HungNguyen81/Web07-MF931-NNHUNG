@@ -6,8 +6,10 @@
         type="text"
         :class="['combobox-input', 'textbox-default', { invalid: !isValidate }]"
         :tabindex="tabindex"
-        @focus="toggleDropList()"
-        @blur="isHide = true; inputValidate();"
+        @blur="
+          inputValidate();
+          setTimeout(() => {isHide = true;}, 500);
+        "
         @keydown="handleKeyPress($event)"
         v-bind:value="value"
         v-on="inputListeners"
@@ -23,6 +25,18 @@
       ref="dropList"
     >
       <div
+        class="dropdown-item header-item"
+        @click="toggleDropList"
+        v-if="type == 'Unit'"
+      >
+        <div class="item-text unitCode">
+          Mã đơn vị
+        </div>
+        <div class="item-text">
+          Tên đơn vị
+        </div>
+      </div>
+      <div
         :class="[
           'dropdown-item',
           { 'item-selected': index == current, hide: item.Hidden },
@@ -31,6 +45,9 @@
         :key="index"
         @click="itemSelect(item, index)"
       >
+        <div class="item-text unitCode" v-if="type == 'Unit'">
+          {{ item.UnitCode }}
+        </div>
         <div class="item-text">{{ item[typeDataKey] }}</div>
       </div>
     </div>
@@ -38,7 +55,7 @@
 </template>
 
 <script>
-import EventBus from "../../event-bus/EventBus";
+import EventBus from "../../event-bus/event-bus";
 import axios from "axios";
 import utils from "../../mixins/ultis";
 export default {
@@ -107,6 +124,9 @@ export default {
     };
   },
   created() {
+    
+  },
+  mounted() {
     // nếu truyền vào API url
     if (this.api) {
       this.getDataFromApi();
@@ -124,8 +144,7 @@ export default {
         }
       });
     }
-  },
-  mounted() {
+
     // Lắng nghe sự kiện click trên app để đóng dropdown list khi click ra ngoài
     EventBus.$on("appClick", (target) => {
       var container = this.$refs.combobox;
@@ -222,8 +241,8 @@ export default {
 
           this.isDataLoaded = true;
           if (this.value) {
-            if (this.data) {
-              this.data.forEach((e, i) => {
+            if (this.items) {
+              this.items.forEach((e, i) => {
                 if (e[this.typeDataKey] == this.value) {
                   this.current = i;
                 }
@@ -291,27 +310,35 @@ export default {
      * ModifiedBy: HungNguyen81 (20-08-2021) <Sửa lại code xử lý khi bấm phím mũi tên>
      */
     handleKeyPress(event) {
-
       let maxOffset = this.items.length;
 
-      if (event.code == "ArrowDown") {
+      if(event.code == "Tab"){
+        this.isHide = true;
+        return;
+      } 
+      else if (event.code == "ArrowDown") {
         event.preventDefault();
-
+        this.isHide = false;
         do {
           this.current = this.current < 0 ? -1 : this.current;
           this.current = (this.current + 1) % maxOffset;
-        } while (this.items[this.current].Hidden == true);
-      } else if (event.code == "ArrowUp") {
+        }
+        while (this.items[this.current].Hidden == true);
+      } 
+      else if (event.code == "ArrowUp") {
         event.preventDefault();
-
+        this.isHide = false;
         do {
           this.current = this.current < 0 ? 0 : this.current;
           this.current = this.current == 0 ? maxOffset - 1 : this.current - 1;
-        } while (this.items[this.current].Hidden == true);
-      } else if (event.code == "Enter") {
+        }
+        while (this.items[this.current].Hidden == true);
+      } 
+      else if (event.code == "Enter") {
         this.isHide = true;
         this.$emit("itemChange", this.typeDataKey, this.items[this.current]);
-      } else {
+      } 
+      else {
         this.handleComboboxInput();
       }
     },

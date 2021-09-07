@@ -48,7 +48,7 @@ namespace MISA.Amis.API.Controllers
                 if (serviceResult.IsValid == false)
                 {
                     serviceResult.Msg = Properties.Resources.MISANoContentMsg;
-                    return StatusCode(200, serviceResult);
+                    return StatusCode(204, serviceResult);
                 }
 
                 return StatusCode(200, serviceResult.Data);
@@ -84,7 +84,7 @@ namespace MISA.Amis.API.Controllers
                 if (serviceResult.IsValid == false)
                 {
                     serviceResult.Msg = Properties.Resources.MISANoContentMsg;
-                    return StatusCode(200, serviceResult);
+                    return StatusCode(204, serviceResult);
                 }
 
                 return StatusCode(200, serviceResult.Data);

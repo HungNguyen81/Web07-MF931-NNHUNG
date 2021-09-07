@@ -6,7 +6,7 @@
 
 <script>
 // import Entity from "./components/pages/PageEmployee.vue";
-import EventBus from './event-bus/EventBus';
+import EventBus from './event-bus/event-bus';
 export default {
   name: "App",
   components: {

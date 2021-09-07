@@ -22,7 +22,7 @@ import Menu from "../layout/TheMenu.vue";
 import Content from "../base/BaseContent.vue";
 import axios from "axios";
 import ultis from "../../mixins/ultis";
-import EventBus from "../../event-bus/EventBus";
+import EventBus from "../../event-bus/event-bus";
 
 export default {
   name: "EmployeePage",
@@ -122,7 +122,7 @@ export default {
           if (!err.response) {
             EventBus.$emit(
               "showToast",
-              "error",
+              this.$config.MSG_TYPE.ERROR,
               this.$resourceVn.ErrorTitle,
               this.$resourceVn.NetworkErrorMsg
             );

@@ -66,7 +66,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="dropdown-data" entityid="" entitycode="" id="drop-options">
+    <div class="dropdown-data" id="drop-options">
       <div class="dropdown-item" @click="cloneOptionClicked">
         <div class="item-text">Nhân bản</div>
       </div>
@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import EventBus from "../../event-bus/EventBus";
+import EventBus from "../../event-bus/event-bus";
 import axios from "axios";
 import ultis from "../../mixins/ultis";
 
@@ -124,6 +124,11 @@ export default {
       tableScrollTop: 0,
       optionsPopup: null,
       curRow: null,
+      // thông tin entity khi click options menu
+      curEntity:{
+        id: null,
+        code: null
+      },
     };
   },
   updated: function () {
@@ -186,7 +191,7 @@ export default {
 
       // xử lí toggle popup
       if (
-        this.optionsPopup.getAttribute("entityId") == data[`${this.type}Id`] &&
+        this.curEntity.id == data[`${this.type}Id`] &&
         this.optionsPopup.style.visibility != "hidden"
       ) {
         this.hideMoreActionDrop();
@@ -202,8 +207,8 @@ export default {
       this.optionsPopup.style.visibility = "visible";
 
       // set data để truyền khi click
-      this.optionsPopup.setAttribute("entityid", data[this.type + "Id"]);
-      this.optionsPopup.setAttribute("entitycode", data[this.type + "Code"]);
+      this.curEntity.id = data[this.type + 'Id'];
+      this.curEntity.code = data[this.type + 'Code'];
     },
 
     /**
@@ -238,21 +243,16 @@ export default {
      * Handle khi click "nhân bản"
      * CreatedBy: HungNguyen81 (29-08-2021)
      */
-    cloneOptionClicked(e) {
-      var optionsDrop = e.target.parentNode;
-      var id = optionsDrop.getAttribute("entityId");
-      this.$emit("cloneEntity", id);
+    cloneOptionClicked() {
+      this.$emit("cloneEntity", this.curEntity.id);
     },
 
     /**
      * Handle khi click option "xóa"
      * CreatedBy: HungNguyen81 (29-08-2021)
      */
-    deleteOptionClicked(e) {
-      var optionsDrop = e.target.parentNode;
-      var id = optionsDrop.getAttribute("entityid");
-      var code = optionsDrop.getAttribute("entitycode");
-      this.$emit("deleteEntity", id, code);
+    deleteOptionClicked() {
+      this.$emit("deleteEntity", this.curEntity.id, this.curEntity.code);
     },
 
     /**
@@ -268,6 +268,19 @@ export default {
           .then((res) => {
             this.isLoading = false;
             this.employees = res.data.Data;
+            
+            // Nếu không có dữ liệu trả về (Mã 204)
+            if(res.status == this.$config.STATUS.NO_CONTENT){
+              this.$emit(
+                "showToast",
+                this.$config.MSG_TYPE.WARNING,
+                this.$resourceVn.NoContentTitle,
+                this.$resourceVn.EmployeeNotFoundMsg
+              );
+              this.$emit("dataLoaded");
+              document.getElementById("table-view").style.height = `0px`;
+              return;
+            }
 
             if (this.employees) {
               this.$emit("dataLoaded");
@@ -280,16 +293,9 @@ export default {
                 ...e,
                 isSelected: false,
               }));
-            } else {
-              this.$emit(
-                "showToast",
-                "warning",
-                this.$resourceVn.NotFoundTitle,
-                this.$resourceVn.EmployeeNotFoundMsg
-              );
-              this.$emit("dataLoaded");
             }
 
+            // đặt lại height cho table
             let pageSize = Number(this.api.split('?')[1].split('&')[0].split('=')[1]);
             document.getElementById("table-view").style.height = `${pageSize * 48 + 34 + 56}px`;
           })
@@ -297,12 +303,12 @@ export default {
             this.isLoading = false;
             document.getElementById("table-view").style.height = `0px`;
 
-            // Handle khi không có kết nối Internet
+            // Xử lý khi không có kết nối Internet
             if (!err.response) {
               this.$emit("dataLoaded");
               this.$emit(
                 "showToast",
-                "error",
+                this.$config.MSG_TYPE.ERROR,
                 this.$resourceVn.ErrorTitle,
                 this.$resourceVn.NetworkErrorMsg
               );
@@ -312,7 +318,7 @@ export default {
             this.$emit("dataLoaded");
             this.$emit(
               "showToast",
-              "error",
+              this.$config.MSG_TYPE.ERROR,
               this.$resourceVn.ErrorTitle,
               this.$resourceVn.EmployeeNotFoundMsg
             );

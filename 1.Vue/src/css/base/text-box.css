@@ -21,7 +21,6 @@
     align-items: center;
     padding-right: 0px !important;
     padding-left: 10px;
-    /* background-color: teal; */
 }
 .date-edit{
     font-size: 13px;
@@ -43,18 +42,8 @@ input[type=date]{
 input[type=date]:hover{
     background-color: rgba(0, 0, 0, 0.097);
 }
-/* input[type=date]:hover{
-    border: none !important;
-    outline: none !important;
-    background-color: rgba(0, 0, 0, 0.097);
-    flex-shrink: 0;
-    height: 30px;
-    width: 32px;
-} */
 
 input[type=date]:focus{
-    /* border: 1px solid #2ca01c;
-    height: 28px; */
     background-color: rgba(0, 0, 0, 0.097);
 }
 
@@ -66,10 +55,7 @@ input[type=date]::-webkit-inner-spin-button,
 input[type=date]::-webkit-clear-button {
     display: none;
 }
-/* input[type=date]::-webkit-calendar-picker-indicator{
-    margin: 0;
-    left: 0;
-} */
+
 .textbox-default > input{
     border-color: transparent;
     outline: none;
@@ -81,7 +67,7 @@ input[type=date]::-webkit-clear-button {
 input[type=date]::-webkit-calendar-picker-indicator {
     position: absolute;
     opacity: 0;
-    transform: translate(-26px, 1px);
+    transform: translate(-18px, 0px) scale(2.1);
 }
 
 input[type=date]::before {
@@ -91,10 +77,6 @@ input[type=date]::before {
     height: 16px;
     background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -121px -312px;
 }
-
-/* input[type=date]:focus::before{
-    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -120px -312px;
-} */
 
 ::-webkit-input-placeholder {
     font-style: italic;
